@@ -25,11 +25,40 @@ public class Entity {
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
 
+    // CHARACTER STATUS
+    public int maxLife;
+    public int life;
+
+    String dialogues[] = new String[20];
+    int dialougeIndex = 0;
+
     public Entity(GamePanel gp){
         this.gp = gp;
     }
     public void setAction(){
 
+    }
+    public void speak(){
+        if(dialogues[dialougeIndex] == null){
+            dialougeIndex = 0;
+        }
+        gp.ui.currentDialogue = dialogues[dialougeIndex];
+        dialougeIndex++;
+
+        switch (gp.player.direction){
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
+        }
     }
     public void update(){
         setAction();
@@ -39,31 +68,31 @@ public class Entity {
         gp.cChecker.checkObject(this, false);
         gp.cChecker.checkPlayer(this);
 
-        //IF COLLISION IS FALSE, PLAYER CAN MOVE
+        // IF COLLISION IS FALSE, PLAYER CAN MOVE
         if(!collisionOn){
             switch (direction){
-                case"up":
+                case "up":
                     worldY -= speed;
                     break;
-                case"down":
+                case "down":
                     worldY += speed;
                     break;
-                case"left":
+                case "left":
                     worldX -= speed;
                     break;
-                case"right":
+                case "right":
                     worldX += speed;
                     break;
             }
-            spriteCounter++;
-            if(spriteCounter > 12) {
-                if(spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
+        }
+        spriteCounter++;
+        if(spriteCounter > 12){
+            if(spriteNum == 1){
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 1;
             }
+            spriteCounter = 0;
         }
 
     }

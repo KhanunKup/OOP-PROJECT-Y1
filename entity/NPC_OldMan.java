@@ -12,6 +12,7 @@ public class NPC_OldMan extends Entity{
         speed = 1;
 
         getImage();
+        setDialouge();
     }
     public void getImage(){
         up1 = setup("/npc/oldman_up_1");
@@ -22,6 +23,12 @@ public class NPC_OldMan extends Entity{
         left2 = setup("/npc/oldman_left_2");
         right1 = setup("/npc/oldman_right_1");
         right2 = setup("/npc/oldman_right_2");
+    }
+    public void setDialouge(){
+        dialogues[0] = "Kuy U All";
+        dialogues[1] = "Por Tai";
+        dialogues[2] = "Mae Tai";
+        dialogues[3] = "Kwai";
     }
     public void setAction(){
         actionLockCounter++;
@@ -45,5 +52,9 @@ public class NPC_OldMan extends Entity{
 
             actionLockCounter = 0;
         }
+    }
+    public void speak(){
+        super.speak();
+        super.update();
     }
 }

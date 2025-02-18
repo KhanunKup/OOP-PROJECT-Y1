@@ -43,6 +43,10 @@ public class Player extends Entity{
         worldY = gp.tileSize * 21;
         speed = 4;
         direction = "down";
+
+        // PLAYER STATUS
+        maxLife = 6;
+        life = maxLife;
     }
     public void getPlayerImage(){
         up1 = setup("/player/boy_up_1");
@@ -55,79 +59,60 @@ public class Player extends Entity{
         right2 = setup("/player/boy_right_2");
     }
     public void update() {
-        if(!moving){
-            if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
-                if(keyH.upPressed){
-                    direction = "up";
-                } else if (keyH.downPressed) {
-                    direction = "down";
-                }else if (keyH.leftPressed){
-                    direction = "left";
-                } else if (keyH.rightPressed) {
-                    direction = "right";
+        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
+            if(keyH.upPressed){
+                direction = "up";
+            } else if (keyH.downPressed) {
+                direction = "down";
+            } else if (keyH.leftPressed) {
+                direction = "left";
+            } else if (keyH.rightPressed) {
+                direction = "right";
+            }
+
+            // CHECK TILE COLLISION
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            // CHECK OBJECT COLLISION
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpobject(objIndex);
+
+            // CHECK NPC COLLISION
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if(!collisionOn){
+                switch (direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
                 }
-
-                moving = true;
-
-                // CHECK TILE COLLISION
-                collisionOn = false;
-                gp.cChecker.checkTile(this);
-
-                // CHECK OBJECT COLLISION
-                int objIndex = gp.cChecker.checkObject(this, true);
-                pickUpobject(objIndex);
-
-                // CHECK NPC COLLISION
-                int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-                interactNPC(npcIndex);
-
+            }
+            spriteCounter++;
+            if(spriteCounter > 12){
+                if(spriteNum == 1){
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
             }
         }else {
             standCounter++;
-
             if(standCounter == 20){
                 spriteNum = 1;
                 standCounter = 0;
-            }
-        }
-        if(moving) {
-            // IF COLLISION IS FALSE, PLAYER CAN MOVE
-            if(!collisionOn) {
-                for(int i = 0; i < speed; i++) {
-                    switch (direction) {
-                        case "up":
-                            worldY -= 1;
-                            break;
-                        case "down":
-                            worldY += 1;
-                            break;
-                        case "left":
-                            worldX -= 1;
-                            break;
-                        case "right":
-                            worldX += 1;
-                            break;
-                    }
-                    pixelCounter++;
-
-                    if (pixelCounter == gp.tileSize) {
-                        moving = false;
-                        pixelCounter = 0;
-                        break;
-                    }
-                }
-
-                spriteCounter++;
-                if (spriteCounter > 10 - speed) {
-                    if (spriteNum == 1) {
-                        spriteNum = 2;
-                    } else if (spriteNum == 2) {
-                        spriteNum = 1;
-                    }
-                    spriteCounter = 0;
-                }
-            }else {
-                moving = false;
             }
         }
     }
@@ -167,8 +152,12 @@ public class Player extends Entity{
     }
     public void interactNPC(int i){
         if(i != 999){
-            System.out.println("npc");
+            if(gp.keyH.enterPressed){
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
         }
+        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics g2){
