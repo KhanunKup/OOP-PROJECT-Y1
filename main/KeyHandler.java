@@ -23,6 +23,10 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        if(code == KeyEvent.VK_ESCAPE){
+            System.exit(0);
+        }
+
         // TITLE STATE
         if(gp.gameState == gp.titleState){
             if(gp.ui.titleScreenState == 0){

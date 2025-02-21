@@ -2,14 +2,30 @@ package entity;
 
 import main.GamePanel;
 
+import java.awt.*;
 import java.util.Random;
 
 public class NPC_OldMan extends Entity{
+
+    public final int screenX;
+    public final int screenY;
+
     public NPC_OldMan(GamePanel gp){
         super(gp);
 
         direction = "down";
         speed = 1;
+
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         getImage();
         setDialouge();

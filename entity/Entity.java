@@ -15,7 +15,7 @@ public class Entity {
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    public String direction;
+    public String direction = "down";
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
@@ -24,6 +24,10 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
+
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
 
     // CHARACTER STATUS
     public int maxLife;
@@ -141,6 +145,8 @@ public class Entity {
             }
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.setColor(Color.RED);
+        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
     public BufferedImage setup(String imagePath){
         UtilityTool uTool = new UtilityTool();
