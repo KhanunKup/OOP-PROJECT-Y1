@@ -2,6 +2,8 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,8 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+
+    public boolean attackCanceled = false;
 
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
@@ -44,8 +48,24 @@ public class Player extends Entity{
         direction = "down";
 
         // PLAYER STATUS
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1; // The more strength he has, the more damage he gives
+        dexterity = 1; // The more dexterity he has, the less damage he receives.
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack(); // The total attack value is decided by strength and weapon
+        defense = getDefense(); // The total defense value is decided by dexterity and shield
+    }
+    public int getAttack(){
+        return attack = strength * currentWeapon.attackValue;
+    }
+    public int getDefense(){
+        return defense = defense * currentShield.defenseValue;
     }
     public void getPlayerImage(){
         up1 = setup("/player/boy_up_1", gp.tileSize, gp.tileSize);
@@ -119,6 +139,13 @@ public class Player extends Entity{
                 }
             }
 
+            if(keyH.enterPressed && !attackCanceled){
+                gp.playSE(7);
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCanceled = false;
             gp.keyH.enterPressed = false;
 
             spriteCounter++;
@@ -235,31 +262,64 @@ public class Player extends Entity{
     public void interactNPC(int i){
         if(gp.keyH.enterPressed){
             if(i != 999){
-                    gp.gameState = gp.dialogueState;
-                    gp.npc[i].speak();
-            }else {
-                    attacking = true;
+                attackCanceled = true;
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
             }
         }
 
     }
     public void contactMonster(int i){
         if(i != 999){
-            if(!invincible)
-                life -= 1;
-            invincible = true;
+            if(!invincible){
+                gp.playSE(6);
+                int damage = gp.monster[i].attack - defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                life -= damage;
+                invincible = true;
+            }
         }
     }
     public void damageMonster(int i){
         if(i != 999){
             if(!gp.monster[i].invincible){
-                gp.monster[i].life -= 1;
+                gp.playSE(5);
+
+                int damage = attack - gp.monster[i].defense;
+                if(damage < 0){
+                    damage = 0;
+                }
+                gp.monster[i].life -= damage;
+                gp.ui.addMessage(damage + " damage!");
+
                 gp.monster[i].invincible = true;
+                gp.monster[i].damageReaction();
 
                 if(gp.monster[i].life <= 0){
-                    gp.monster[i] = null;
+                    gp.monster[i].dying = true;
+                    gp.ui.addMessage("killed the "+ gp.monster[i].name);
+                    gp.ui.addMessage("EXP "+ gp.monster[i].exp);
+                    exp += gp.monster[i].exp;
+                    checkLevelUp();
                 }
             }
+        }
+    }
+    public void checkLevelUp(){
+        if(exp >= nextLevelExp){
+            level++;
+            nextLevelExp = nextLevelExp*2;
+            maxLife += 2;
+            strength++;
+            dexterity++;
+            attack = getAttack();
+            defense = getDefense();
+
+            gp.playSE(8);
+            gp.gameState = gp.dialogueState;
+            gp.ui.currentDialogue = "You are level " + level + " now!\n" + "You feel stronger!";
         }
     }
 
