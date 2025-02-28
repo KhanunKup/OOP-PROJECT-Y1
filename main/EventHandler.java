@@ -46,9 +46,9 @@ public class EventHandler {
 
 
         if(canTouchEvent){
-            if(hit(26, 12, "any")){
-                teleport(26, 12, gp.dialogueState);
-            }
+//            if(hit(26, 12, "any")){
+//                teleport(26, 12, gp.dialogueState);
+//            }
             if(hit(27, 16, "right")){
                 damagePit(27, 16, gp.dialogueState);
             }
@@ -105,12 +105,12 @@ public class EventHandler {
             gp.aSetter.setMonster();
         }
     }
-    public void teleport(int col, int row, int gameState){
-        gp.gameState = gameState;
-        gp.ui.currentDialogue = "Teleport!";
-        gp.player.worldX = gp.tileSize*37;
-        gp.player.worldY = gp.tileSize*10;
-//        eventRect[col][row].eventDone = true;
-        canTouchEvent = false;
-    }
+//    public void teleport(int col, int row, int gameState){
+//        gp.gameState = gameState;
+//        gp.ui.currentDialogue = "Teleport!";
+//        gp.player.worldX = gp.tileSize*37;
+//        gp.player.worldY = gp.tileSize*10;
+////        eventRect[col][row].eventDone = true;
+//        canTouchEvent = false;
+//    }
 }

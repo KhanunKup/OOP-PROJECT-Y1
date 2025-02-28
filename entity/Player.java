@@ -2,10 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import object.OBJ_Fireball;
-import object.OBJ_Key;
-import object.OBJ_Shield_Wood;
-import object.OBJ_Sword_Normal;
+import object.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -65,7 +62,8 @@ public class Player extends Entity{
         exp = 0;
         nextLevelExp = 5;
         coin = 0;
-        currentWeapon = new OBJ_Sword_Normal(gp);
+//        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentWeapon = new OBJ_Axe(gp);
         currentShield = new OBJ_Shield_Wood(gp);
         projectile = new OBJ_Fireball(gp);
         attack = getAttack(); // The total attack value is decided by strength and weapon
@@ -146,6 +144,10 @@ public class Player extends Entity{
             // CHECK MONSTER COLLISION
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             contactMonster(monsterIndex);
+
+            // CHECK INTERACTIVE COLLISION
+            gp.cChecker.checkEntity(this, gp.iTile);
+
 
             // CHECK EVENT
             gp.eHandler.checkEvent();
@@ -267,6 +269,9 @@ public class Player extends Entity{
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             damageMonster(monsterIndex, attack);
 
+            int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+            damageInteractiveTile(iTileIndex);
+
             // After checking collision, restore the original data
             worldX = currentWorldX;
             worldY = currentWorldY;
@@ -379,6 +384,21 @@ public class Player extends Entity{
                     exp += gp.monster[i].exp;
                     checkLevelUp();
                 }
+            }
+        }
+    }
+    public void damageInteractiveTile(int i){
+        if(i != 999 && gp.iTile[i].destructible
+                && gp.iTile[i].isCorrectItem(this) && !gp.iTile[i].invincible){
+            gp.iTile[i].playSE();
+            gp.iTile[i].life--;
+            gp.iTile[i].invincible = true;
+
+            // GENERATE PARTICLE
+            generateParticle(gp.iTile[i], gp.iTile[i]);
+
+            if(gp.iTile[i].life == 0){
+                gp.iTile[i] = gp.iTile[i].getDestroyedForm();
             }
         }
     }
@@ -507,6 +527,7 @@ public class Player extends Entity{
 
         // HITBOX
         g2.setColor(Color.RED);
+        g2.setStroke(new BasicStroke(1));
         g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
 
         // Reset alpha
