@@ -7,19 +7,26 @@ import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Thread gameThread;
-    public int imageX,imageY;
-    public String text;
-    public int textX,textY,textWidth,textHeight;
+    public int imageX, imageY;
+    public String text, text_2;
+    public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
     public int gameState = 0; // 0 = title , 1 = play
     public int selectedIndex = 0;
-    public String[] menuOptions = {"Play","Option","Exit"};
+    public String[] menuOptions = {"Play", "Option", "Exit"};
+    public boolean checkAlphaText = false;
+    public double textDelay;
+
+    private double alpha = 0.0;
+    private double alphaSpeed = 0.02;
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(800, 475));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
         this.addKeyListener(this);
     }
+
     public void startThread(){
         gameThread = new Thread(this);
         gameThread.start();
@@ -29,7 +36,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         g.setColor(Color.WHITE);
-        if(gameState == 0){
+
+        if (gameState == 0) {
             ImageIcon icon = new ImageIcon("res/book.png");
             Image image = icon.getImage();
             int imgWidth = image.getWidth(this);
@@ -38,14 +46,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             imageY = (getHeight() - imgHeight) / 2;
             g.drawImage(image, imageX, imageY, null);
 
-            g.setFont(new Font("tahoma", Font.PLAIN, 42));
+            g.setFont(new Font("Monospaced", Font.PLAIN, 64));
             text = "Sweet Tomb";
             fm = g.getFontMetrics();
             textX = (getWidth() - fm.stringWidth(text)) / 2;
             textY = imageY + 10;
-            g.drawString(text, textX, textY);
+            g.drawString(text, textX, textY + 30);
 
-            g.setFont(new Font("Tahoma", Font.PLAIN, 36));
+            g.setFont(new Font("Monospaced", Font.BOLD, 36));
             for (int i = 0; i < menuOptions.length; i++) {
                 int textX = (getWidth() - g.getFontMetrics().stringWidth(menuOptions[i])) / 2;
                 int textY = 200 + i * 50;
@@ -57,18 +65,46 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 g.drawString(menuOptions[i], textX, textY);
             }
         }
+
         if(gameState == 1){
-            g.setFont(new Font("tahoma", Font.PLAIN, 42));
-            g.setColor(Color.WHITE);
-            text = "Kuy Cave";
+            g.setFont(new Font("Monospaced", Font.PLAIN, 24));
+
+            //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
+            if (alpha < 1.0 && !checkAlphaText) {
+                alpha += alphaSpeed;
+            }
+
+            if (alpha >= 1.0 || checkAlphaText) {
+                textDelay += 0.05;
+                checkAlphaText = true;
+                if (textDelay >= 10.15){
+                    alpha -= 0.02;
+                }
+            }
+
+            g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
+
             fm = g.getFontMetrics();
+            text = "Han and Gra giggle as they play in the dense forest,";
             textWidth = fm.stringWidth(text);
             textHeight = fm.getHeight();
             textX = (getWidth() - textWidth) / 2;
             textY = (getHeight() - textHeight) / 2 + fm.getAscent();
             g.drawString(text, textX, textY);
+
+            text_2 = "the sun setting behind the trees.";
+            textY += textHeight;
+            textWidth = fm.stringWidth(text_2);
+            g.drawString(text_2, (getWidth() - textWidth) / 2, textY);
+        }
+
+        if (gameState == 2) {
+            ImageIcon icon = new ImageIcon("res/eyes.JPG");
+            Image image = icon.getImage();
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
         }
     }
+
     @Override
     public void run() {
         try {
@@ -82,8 +118,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -103,13 +138,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
             if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                switch (selectedIndex){
+                switch (selectedIndex) {
                     case 0:
                         gameState = 1;
                         repaint();
+
+                        new Thread(() -> {
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                            gameState = 2;
+                            repaint();
+                        }).start();
                         break;
+
                     case 1:
                         break;
+
                     case 2:
                         System.exit(0);
                         break;
@@ -124,7 +171,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 }
