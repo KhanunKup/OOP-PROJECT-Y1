@@ -16,9 +16,10 @@ public class UI {
     public int selectedIndex = 0;
 
     public boolean checkAlphaText = false;
-    public double textDelay;
+    public double textDelay,imageDelay;;
     private double alpha = 0.0;
     private double alphaSpeed = 0.02;
+    public boolean showImage = false;
 
 
     public UI(GamePanel gp){
@@ -35,9 +36,6 @@ public class UI {
             drawText();
         }
         if(gp.gameState == 2){
-            drawPic();
-        }
-        if(gp.gameState == 3){
             drawMap();
         }
     }
@@ -71,57 +69,56 @@ public class UI {
     }
 
     public void drawText(){
-        g.setFont(new Font("Monospaced", Font.PLAIN, 24));
+        if (!showImage){
+            g.setFont(new Font("Monospaced", Font.PLAIN, 24));
 
-        //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
-        if (alpha < 1.0 && !checkAlphaText) {
-            alpha += alphaSpeed;
+            //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
+            if (alpha < 1.0 && !checkAlphaText) {
+                alpha += alphaSpeed;
+            }
+
+            if (alpha >= 1.0 || checkAlphaText) {
+                textDelay += 0.05;
+                checkAlphaText = true;
+                if (textDelay >= 10.15){
+                    alpha -= 0.02;
+                }
+            }
+
+            g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
+
+            fm = g.getFontMetrics();
+            text = "Han and Gra giggle as they play in the dense forest,";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) / 2 + fm.getAscent();
+            g.drawString(text, textX, textY);
+
+            text_2 = "the sun setting behind the trees.";
+            textY += textHeight;
+            textWidth = fm.stringWidth(text_2);
+            g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
         }
 
-        if (alpha >= 1.0 || checkAlphaText) {
-            textDelay += 0.05;
-            checkAlphaText = true;
-            if (textDelay >= 10.15){
-                alpha -= 0.02;
+        if (showImage) {
+
+            if (imageDelay >= 0 && imageDelay < 10){
+                ImageIcon icon = new ImageIcon("res/eyes.JPG");
+                Image image = icon.getImage();
+                g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+            }
+            else if (imageDelay >= 10 && imageDelay < 20) {
+                ImageIcon icon_2 = new ImageIcon("res/woody.JPG");
+                Image image_2 = icon_2.getImage();
+                g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+            }
+            else if (imageDelay >= 20 && imageDelay < 30) {
+                ImageIcon icon_3 = new ImageIcon("res/nugget.JPG");
+                Image image_3 = icon_3.getImage();
+                g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
         }
-
-        g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
-
-        fm = g.getFontMetrics();
-        text = "Han and Gra giggle as they play in the dense forest,";
-        textWidth = fm.stringWidth(text);
-        textHeight = fm.getHeight();
-        textX = (gp.getWidth() - textWidth) / 2;
-        textY = (gp.getHeight() - textHeight) / 2 + fm.getAscent();
-        g.drawString(text, textX, textY);
-
-        text_2 = "the sun setting behind the trees.";
-        textY += textHeight;
-        textWidth = fm.stringWidth(text_2);
-        g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
-
-        if(!checkAlphaText){
-            PicTransition();
-        }
-    }
-
-    public void drawPic(){
-        ImageIcon icon = new ImageIcon("res/eyes.JPG");
-        Image image = icon.getImage();
-        g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
-    }
-
-    public void PicTransition(){
-        new Thread(() -> {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            gp.gameState = 2;
-            gp.repaint();
-        }).start();
     }
 
     public void drawMap(){
