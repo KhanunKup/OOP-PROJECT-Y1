@@ -21,6 +21,10 @@ public class UI {
     private double alphaSpeed = 0.02;
     public boolean showImage = false;
 
+    public final int MAIN_MENU = 0;
+    public final int TXT_CUTSCENE = 1;
+    public final int MOVING = 2;
+
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -29,14 +33,15 @@ public class UI {
     public void draw(Graphics g){
         this.g = g;
 
-        if(gp.gameState == 0){
+        if(gp.gameState == MAIN_MENU){
             drawTitle();
         }
-        if(gp.gameState == 1){
+        if(gp.gameState == TXT_CUTSCENE){
             drawText();
         }
-        if(gp.gameState == 2){
+        if(gp.gameState == MOVING){
             drawMap();
+            gp.player.draw(g);
         }
     }
     public void drawTitle(){
