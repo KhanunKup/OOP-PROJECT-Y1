@@ -4,27 +4,43 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
+    public final int xTile = 16;
+    public final int yTile = 16;
+    public final int mapX = 800;
+    public final int mapY = 475;
+
+    private final int MAIN_MENU = 0;
+    private final int TXT_CUTSCENE = 1;
+    private final int PNG_CUTSCENE = 2;
+    private final int MOVING = 3;
+
     public Thread gameThread;
     public int imageX, imageY;
     public String text, text_2;
     public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
-    public int gameState = 0; // 0 = title , 1 = play
+    public int gameState = 3; // 0 = title , 1 = play
     public int selectedIndex = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public boolean checkAlphaText = false;
     public double textDelay;
 
+    public Player player;
+    public KeyHandler keyH;
+
     private double alpha = 0.0;
     private double alphaSpeed = 0.02;
 
     public GamePanel(){
-        this.setPreferredSize(new Dimension(800, 475));
+        this.setPreferredSize(new Dimension(mapX, mapY));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
-        this.addKeyListener(this);
+        this.keyH = new KeyHandler();
+        this.addKeyListener(keyH);
+        this.player = new Player(this, keyH);
     }
 
     public void startThread(){
@@ -66,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
-        if(gameState == 1){
+        if(gameState == 1) {
             g.setFont(new Font("Monospaced", Font.PLAIN, 24));
 
             //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
@@ -98,10 +114,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             g.drawString(text_2, (getWidth() - textWidth) / 2, textY);
         }
 
-        if (gameState == 2) {
+        if (gameState == PNG_CUTSCENE) {
             ImageIcon icon = new ImageIcon("res/eyes.JPG");
             Image image = icon.getImage();
             g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        }
+
+        if (gameState == MOVING) {
+            player.draw(g);
         }
     }
 
@@ -109,6 +129,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void run() {
         try {
             while (true){
+                player.update();
                 repaint();
                 Thread.sleep(16);
             }
@@ -122,22 +143,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(gameState == 0){
-            if(e.getKeyCode() == KeyEvent.VK_W){
-                if (selectedIndex > 0){
+        if (gameState == 0) {
+            if (e.getKeyCode() == KeyEvent.VK_W) {
+                if (selectedIndex > 0) {
                     selectedIndex--;
-                }else {
+                } else {
                     selectedIndex = menuOptions.length - 1;
                 }
             }
-            if(e.getKeyCode() == KeyEvent.VK_S){
-                if (selectedIndex < menuOptions.length - 1){
+            if (e.getKeyCode() == KeyEvent.VK_S) {
+                if (selectedIndex < menuOptions.length - 1) {
                     selectedIndex++;
                 } else {
                     selectedIndex = 0;
                 }
             }
-            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 switch (selectedIndex) {
                     case 0:
                         gameState = 1;
@@ -163,13 +184,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
         }
-        if (gameState == 1){
-            if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+        if (gameState == 1) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 gameState = 0;
             }
+//            } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+//                gameState = 2;
+//            }
+        }
+        if (gameState == 2) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                gameState = 3;
+            }
+        }
+
+        if (gameState == 3) {
+
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased (KeyEvent e) {}
+
 }
