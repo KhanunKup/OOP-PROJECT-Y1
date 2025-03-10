@@ -12,8 +12,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public UI ui = new UI(this);
 
-    public int gameState = 0; // 0 = title , 1 = play
-    public int selectedIndex = 0;
+    public int gameState = 3; // 0 = title , 1 = play
     public String[] menuOptions = {"Play", "Option", "Exit"};
 
     public TileMap tileMap;
