@@ -12,8 +12,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public UI ui = new UI(this);
 
-    public int gameState = 3; // 0 = title , 1 = play
-    public String[] menuOptions = {"Play", "Option", "Exit"};
+    public int gameState = 0; // 0 = title , 1 = play
 
     public TileMap tileMap;
     public final int tile_size = 16;
@@ -39,15 +38,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         map = tileMap.getMap();
 
         ui.draw(g);
-
-        if(gameState == 3){
-            for (int row = 0; row < map.length; row++) {
-                for (int col = 0; col < map[row].length; col++) {
-                    int tile = map[row][col];
-                    g.drawImage(tileMap.getTileImage(tile), col * tile_size, row * tile_size, tile_size, tile_size, this);
-                }
-            }
-        }
     }
 
     @Override
@@ -82,11 +72,40 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     ui.selectedIndex = 0;
                 }
             }
-            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                 switch (ui.selectedIndex) {
                     case 0:
                         gameState = 1;
                         repaint();
+
+                        new Thread(() -> {
+                            try {
+
+                                repaint();
+                                Thread.sleep(5000);
+
+                                ui.imageDelay = 0;
+                                ui.showImage = true;
+                                repaint();
+                                Thread.sleep(5000);
+
+
+                                ui.imageDelay = 10;
+                                repaint();
+                                Thread.sleep(5000);
+
+                                ui.imageDelay = 20;
+                                repaint();
+                                Thread.sleep(5000);
+
+                                ui.showImage = false;
+                                gameState = 2;
+                                repaint();
+
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }).start();
                         break;
 
                     case 1:
