@@ -4,10 +4,13 @@ import tile.TileMap;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable {
+    public final int xTile = 16;
+    public final int yTile = 16;
+    public final int mapX = 800;
+    public final int mapY = 475;
+
     public Thread gameThread;
 
     public UI ui = new UI(this);
@@ -18,12 +21,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int tile_size = 16;
     public int[][] map;
 
+    public Player player;
+    public KeyHandler keyH;
+
     public GamePanel(){
-        this.setPreferredSize(new Dimension(800, 475));
+        this.setPreferredSize(new Dimension(mapX, mapY));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
-        this.addKeyListener(this);
         tileMap = new TileMap("res/map/Map1.txt");
+        this.keyH = new KeyHandler(this,ui);
+        this.addKeyListener(keyH);
+        this.player = new Player(this, keyH);
     }
 
     public void startThread(){
@@ -44,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void run() {
         try {
             while (true){
+                player.update();
                 repaint();
                 Thread.sleep(16);
             }
@@ -52,83 +61,4 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(gameState == 0){
-            if(e.getKeyCode() == KeyEvent.VK_W){
-                if (ui.selectedIndex > 0){
-                    ui.selectedIndex--;
-                }else {
-                    ui.selectedIndex = ui.menuOptions.length - 1;
-                }
-            }
-            if(e.getKeyCode() == KeyEvent.VK_S){
-                if (ui.selectedIndex < ui.menuOptions.length - 1){
-                    ui.selectedIndex++;
-                } else {
-                    ui.selectedIndex = 0;
-                }
-            }
-            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-                switch (ui.selectedIndex) {
-                    case 0:
-                        gameState = 1;
-                        repaint();
-
-                        new Thread(() -> {
-                            try {
-
-                                repaint();
-                                Thread.sleep(5000);
-
-                                ui.imageDelay = 0;
-                                ui.showImage = true;
-                                repaint();
-                                Thread.sleep(5000);
-
-
-                                ui.imageDelay = 10;
-                                repaint();
-                                Thread.sleep(5000);
-
-                                ui.imageDelay = 20;
-                                repaint();
-                                Thread.sleep(5000);
-
-                                ui.showImage = false;
-                                gameState = 2;
-                                repaint();
-
-                            } catch (InterruptedException ex) {
-                                ex.printStackTrace();
-                            }
-                        }).start();
-                        break;
-
-                    case 1:
-                        break;
-
-                    case 2:
-                        System.exit(0);
-                        break;
-                }
-            }
-        }
-        if (gameState == 1){
-            if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                gameState = 0;
-            }
-        }
-        if (gameState == 2){
-            if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                gameState = 3;
-            }
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
 }
