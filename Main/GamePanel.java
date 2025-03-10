@@ -15,7 +15,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public int selectedIndex = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public boolean checkAlphaText = false;
-    public double textDelay;
+    public double textDelay,imageDelay;
+    public boolean showImage = false;
 
     private double alpha = 0.0;
     private double alphaSpeed = 0.02;
@@ -67,42 +68,71 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
 
         if(gameState == 1){
-            g.setFont(new Font("Monospaced", Font.PLAIN, 24));
+            if (!showImage){
+                g.setFont(new Font("Monospaced", Font.PLAIN, 24));
 
-            //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
-            if (alpha < 1.0 && !checkAlphaText) {
-                alpha += alphaSpeed;
+                //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
+                if (alpha < 1.0 && !checkAlphaText) {
+                    alpha += alphaSpeed;
+                }
+
+                if (alpha >= 1.0 || checkAlphaText) {
+                    textDelay += 0.05;
+                    checkAlphaText = true;
+                    if (textDelay >= 10.15){
+                        alpha -= 0.02;
+                    }
+                }
+
+                g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
+
+                fm = g.getFontMetrics();
+                text = "Han and Gra giggle as they play in the dense forest,";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+                textX = (getWidth() - textWidth) / 2;
+                textY = (getHeight() - textHeight) / 2 + fm.getAscent();
+                g.drawString(text, textX, textY);
+
+                text_2 = "the sun setting behind the trees.";
+                textY += textHeight;
+                textWidth = fm.stringWidth(text_2);
+                g.drawString(text_2, (getWidth() - textWidth) / 2, textY);
             }
 
-            if (alpha >= 1.0 || checkAlphaText) {
-                textDelay += 0.05;
-                checkAlphaText = true;
-                if (textDelay >= 10.15){
-                    alpha -= 0.02;
+            if (showImage) {
+
+                if (imageDelay >= 0 && imageDelay < 10){
+                    ImageIcon icon = new ImageIcon("res/eyes.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                }
+                else if (imageDelay >= 10 && imageDelay < 20) {
+                    ImageIcon icon_2 = new ImageIcon("res/woody.JPG");
+                    Image image_2 = icon_2.getImage();
+                    g.drawImage(image_2, 0, 0, getWidth(), getHeight(), null);
+                }
+                else if (imageDelay >= 20 && imageDelay < 30) {
+                    ImageIcon icon_3 = new ImageIcon("res/nugget.JPG");
+                    Image image_3 = icon_3.getImage();
+                    g.drawImage(image_3, 0, 0, getWidth(), getHeight(), null);
                 }
             }
+        }
 
-            g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
+        if(gameState == 2){
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Monospaced", Font.PLAIN, 36));
 
             fm = g.getFontMetrics();
-            text = "Han and Gra giggle as they play in the dense forest,";
+            text = "WAITING FOR TILE MAP.";
             textWidth = fm.stringWidth(text);
             textHeight = fm.getHeight();
             textX = (getWidth() - textWidth) / 2;
             textY = (getHeight() - textHeight) / 2 + fm.getAscent();
             g.drawString(text, textX, textY);
-
-            text_2 = "the sun setting behind the trees.";
-            textY += textHeight;
-            textWidth = fm.stringWidth(text_2);
-            g.drawString(text_2, (getWidth() - textWidth) / 2, textY);
         }
 
-        if (gameState == 2) {
-            ImageIcon icon = new ImageIcon("res/eyes.JPG");
-            Image image = icon.getImage();
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        }
     }
 
     @Override
@@ -137,7 +167,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     selectedIndex = 0;
                 }
             }
-            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
                 switch (selectedIndex) {
                     case 0:
                         gameState = 1;
@@ -145,12 +175,31 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
                         new Thread(() -> {
                             try {
+
+                                repaint();
                                 Thread.sleep(5000);
+
+                                imageDelay = 0;
+                                showImage = true;
+                                repaint();
+                                Thread.sleep(5000);
+
+
+                                imageDelay = 10;
+                                repaint();
+                                Thread.sleep(5000);
+
+                                imageDelay = 20;
+                                repaint();
+                                Thread.sleep(5000);
+
+                                showImage = false;
+                                gameState = 2;
+                                repaint();
+
                             } catch (InterruptedException ex) {
                                 ex.printStackTrace();
                             }
-                            gameState = 2;
-                            repaint();
                         }).start();
                         break;
 
