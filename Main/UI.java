@@ -24,10 +24,10 @@ public class UI {
     private double alphaSpeed = 0.02;
     public boolean showImage = false;
 
-    public final int MAIN_MENU = 0;
-    public final int TXT_CUTSCENE = 1;
-    public final int MOVING = 2;
-    public final int OPTION = 3;
+    public static final int MAIN_MENU = 0;
+    public static final int TXT_CUTSCENE = 1;
+    public static final int MOVING = 2;
+    public static final int OPTION = 3;
 
     public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public int screenWidth = screenSize.width;
