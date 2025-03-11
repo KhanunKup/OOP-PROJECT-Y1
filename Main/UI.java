@@ -15,6 +15,9 @@ public class UI {
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
+    public String[] optionMenu = {"Full Screen: ON", "Back"};
+    public int optionIndex = 0;
+
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;;
     private double alpha = 0.0;
@@ -24,6 +27,11 @@ public class UI {
     public final int MAIN_MENU = 0;
     public final int TXT_CUTSCENE = 1;
     public final int MOVING = 2;
+    public final int OPTION = 3;
+
+    public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public int screenWidth = screenSize.width;
+    public int screenHeight = screenSize.height;
 
 
     public UI(GamePanel gp){
@@ -42,6 +50,9 @@ public class UI {
         if(gp.gameState == MOVING){
             drawMap();
             gp.player.draw(g);
+        }
+        if(gp.gameState == OPTION){
+            drawOption();
         }
     }
     public void drawTitle(){
@@ -64,6 +75,9 @@ public class UI {
         for (int i = 0; i < menuOptions.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(menuOptions[i])) / 2;
             int optionY = 200 + i * 50;
+            if(Main.isFullScreen){
+                optionY = 400 + i * 50;
+            }
             if (i == selectedIndex) {
                 g.setColor(Color.YELLOW);
             } else {
@@ -107,7 +121,6 @@ public class UI {
         }
 
         if (showImage) {
-
             if (imageDelay >= 0 && imageDelay < 10){
                 ImageIcon icon = new ImageIcon("res/eyes.JPG");
                 Image image = icon.getImage();
@@ -132,6 +145,19 @@ public class UI {
                 int tile = gp.map[row][col];
                 g.drawImage(gp.tileMap.getTileImage(tile), col * gp.tile_size, row * gp.tile_size, gp.tile_size, gp.tile_size, null);
             }
+        }
+    }
+
+    public void drawOption() {
+        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+        for (int i = 0; i < optionMenu.length; i++) {
+            int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(optionMenu[i])) / 2;
+            int optionY = 200 + i * 50;
+            if(Main.isFullScreen){
+                optionY = 400 + i * 50;
+            }
+            g.setColor(i == optionIndex ? Color.YELLOW : Color.WHITE);
+            g.drawString(optionMenu[i], optionX, optionY);
         }
     }
 }

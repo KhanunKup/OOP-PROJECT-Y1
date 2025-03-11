@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
 
-    public UI ui = new UI(this);
+    public UI ui;
 
     public int gameState = 0; // 0 = title , 1 = play
 
@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
         tileMap = new TileMap("res/map/Map1.txt");
+        ui = new UI(this);
         this.keyH = new KeyHandler(this,ui);
         this.addKeyListener(keyH);
         this.player = new Player(this, keyH);
