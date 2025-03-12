@@ -38,7 +38,7 @@ public class Player {
         worldY = gp.mapY / 2;
         screenX = gp.mapX / 2 - gp.xTileSize / 2; //Center of the screen (because it's placed at top-left corner)
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
-        speed = 5;
+        speed = 3;
         idleAnimLeft = new Image[9];
         idleAnimRight = new Image[9];
         walkingAnimLeft = new Image[8];
@@ -98,6 +98,11 @@ public class Player {
     }
 
     public void update() {
+        if (keyH.shiftPressed) {
+            speed = 3;
+        } else {
+            speed = 2;
+        }
         int speedDiag = (int) (speed/Math.sqrt(2));
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
@@ -120,10 +125,10 @@ public class Player {
                 direction = "left";
             } else if (keyH.upPressed) {
                 worldY -= speed;
-                direction = "up";
+//                direction = "up";
             } else if (keyH.downPressed) {
                 worldY += speed;
-                direction = "down";
+//                direction = "down";
             } else if (keyH.leftPressed) {
                 worldX -= speed;
                 direction = "left";

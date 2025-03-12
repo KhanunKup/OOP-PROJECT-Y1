@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     public GamePanel gp;
     public UI ui;
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
+                    shiftPressed;
 
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
@@ -20,7 +21,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(gp.gameState == ui.MAIN_MENU){
+        if(gp.gameState == UI.MAIN_MENU){
             if(code == KeyEvent.VK_W){
                 if (ui.selectedIndex > 0){
                     ui.selectedIndex--;
@@ -39,13 +40,13 @@ public class KeyHandler implements KeyListener {
                 enterPressed = true;
                 switch (ui.selectedIndex) {
                     case 0:
-                        gp.gameState = ui.TXT_CUTSCENE;
+                        gp.gameState = UI.TXT_CUTSCENE;
                         gp.repaint();
                         new Thread(new Cutscene(gp, ui)).start();
                         break;
 
                     case 1:
-                        gp.gameState = ui.OPTION;
+                        gp.gameState = UI.OPTION;
                         break;
 
                     case 2:
@@ -54,7 +55,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
         }
-        if(gp.gameState == ui.OPTION){
+        if(gp.gameState == UI.OPTION){
             if (code == KeyEvent.VK_W) {
                 ui.optionIndex = (ui.optionIndex - 1 + ui.optionMenu.length) % ui.optionMenu.length;
             }
@@ -67,16 +68,17 @@ public class KeyHandler implements KeyListener {
                     Main.setFullScreen(!Main.isFullScreen);
                     ui.optionMenu[0] = "Full Screen: " + (Main.isFullScreen ? "ON" : "OFF");
                 } else if (ui.optionIndex == 1) {
-                    gp.gameState = ui.MAIN_MENU;
+                    gp.gameState = UI.MAIN_MENU;
                     ui.optionIndex = 0;
                 }
             }
         }
-        if(gp.gameState == ui.MOVING){
+        if(gp.gameState == UI.MOVING){
             if (code == KeyEvent.VK_W) upPressed = true;
             if (code == KeyEvent.VK_S) downPressed = true;
             if (code == KeyEvent.VK_A) leftPressed = true;
             if (code == KeyEvent.VK_D) rightPressed = true;
+            if (code == KeyEvent.VK_SHIFT) shiftPressed = true;
         }
     }
 
@@ -98,6 +100,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_S) downPressed = false;
             if (code == KeyEvent.VK_A) leftPressed = false;
             if (code == KeyEvent.VK_D) rightPressed = false;
+            if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
         }
     }
 }

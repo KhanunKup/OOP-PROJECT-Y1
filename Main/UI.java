@@ -7,6 +7,8 @@ public class UI {
     GamePanel gp;
     Graphics g;
 
+    Player player;
+
     public int imageX, imageY, imgWidth, imgHeight;
     public String text, text_2;
     public int textX, textY, textWidth, textHeight;
@@ -19,7 +21,7 @@ public class UI {
     public int optionIndex = 0;
 
     public boolean checkAlphaText = false;
-    public double textDelay,imageDelay;;
+    public double textDelay,imageDelay;
     private double alpha = 0.0;
     private double alphaSpeed = 0.02;
     public boolean showImage = false;
@@ -34,8 +36,9 @@ public class UI {
     public int screenHeight = screenSize.height;
 
 
-    public UI(GamePanel gp){
+    public UI(GamePanel gp, Player player){
         this.gp = gp;
+        this.player = player;
     }
 
     public void draw(Graphics g){
@@ -140,10 +143,20 @@ public class UI {
     }
 
     public void drawMap(){
-        for (int row = 0; row < gp.map.length; row++) {
-            for (int col = 0; col < gp.map[row].length; col++) {
+        int worldX;
+        int worldY;
+        int screenX;
+        int screenY;
+        for (int row = 0; row < gp.maxRow; row++) {
+            for (int col = 0; col < gp.maxCol; col++) {
                 int tile = gp.map[row][col];
-                g.drawImage(gp.tileMap.getTileImage(tile), col * gp.tile_size, row * gp.tile_size, gp.tile_size, gp.tile_size, null);
+                worldX = col * gp.xTileSize;
+                worldY = row * gp.yTileSize;
+//                screenX = worldX - player.worldX + player.screenX;
+//                screenY = worldY - player.worldY + player.screenY;
+                screenX = worldX - player.worldX;
+                screenY = worldY - player.worldY;
+                g.drawImage(gp.tileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
             }
         }
     }
@@ -159,5 +172,9 @@ public class UI {
             g.setColor(i == optionIndex ? Color.YELLOW : Color.WHITE);
             g.drawString(optionMenu[i], optionX, optionY);
         }
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
