@@ -17,7 +17,7 @@ public class UI {
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
-    public String[] optionMenu = {"Full Screen: ON", "Back"};
+    public String[] optionMenu = {"Full Screen: OFF", "Back"};
     public int optionIndex = 0;
 
     public boolean checkAlphaText = false;
@@ -51,7 +51,7 @@ public class UI {
             drawText();
         }
         if(gp.gameState == MOVING){
-            drawMap();
+            gp.mapM.drawMap(g);
             gp.player.draw(g);
         }
         if(gp.gameState == OPTION){
@@ -138,25 +138,6 @@ public class UI {
                 ImageIcon icon_3 = new ImageIcon("res/nugget.JPG");
                 Image image_3 = icon_3.getImage();
                 g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
-            }
-        }
-    }
-
-    public void drawMap(){
-        int worldX;
-        int worldY;
-        int screenX;
-        int screenY;
-        for (int row = 0; row < gp.maxRow; row++) {
-            for (int col = 0; col < gp.maxCol; col++) {
-                int tile = gp.map[row][col];
-                worldX = col * gp.xTileSize;
-                worldY = row * gp.yTileSize;
-//                screenX = worldX - player.worldX + player.screenX;
-//                screenY = worldY - player.worldY + player.screenY;
-                screenX = worldX - player.worldX;
-                screenY = worldY - player.worldY;
-                g.drawImage(gp.tileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
             }
         }
     }

@@ -34,8 +34,8 @@ public class Player {
     public void valuesSetting() {
 //    world position -> position จริง ๆ ในเกม ทุก object, character, tile ถูก fixed ไว้แล้ว
 //      screen position -> position ที่เราทำการ draw (สั่งให้ java draw แล้วเห็นในจอ ว่ามันคือตรงไหน)
-        worldX = gp.mapX / 2;
-        worldY = gp.mapY / 2;
+        worldX = 0;
+        worldY = 0;
         screenX = gp.mapX / 2 - gp.xTileSize / 2; //Center of the screen (because it's placed at top-left corner)
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
         speed = 3;
@@ -98,52 +98,60 @@ public class Player {
     }
 
     public void update() {
-        if (keyH.shiftPressed) {
-            speed = 3;
-        } else {
-            speed = 2;
-        }
-        int speedDiag = (int) (speed/Math.sqrt(2));
-
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            state = "walking";
-            if (keyH.upPressed && keyH.rightPressed) {
-                worldX += speedDiag;
-                worldY -= speedDiag;
-                direction = "right";
-            } else if (keyH.upPressed && keyH.leftPressed) {
-                worldX -= speedDiag;
-                worldY -= speedDiag;
-                direction = "left";
-            } else if (keyH.downPressed && keyH.rightPressed) {
-                worldX += speedDiag;
-                worldY += speedDiag;
-                direction = "right";
-            } else if (keyH.downPressed && keyH.leftPressed) {
-                worldX -= speedDiag;
-                worldY += speedDiag;
-                direction = "left";
-            } else if (keyH.upPressed) {
-                worldY -= speed;
-//                direction = "up";
-            } else if (keyH.downPressed) {
-                worldY += speed;
-//                direction = "down";
-            } else if (keyH.leftPressed) {
-                worldX -= speed;
-                direction = "left";
-            } else if (keyH.rightPressed)  {
-                worldX += speed;
-                direction = "right";
+        if (gp.gameState == UI.MOVING) {
+            setScreenPosition();
+            if (keyH.shiftPressed) {
+                speed = 3;
+            } else {
+                speed = 2;
             }
-        } else {
-            state = "idle";
+            int speedDiag = (int) (speed/Math.sqrt(2));
+
+            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+                state = "walking";
+                if (keyH.upPressed && keyH.rightPressed) {
+                    worldX += speedDiag;
+                    worldY -= speedDiag;
+                    direction = "right";
+                } else if (keyH.upPressed && keyH.leftPressed) {
+                    worldX -= speedDiag;
+                    worldY -= speedDiag;
+                    direction = "left";
+                } else if (keyH.downPressed && keyH.rightPressed) {
+                    worldX += speedDiag;
+                    worldY += speedDiag;
+                    direction = "right";
+                } else if (keyH.downPressed && keyH.leftPressed) {
+                    worldX -= speedDiag;
+                    worldY += speedDiag;
+                    direction = "left";
+                } else if (keyH.upPressed) {
+                    worldY -= speed;
+//                direction = "up";
+                } else if (keyH.downPressed) {
+                    worldY += speed;
+//                direction = "down";
+                } else if (keyH.leftPressed) {
+                    worldX -= speed;
+                    direction = "left";
+                } else if (keyH.rightPressed)  {
+                    worldX += speed;
+                    direction = "right";
+                }
+            } else {
+                state = "idle";
+            }
+            animationHandler();
         }
-        animationHandler();
     }
 
     public void draw(Graphics g) {
 //        g.fillRect(x, y, gp.xTile, gp.yTile);
         g.drawImage(hansel, screenX, screenY, gp.xTileSize *2, gp.yTileSize *2, null);
+    }
+
+    public void setScreenPosition() {
+        screenX = gp.mapX / 2 - gp.xTileSize / 2;
+        screenY = gp.mapY / 2 - gp.yTileSize / 2;
     }
 }

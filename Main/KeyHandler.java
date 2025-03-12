@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     public GamePanel gp;
     public UI ui;
+    public Player player;
+
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
                     shiftPressed;
 
@@ -66,6 +68,9 @@ public class KeyHandler implements KeyListener {
                 enterPressed = true;
                 if (ui.optionIndex == 0) {
                     Main.setFullScreen(!Main.isFullScreen);
+                    GamePanel.mapX = gp.getWidth();
+                    GamePanel.mapY = gp.getHeight();
+
                     ui.optionMenu[0] = "Full Screen: " + (Main.isFullScreen ? "ON" : "OFF");
                 } else if (ui.optionIndex == 1) {
                     gp.gameState = UI.MAIN_MENU;
