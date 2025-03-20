@@ -4,6 +4,7 @@ import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class UI {
     GamePanel gp;
@@ -15,6 +16,7 @@ public class UI {
     public String text, text_2;
     public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
+    public Font customFont;
 
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
@@ -24,9 +26,9 @@ public class UI {
 
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;
-    private double alpha = 0.0;
-    private double alphaSpeed = 0.02;
-    public boolean showImage = false;
+    public double alpha = 0.0;
+    public double alphaSpeed = 0.02;
+    public boolean showImage = false,showText = true;
     public boolean flashScreen = true;
 
     public static final int MAIN_MENU = 0;
@@ -42,6 +44,18 @@ public class UI {
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+        loadFont();
+    }
+
+    public void loadFont(){
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/jmh.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+            System.out.println("Loading Fonts Success!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics g){
@@ -56,6 +70,8 @@ public class UI {
         if(gp.gameState == MOVING){
             gp.mapM.drawMap(g);
             gp.player.draw(g);
+
+            drawObjectiveText();
         }
         if(gp.gameState == OPTION){
             drawOption();
@@ -70,14 +86,14 @@ public class UI {
         imageY = (gp.getHeight() - imgHeight) / 2;
         g.drawImage(image, imageX, imageY, null);
 
-        g.setFont(new Font("Monospaced", Font.PLAIN, 64));
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 64));
         String text = "Sweet Tomb";
         FontMetrics fm = g.getFontMetrics();
         int textX = (gp.getWidth() - fm.stringWidth(text)) / 2;
         int textY = imageY + 10;
         g.drawString(text, textX, textY + 30);
 
-        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+        g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         for (int i = 0; i < menuOptions.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(menuOptions[i])) / 2;
             int optionY = 200 + i * 50;
@@ -93,9 +109,46 @@ public class UI {
         }
     }
 
+    public void drawObjectiveText() {
+        if (showText){
+            textDelay += 1;
+
+            if (textDelay > 200){
+                alpha -= alphaSpeed;
+                System.out.println("Current Alpha: "+alpha);
+            }
+            if (alpha < 0){
+                showText = false;
+                alpha = 0;
+                textDelay = 0;
+            }
+
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
+            g.setColor(new Color(255, 255, 255, (int) alpha));
+
+            fm = g.getFontMetrics();
+            text = "OBJECTIVE:";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = 100;
+
+            g.drawString(text, textX, textY);
+
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+            fm = g.getFontMetrics();
+            text_2 = "Find Khanun.";
+            textY += textHeight + 5;
+            textWidth = fm.stringWidth(text_2);
+            g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
+        }
+    }
+
+
     public synchronized void drawText(){
         if (!showImage){
-            g.setFont(new Font("Monospaced", Font.PLAIN, 24));
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
 
             //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
             if (alpha < 1.0 && !checkAlphaText) {
@@ -131,6 +184,7 @@ public class UI {
         }
 
         if (showImage) {
+            textDelay = 0;
             System.out.println(imageDelay);
             if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20))) {
                 g.setColor(Color.WHITE);
