@@ -1,5 +1,7 @@
 package Main;
 
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -25,6 +27,7 @@ public class UI {
     private double alpha = 0.0;
     private double alphaSpeed = 0.02;
     public boolean showImage = false;
+    public boolean flashScreen = true;
 
     public static final int MAIN_MENU = 0;
     public static final int TXT_CUTSCENE = 1;
@@ -90,7 +93,7 @@ public class UI {
         }
     }
 
-    public void drawText(){
+    public synchronized void drawText(){
         if (!showImage){
             g.setFont(new Font("Monospaced", Font.PLAIN, 24));
 
@@ -105,6 +108,10 @@ public class UI {
                 if (textDelay >= 10.15){
                     alpha -= 0.02;
                 }
+            }
+
+            if (alpha < 0){
+                alpha = 0;
             }
 
             g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
@@ -124,20 +131,46 @@ public class UI {
         }
 
         if (showImage) {
-            if (imageDelay >= 0 && imageDelay < 10){
+            System.out.println(imageDelay);
+            if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20))) {
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+                flashScreen = false;
+                System.out.println("FlashScreen show!");
+            }
+
+            else if (imageDelay == 0){
                 ImageIcon icon = new ImageIcon("res/eyes.JPG");
                 Image image = icon.getImage();
                 g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
-            else if (imageDelay >= 10 && imageDelay < 20) {
-                ImageIcon icon_2 = new ImageIcon("res/woody.JPG");
+            else if (imageDelay == 10) {
+                ImageIcon icon_2 = new ImageIcon("res/bonus.JPG");
                 Image image_2 = icon_2.getImage();
                 g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
-            else if (imageDelay >= 20 && imageDelay < 30) {
-                ImageIcon icon_3 = new ImageIcon("res/nugget.JPG");
+            else if (imageDelay >= 20) {
+                imageDelay += 0.1;
+                ImageIcon icon_3 = new ImageIcon("res/beam.JPG");
                 Image image_3 = icon_3.getImage();
                 g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
+
+                if (imageDelay >= 40) {
+                    alpha = (int)((imageDelay - 40) * 32);
+
+                    if (alpha > 255) {
+                        alpha = 255;
+                    }
+
+                    if (alpha < 0){
+                        alpha = 0;
+                    }
+
+
+                    Color fadeColor = new Color(0, 0, 0, (int)alpha);
+                    g.setColor(fadeColor);
+                    g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+                }
             }
         }
     }
