@@ -14,7 +14,7 @@ public class QuickTimeEvent extends JFrame implements KeyListener {
     private char RandomKey;
 
     private int rounds = 0;
-    private final int MaxRounds = 2;
+    private final int MaxRounds = 6;
     private int win = 0;
 
     public QuickTimeEvent() {
@@ -38,7 +38,8 @@ public class QuickTimeEvent extends JFrame implements KeyListener {
                     lb.setText("Time Left: " + timeLeft + "s");
 
                     if (timeLeft <= 0) {
-                        lb.setText("Time's up! You failed.");
+                        lb.setText("Time's up! You failed."); //ตัวจับเวลา
+                        //เพิ่มคอนดิชั่นลดเวลา
                         isEventActive = false;
                         timer.stop();
 
@@ -51,7 +52,8 @@ public class QuickTimeEvent extends JFrame implements KeyListener {
 
     public void startQTE() {
         Random random = new Random();
-        RandomKey = (random.nextBoolean()) ? 'a' : 's';
+        RandomKey = "escape".charAt(rounds % 6);
+        //เปลี่ยนคำได้ อันนี้ฟิกคำตามตัว
 
         lb.setText("Press the '" + RandomKey + "' key!");
         timeLeft = 3;
@@ -71,12 +73,12 @@ public class QuickTimeEvent extends JFrame implements KeyListener {
             nextQTEtimer.setRepeats(false);
             nextQTEtimer.start();
 
-        } else if (win == 3) {
-            lb.setText("Escape Pass!");
-        } else if (win >= 2) {
-            lb.setText("Almost Died!!");
+        } else if (win == 6) {
+            lb.setText("Escape Pass!"); // อันนี้ผ่านไม่มีอะไีร
+        } else if (win >= 5) {
+            lb.setText("Almost Died!!"); // เกือบแพ้
         } else {
-            lb.setText("Game Over!.");
+            lb.setText("Game Over!."); // อันนี้แพ้ให้เกมโอเวอร์
         }
     }
 
