@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.mapM = new MapManager(this, player);
         tileMap = new TileMap("res/map/Map1.txt");
 
-        
+
         this.addKeyListener(keyH);
 
     }

@@ -30,12 +30,26 @@ public class KeyHandler implements KeyListener {
                 }else {
                     ui.selectedIndex = ui.menuOptions.length - 1;
                 }
+
+                if (ui.pointerIndex - 1 >= 0) {
+                    ui.pointerIndex -= 1;
+                }
+                else {
+                    ui.pointerIndex = ui.pointerPosition.length-1;
+                }
             }
             if(code == KeyEvent.VK_S){
                 if (ui.selectedIndex < ui.menuOptions.length - 1){
                     ui.selectedIndex++;
                 } else {
                     ui.selectedIndex = 0;
+                }
+
+                if (ui.pointerIndex + 1 < ui.pointerPosition.length) {
+                    ui.pointerIndex += 1;
+                }
+                else {
+                    ui.pointerIndex = 0;
                 }
             }
             if(code == KeyEvent.VK_ENTER && !enterPressed) {

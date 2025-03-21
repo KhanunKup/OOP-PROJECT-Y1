@@ -18,11 +18,12 @@ public class UI {
     public FontMetrics fm;
     public Font customFont;
 
+    public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
     public String[] optionMenu = {"Full Screen: OFF", "Back"};
-    public int optionIndex = 0;
+    public int optionIndex = 0,pointerIndex = 0;
 
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;
@@ -63,6 +64,7 @@ public class UI {
 
         if(gp.gameState == MAIN_MENU){
             drawTitle();
+            drawPointer();
         }
         if(gp.gameState == TXT_CUTSCENE){
             drawText();
@@ -77,9 +79,18 @@ public class UI {
             drawOption();
         }
     }
+    public void drawPointer(){
+        ImageIcon icon = new ImageIcon("res/bg/send.png");
+        Image image = icon.getImage();
+
+        System.out.println(pointerIndex);
+        g.drawImage(image, pointerPosition[pointerIndex][0], pointerPosition[pointerIndex][1], 64, 64, null);
+    }
+
     public void drawTitle(){
         ImageIcon icon = new ImageIcon("res/bg/sweet.png");
         Image image = icon.getImage();
+
         g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 64));
@@ -87,7 +98,7 @@ public class UI {
         g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         for (int i = 0; i < menuOptions.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(menuOptions[i])) / 2;
-            int optionY = 200 + i * 50;
+            int optionY = 230 + i * 50;
             if(Main.isFullScreen){
                 optionY = 400 + i * 50;
             }
@@ -248,5 +259,6 @@ public class UI {
     public double getAlpha(){
         return alpha;
     }
+
 }
 
