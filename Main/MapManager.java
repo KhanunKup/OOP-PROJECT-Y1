@@ -6,14 +6,16 @@ import java.awt.*;
 public class MapManager {
     GamePanel gp;
     Player player;
-    String path;
-    Image idleImage;
+    String path,path_2;
+    Image idleImage,idleImage_2;
 
     public MapManager(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
         path = "res/Character/Gratel/Gratel_Idle/gratel_idle1.png";
         idleImage = new ImageIcon(path).getImage();
+        path_2 = "res/Visibility-3.png";
+        idleImage_2 = new ImageIcon(path_2).getImage();
     }
 
     public void drawMap(Graphics g) {
@@ -47,5 +49,6 @@ public class MapManager {
         System.out.println(screenIdleY+"Y");
 
         g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
+        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
     }
 }

@@ -36,7 +36,7 @@ public class Cutscene implements Runnable {
 
             ui.showImage = false;
             gp.gameState = 2;
-            ui.alpha = 255;
+            ui.setAlpha(255);
             ui.alphaSpeed = 1;
             gp.repaint();
 

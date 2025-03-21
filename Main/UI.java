@@ -26,7 +26,7 @@ public class UI {
 
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;
-    public double alpha = 0.0;
+    private double alpha = 0.0;
     public double alphaSpeed = 0.02;
     public boolean showImage = false,showText = true;
     public boolean flashScreen = true;
@@ -105,17 +105,18 @@ public class UI {
             textDelay += 1;
 
             if (textDelay > 200){
-                alpha -= alphaSpeed;
-                System.out.println("Current Alpha: "+alpha);
+                //alpha -= alphaSpeed;
+                setAlpha(getAlpha()-alphaSpeed);
+                System.out.println("Current Alpha: "+getAlpha());
             }
-            if (alpha < 0){
+            if (getAlpha() < 0){
                 showText = false;
-                alpha = 0;
+                setAlpha(0);
                 textDelay = 0;
             }
 
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
-            g.setColor(new Color(255, 255, 255, (int) alpha));
+            g.setColor(new Color(255, 255, 255, (int) getAlpha()));
 
             fm = g.getFontMetrics();
             text = "OBJECTIVE:";
@@ -142,23 +143,25 @@ public class UI {
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
 
             //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
-            if (alpha < 1.0 && !checkAlphaText) {
-                alpha += alphaSpeed;
+            if (getAlpha() < 1.0 && !checkAlphaText) {
+                //alpha += alphaSpeed;
+                setAlpha(getAlpha()+alphaSpeed);
             }
 
-            if (alpha >= 1.0 || checkAlphaText) {
+            if (getAlpha() >= 1.0 || checkAlphaText) {
                 textDelay += 0.05;
                 checkAlphaText = true;
                 if (textDelay >= 10.15){
-                    alpha -= 0.02;
+                    //alpha -= 0.02;
+                    setAlpha(getAlpha()-0.02);
                 }
             }
 
-            if (alpha < 0){
-                alpha = 0;
+            if (getAlpha() < 0){
+                setAlpha(0);
             }
 
-            g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
+            g.setColor(new Color(255, 255, 255, (int) (getAlpha() * 255)));
 
             fm = g.getFontMetrics();
             text = "Han and Gra giggle as they play in the dense forest,";
@@ -201,18 +204,19 @@ public class UI {
                 g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
                 if (imageDelay >= 40) {
-                    alpha = (int)((imageDelay - 40) * 32);
+                    //alpha = (int)((imageDelay - 40) * 32);
+                    setAlpha((int)((imageDelay - 40) * 32));
 
-                    if (alpha > 255) {
-                        alpha = 255;
+                    if (getAlpha() > 255) {
+                        setAlpha(255);
                     }
 
-                    if (alpha < 0){
-                        alpha = 0;
+                    if (getAlpha() < 0){
+                        setAlpha(0);
                     }
 
 
-                    Color fadeColor = new Color(0, 0, 0, (int)alpha);
+                    Color fadeColor = new Color(0, 0, 0, (int)getAlpha());
                     g.setColor(fadeColor);
                     g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
                 }
@@ -221,7 +225,7 @@ public class UI {
     }
 
     public void drawOption() {
-        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+        g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         for (int i = 0; i < optionMenu.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(optionMenu[i])) / 2;
             int optionY = 200 + i * 50;
@@ -236,4 +240,13 @@ public class UI {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+    public void setAlpha(double alpha){
+        this.alpha = alpha;
+    }
+
+    public double getAlpha(){
+        return alpha;
+    }
 }
+
