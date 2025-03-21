@@ -78,20 +78,11 @@ public class UI {
         }
     }
     public void drawTitle(){
-        ImageIcon icon = new ImageIcon("res/book.png");
+        ImageIcon icon = new ImageIcon("res/bg/sweet.png");
         Image image = icon.getImage();
-        imgWidth = image.getWidth(null);
-        imgHeight = image.getHeight(null);
-        imageX = (gp.getWidth() - imgWidth) / 2;
-        imageY = (gp.getHeight() - imgHeight) / 2;
-        g.drawImage(image, imageX, imageY, null);
+        g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 64));
-        String text = "Sweet Tomb";
-        FontMetrics fm = g.getFontMetrics();
-        int textX = (gp.getWidth() - fm.stringWidth(text)) / 2;
-        int textY = imageY + 10;
-        g.drawString(text, textX, textY + 30);
 
         g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         for (int i = 0; i < menuOptions.length; i++) {
