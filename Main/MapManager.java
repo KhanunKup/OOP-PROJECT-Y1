@@ -45,8 +45,8 @@ public class MapManager {
         int screenIdleX = fixedX - player.worldX + player.screenX;
         int screenIdleY = fixedY - player.worldY + player.screenY;
 
-        System.out.println(screenIdleX+"X");
-        System.out.println(screenIdleY+"Y");
+        //System.out.println(screenIdleX+"X");
+        //System.out.println(screenIdleY+"Y");
 
 //        g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
 //        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);

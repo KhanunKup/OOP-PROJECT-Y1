@@ -122,6 +122,17 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_D) rightPressed = false;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
             if (code == KeyEvent.VK_ENTER) enterPressed = false;
+
+
+        }
+        if (gp.isQTEActive) {
+            char pressedKey = Character.toLowerCase((char) code);
+            System.out.println("Pressed Key: " + pressedKey); // พิมพ์ปุ่มที่กด
+
+            // ตรวจสอบว่าปุ่มที่กดตรงกับลำดับใน qteSequence หรือไม่
+            System.out.println("Expected Key: " + gp.qteSequence.charAt(gp.currentKeyIndex)); // พิมพ์ตัวอักษรที่คาดหวัง
+            // แปลง KeyCode เป็นตัวอักษร
+            gp.checkQTE(pressedKey); // เช็คว่าผู้เล่นกดปุ่มถูกต้องใน QTE หรือไม่
         }
     }
 }
