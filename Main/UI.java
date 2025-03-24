@@ -1,41 +1,65 @@
 package Main;
 
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class UI {
     GamePanel gp;
     Graphics g;
 
+    Player player;
+
     public int imageX, imageY, imgWidth, imgHeight;
     public String text, text_2;
     public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
+    public Font customFont;
 
+    public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
-    public String[] optionMenu = {"Full Screen: ON", "Back"};
-    public int optionIndex = 0;
+    public String[] optionMenu = {"Full Screen: OFF", "Back"};
+    public int optionIndex = 0,pointerIndex = 0;
 
     public boolean checkAlphaText = false;
-    public double textDelay,imageDelay;;
+    public double textDelay,imageDelay;
     private double alpha = 0.0;
-    private double alphaSpeed = 0.02;
-    public boolean showImage = false;
+    public double alphaSpeed = 0.02;
+    public boolean showImage = false,showText = true;
+    public boolean flashScreen = true;
 
-    public final int MAIN_MENU = 0;
-    public final int TXT_CUTSCENE = 1;
-    public final int MOVING = 2;
-    public final int OPTION = 3;
+    public static final int MAIN_MENU = 0;
+    public static final int TXT_CUTSCENE = 1;
+    public static final int MOVING = 2;
+    public static final int OPTION = 3;
 
     public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public int screenWidth = screenSize.width;
     public int screenHeight = screenSize.height;
 
+    public Sound music;
 
-    public UI(GamePanel gp){
+    public UI(GamePanel gp, Player player){
         this.gp = gp;
+        this.player = player;
+        music = new Sound();
+        music.playSound("res/sound/SweetTombMainMenu.wav");
+        loadFont();
+    }
+
+    public void loadFont(){
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/fonts/jmh.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+            System.out.println("Loading Fonts Success!");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void draw(Graphics g){
@@ -43,38 +67,42 @@ public class UI {
 
         if(gp.gameState == MAIN_MENU){
             drawTitle();
+            drawPointer();
+            music.loop();
         }
         if(gp.gameState == TXT_CUTSCENE){
             drawText();
         }
         if(gp.gameState == MOVING){
-            drawMap();
+            gp.mapM.drawMap(g);
             gp.player.draw(g);
+
+            drawObjectiveText();
         }
         if(gp.gameState == OPTION){
             drawOption();
         }
     }
-    public void drawTitle(){
-        ImageIcon icon = new ImageIcon("res/book.png");
+    public void drawPointer(){
+        ImageIcon icon = new ImageIcon("res/bg/send.png");
         Image image = icon.getImage();
-        imgWidth = image.getWidth(null);
-        imgHeight = image.getHeight(null);
-        imageX = (gp.getWidth() - imgWidth) / 2;
-        imageY = (gp.getHeight() - imgHeight) / 2;
-        g.drawImage(image, imageX, imageY, null);
 
-        g.setFont(new Font("Monospaced", Font.PLAIN, 64));
-        String text = "Sweet Tomb";
-        FontMetrics fm = g.getFontMetrics();
-        int textX = (gp.getWidth() - fm.stringWidth(text)) / 2;
-        int textY = imageY + 10;
-        g.drawString(text, textX, textY + 30);
+        System.out.println(pointerIndex);
+        g.drawImage(image, pointerPosition[pointerIndex][0], pointerPosition[pointerIndex][1], 64, 64, null);
+    }
 
-        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+    public void drawTitle(){
+        ImageIcon icon = new ImageIcon("res/bg/sweet.png");
+        Image image = icon.getImage();
+
+        g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 64));
+
+        g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         for (int i = 0; i < menuOptions.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(menuOptions[i])) / 2;
-            int optionY = 200 + i * 50;
+            int optionY = 230 + i * 50;
             if(Main.isFullScreen){
                 optionY = 400 + i * 50;
             }
@@ -87,24 +115,68 @@ public class UI {
         }
     }
 
-    public void drawText(){
-        if (!showImage){
-            g.setFont(new Font("Monospaced", Font.PLAIN, 24));
+    public void drawObjectiveText() {
+        if (showText){
+            textDelay += 1;
 
-            //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
-            if (alpha < 1.0 && !checkAlphaText) {
-                alpha += alphaSpeed;
+            if (textDelay > 200){
+                //alpha -= alphaSpeed;
+                setAlpha(getAlpha()-alphaSpeed);
+                System.out.println("Current Alpha: "+getAlpha());
+            }
+            if (getAlpha() < 0){
+                showText = false;
+                setAlpha(0);
+                textDelay = 0;
             }
 
-            if (alpha >= 1.0 || checkAlphaText) {
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
+            g.setColor(new Color(255, 255, 255, (int) getAlpha()));
+
+            fm = g.getFontMetrics();
+            text = "OBJECTIVE:";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = 100;
+
+            g.drawString(text, textX, textY);
+
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+            fm = g.getFontMetrics();
+            text_2 = "Find Khanun.";
+            textY += textHeight + 5;
+            textWidth = fm.stringWidth(text_2);
+            g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
+        }
+    }
+
+
+    public synchronized void drawText(){
+        if (!showImage){
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+
+            //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
+            if (getAlpha() < 1.0 && !checkAlphaText) {
+                //alpha += alphaSpeed;
+                setAlpha(getAlpha()+alphaSpeed);
+            }
+
+            if (getAlpha() >= 1.0 || checkAlphaText) {
                 textDelay += 0.05;
                 checkAlphaText = true;
                 if (textDelay >= 10.15){
-                    alpha -= 0.02;
+                    //alpha -= 0.02;
+                    setAlpha(getAlpha()-0.02);
                 }
             }
 
-            g.setColor(new Color(255, 255, 255, (int) (alpha * 255)));
+            if (getAlpha() < 0){
+                setAlpha(0);
+            }
+
+            g.setColor(new Color(255, 255, 255, (int) (getAlpha() * 255)));
 
             fm = g.getFontMetrics();
             text = "Han and Gra giggle as they play in the dense forest,";
@@ -121,35 +193,54 @@ public class UI {
         }
 
         if (showImage) {
-            if (imageDelay >= 0 && imageDelay < 10){
+            textDelay = 0;
+            System.out.println(imageDelay);
+            if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20))) {
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+                flashScreen = false;
+                System.out.println("FlashScreen show!");
+            }
+
+            else if (imageDelay == 0){
                 ImageIcon icon = new ImageIcon("res/eyes.JPG");
                 Image image = icon.getImage();
                 g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
-            else if (imageDelay >= 10 && imageDelay < 20) {
-                ImageIcon icon_2 = new ImageIcon("res/woody.JPG");
+            else if (imageDelay == 10) {
+                ImageIcon icon_2 = new ImageIcon("res/bonus.JPG");
                 Image image_2 = icon_2.getImage();
                 g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
-            else if (imageDelay >= 20 && imageDelay < 30) {
-                ImageIcon icon_3 = new ImageIcon("res/nugget.JPG");
+            else if (imageDelay >= 20) {
+                imageDelay += 0.1;
+                ImageIcon icon_3 = new ImageIcon("res/beam.JPG");
                 Image image_3 = icon_3.getImage();
                 g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
-            }
-        }
-    }
 
-    public void drawMap(){
-        for (int row = 0; row < gp.map.length; row++) {
-            for (int col = 0; col < gp.map[row].length; col++) {
-                int tile = gp.map[row][col];
-                g.drawImage(gp.tileMap.getTileImage(tile), col * gp.tile_size, row * gp.tile_size, gp.tile_size, gp.tile_size, null);
+                if (imageDelay >= 40) {
+                    //alpha = (int)((imageDelay - 40) * 32);
+                    setAlpha((int)((imageDelay - 40) * 32));
+
+                    if (getAlpha() > 255) {
+                        setAlpha(255);
+                    }
+
+                    if (getAlpha() < 0){
+                        setAlpha(0);
+                    }
+
+
+                    Color fadeColor = new Color(0, 0, 0, (int)getAlpha());
+                    g.setColor(fadeColor);
+                    g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+                }
             }
         }
     }
 
     public void drawOption() {
-        g.setFont(new Font("Monospaced", Font.BOLD, 36));
+        g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         for (int i = 0; i < optionMenu.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(optionMenu[i])) / 2;
             int optionY = 200 + i * 50;
@@ -160,4 +251,18 @@ public class UI {
             g.drawString(optionMenu[i], optionX, optionY);
         }
     }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setAlpha(double alpha){
+        this.alpha = alpha;
+    }
+
+    public double getAlpha(){
+        return alpha;
+    }
+
 }
+
