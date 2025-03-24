@@ -36,16 +36,18 @@ public class UI {
     public static final int TXT_CUTSCENE = 1;
     public static final int MOVING = 2;
     public static final int OPTION = 3;
-    public static final int MOVING2 = 2;
 
     public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public int screenWidth = screenSize.width;
     public int screenHeight = screenSize.height;
 
+    public Sound music;
 
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+        music = new Sound();
+        music.playSound("res/sound/SweetTombMainMenu.wav");
         loadFont();
     }
 
@@ -66,6 +68,7 @@ public class UI {
         if(gp.gameState == MAIN_MENU){
             drawTitle();
             drawPointer();
+            music.loop();
         }
         if(gp.gameState == TXT_CUTSCENE){
             drawText();
