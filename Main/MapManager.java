@@ -34,7 +34,7 @@ public class MapManager {
 
                 if (screenX + gp.xTileSize >= 0 && screenX <= GamePanel.mapX &&
                         screenY + gp.yTileSize >= 0 && screenY <= GamePanel.mapY) {
-                    g.drawImage(gp.tileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
+                    g.drawImage(gp.currentTileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
                 }
             }
         }
@@ -48,7 +48,7 @@ public class MapManager {
         System.out.println(screenIdleX+"X");
         System.out.println(screenIdleY+"Y");
 
-        g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
-        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+//        g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
+//        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
     }
 }

@@ -41,10 +41,13 @@ public class UI {
     public int screenWidth = screenSize.width;
     public int screenHeight = screenSize.height;
 
+    public Sound music;
 
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+        music = new Sound();
+        music.playSound("res/sound/SweetTombMainMenu.wav");
         loadFont();
     }
 
@@ -65,6 +68,7 @@ public class UI {
         if(gp.gameState == MAIN_MENU){
             drawTitle();
             drawPointer();
+            music.loop();
         }
         if(gp.gameState == TXT_CUTSCENE){
             drawText();
