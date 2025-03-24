@@ -12,33 +12,42 @@ public class Cutscene implements Runnable {
     @Override
     public void run() {
         try {
-            gp.repaint();
-            Thread.sleep(5000);
+            if (UI.SCENE == 1){
+                gp.repaint();
+                Thread.sleep(5000);
 
-            ui.imageDelay = 0;
-            ui.showImage = true;
-            gp.repaint();
-            Thread.sleep(5000);
+                ui.imageDelay = 0;
+                ui.showImage = true;
+                gp.repaint();
+                Thread.sleep(5000);
 
-            ui.flashScreen = true;
-            gp.repaint();
+                ui.flashScreen = true;
+                gp.repaint();
 
-            ui.imageDelay = 10;
-            gp.repaint();
-            Thread.sleep(5000);
+                ui.imageDelay = 10;
+                gp.repaint();
+                Thread.sleep(5000);
 
-            ui.flashScreen = true;
-            gp.repaint();
+                ui.flashScreen = true;
+                gp.repaint();
 
-            ui.imageDelay = 20;
-            gp.repaint();
-            Thread.sleep(5000);
+                ui.imageDelay = 20;
+                gp.repaint();
+                Thread.sleep(5000);
 
-            ui.showImage = false;
-            gp.gameState = 2;
-            ui.setAlpha(255);
-            ui.alphaSpeed = 1;
-            gp.repaint();
+                ui.showImage = false;
+                gp.gameState = 2;
+                ui.setAlpha(255);
+                ui.alphaSpeed = 1;
+                ui.imageDelay = 0;
+                ui.checkAlphaText = false;
+                gp.repaint();
+            }
+
+            if (UI.SCENE == 2){
+                gp.repaint();
+                Thread.sleep(5000);
+            }
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();

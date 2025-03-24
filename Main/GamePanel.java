@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.mapM = new MapManager(this, player);
         tileMap1 = new TileMap("res/map/Map1-Final.txt");
         tileMap2 = new TileMap("res/map/Map2-Final.txt");
-        currentTileMap = tileMap1;
+        currentTileMap = tileMap2;
 
 
         this.addKeyListener(keyH);
@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             while (true){
                 player.update();
+                ui.updateFade();
                 repaint();
                 Thread.sleep(16);
             }
@@ -74,16 +75,17 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void switchMap() {
+        System.out.println("Switching map... from " + (currentTileMap == tileMap1 ? "Map1" : "Map2"));
         if (currentTileMap == tileMap1) {
+            currentTileMap = tileMap2;
             map = tileMap2.getMap();
             maxRow = 50;
             maxCol = 50;
-            currentTileMap = tileMap2;
         } else {
+            currentTileMap = tileMap1;
             map = tileMap1.getMap();
             maxRow = 100;
             maxCol = 100;
-            currentTileMap = tileMap1;
         }
 
         player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);

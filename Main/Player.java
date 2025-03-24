@@ -5,6 +5,8 @@ import org.w3c.dom.ls.LSOutput;
 import javax.swing.*;
 import java.awt.*;
 
+import static Main.UI.TXT_CUTSCENE;
+
 public class Player {
     final int animDelay = 7;
     int currentFrame = 0;
@@ -108,6 +110,13 @@ public class Player {
                 keyH.enterPressed = false;
             }
 
+            //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
+            if (((gp.mapM.screenIdleX >= 350 && gp.mapM.screenIdleX <= 550) && (gp.mapM.screenIdleY <= 825 && gp.mapM.screenIdleY >= 600)) && gp.currentTileMap == gp.tileMap1){
+                    UI.SCENE = 2;
+                    gp.ui.showText = true;
+                    gp.ui.startFade();
+                }
+
             if (keyH.shiftPressed) {
                 speed = 3;
             } else {
@@ -151,9 +160,6 @@ public class Player {
             }
             animationHandler();
 
-            if (worldX >= gp.maxCol * gp.xTileSize - gp.xTileSize) {
-                gp.switchMap();
-            }
         }
     }
 
