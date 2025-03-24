@@ -24,7 +24,7 @@ public class TileMap {
 
     public void loadMap(String filePath) {
         List<int[]> mapData = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("res/map/Map1-Final.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(" ");

@@ -98,6 +98,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_A) leftPressed = true;
             if (code == KeyEvent.VK_D) rightPressed = true;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = true;
+            if (code == KeyEvent.VK_ENTER) enterPressed = true;
         }
     }
 
@@ -120,6 +121,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_A) leftPressed = false;
             if (code == KeyEvent.VK_D) rightPressed = false;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
+            if (code == KeyEvent.VK_ENTER) enterPressed = false;
         }
     }
 }

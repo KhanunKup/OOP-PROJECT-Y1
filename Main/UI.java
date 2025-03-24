@@ -36,6 +36,7 @@ public class UI {
     public static final int TXT_CUTSCENE = 1;
     public static final int MOVING = 2;
     public static final int OPTION = 3;
+    public static final int MOVING2 = 2;
 
     public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public int screenWidth = screenSize.width;

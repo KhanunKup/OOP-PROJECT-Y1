@@ -11,14 +11,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tile_size = 16;
     public static int mapX = 800;
     public static int mapY = 475;
-    public final int maxRow = 100; //How many tile of row
-    public final int maxCol = 100;
+    public int maxRow; //How many tile of row
+    public int maxCol;
 
     public Thread gameThread;
 
-    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
+    public int gameState = UI.MOVING; // 0 = title , 1 = play
 
-    public TileMap tileMap;
+    public TileMap currentTileMap,tileMap1,tileMap2;
     public int[][] map;
 
     public Player player;
@@ -35,7 +35,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.player = new Player(this, keyH);
         ui.setPlayer(player);
         this.mapM = new MapManager(this, player);
-        tileMap = new TileMap("res/map/Map1.txt");
+        tileMap1 = new TileMap("res/map/Map1-Final.txt");
+        tileMap2 = new TileMap("res/map/Map2-Final.txt");
+        currentTileMap = tileMap1;
 
 
         this.addKeyListener(keyH);
@@ -51,7 +53,9 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         g.setColor(Color.WHITE);
-        map = tileMap.getMap();
+
+        map = currentTileMap.getMap();
+        mapM.drawMap(g);
 
         ui.draw(g);
     }
@@ -68,5 +72,23 @@ public class GamePanel extends JPanel implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public void switchMap() {
+        if (currentTileMap == tileMap1) {
+            map = tileMap2.getMap();
+            maxRow = 50;
+            maxCol = 50;
+            currentTileMap = tileMap2;
+        } else {
+            map = tileMap1.getMap();
+            maxRow = 100;
+            maxCol = 100;
+            currentTileMap = tileMap1;
+        }
+
+        player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);
+        player.worldY = Math.min(player.worldY, maxRow * yTileSize - yTileSize);
+    }
+
 
 }

@@ -102,6 +102,12 @@ public class Player {
     public void update() {
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
+
+            if (keyH.enterPressed) {
+                gp.switchMap();
+                keyH.enterPressed = false;
+            }
+
             if (keyH.shiftPressed) {
                 speed = 3;
             } else {
@@ -144,6 +150,10 @@ public class Player {
                 state = "idle";
             }
             animationHandler();
+
+            if (worldX >= gp.maxCol * gp.xTileSize - gp.xTileSize) {
+                gp.switchMap();
+            }
         }
     }
 
