@@ -3,6 +3,7 @@ package Main;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.File;
 
 public class Sound {
@@ -35,4 +36,12 @@ public class Sound {
             clip.stop();
         }
     }
+
+    public void setVolume(float level) {
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float range = gainControl.getMaximum() - gainControl.getMinimum();
+        float gain = (range * level) + gainControl.getMinimum();
+        gainControl.setValue(gain);
+    }
+
 }

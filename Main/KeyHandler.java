@@ -80,15 +80,21 @@ public class KeyHandler implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER && !enterPressed) {
                 enterPressed = true;
-                if (ui.optionIndex == 0) {
-                    Main.setFullScreen(!Main.isFullScreen);
-                    GamePanel.mapX = gp.getWidth();
-                    GamePanel.mapY = gp.getHeight();
-
-                    ui.optionMenu[0] = "Full Screen: " + (Main.isFullScreen ? "ON" : "OFF");
-                } else if (ui.optionIndex == 1) {
+                if (ui.optionIndex == 1) {
                     gp.gameState = UI.MAIN_MENU;
-                    ui.optionIndex = 0;
+                    ui.hideVolumeSlider();
+                }
+            }
+            if (ui.optionIndex == 0){
+                if (code == KeyEvent.VK_LEFT) {
+                    ui.volumeLevel = Math.max(0, ui.volumeLevel - 5);
+                    ui.music.setVolume(ui.volumeLevel / 100.0f);
+                    ui.volumeSlider.setValue(ui.volumeLevel);
+                }
+                else if (code == KeyEvent.VK_RIGHT) {
+                    ui.volumeLevel = Math.max(0, ui.volumeLevel + 5);
+                    ui.music.setVolume(ui.volumeLevel / 100.0f);
+                    ui.volumeSlider.setValue(ui.volumeLevel);
                 }
             }
         }

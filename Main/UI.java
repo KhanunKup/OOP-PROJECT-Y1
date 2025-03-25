@@ -1,7 +1,5 @@
 package Main;
 
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -22,7 +20,7 @@ public class UI {
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
-    public String[] optionMenu = {"Full Screen: OFF", "Back"};
+    public String[] optionMenu = {"Volume","Back"};
     public int optionIndex = 0,pointerIndex = 0;
 
     public boolean checkAlphaText = false;
@@ -46,11 +44,27 @@ public class UI {
 
     public Sound music;
 
+    public JSlider volumeSlider;
+    public int volumeLevel = 100;
+
+    public VolumeChange volumeChange;
+
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
         music = new Sound();
         music.playSound("res/sound/SweetTombMainMenu.wav");
+        music.setVolume(1.0f);
+        volumeSlider = new JSlider(0, 100, volumeLevel);
+        volumeSlider.setBounds(250, 250, 300, 50);
+        volumeSlider.setOpaque(false);
+        volumeSlider.setMajorTickSpacing(10);
+        volumeSlider.setMinorTickSpacing(5);
+        volumeSlider.setPaintTicks(true);
+        volumeSlider.setPaintLabels(true);
+        volumeSlider.setFocusable(true);
+        volumeChange = new VolumeChange(this);
+        volumeSlider.addChangeListener(volumeChange);
         loadFont();
     }
 
@@ -106,9 +120,6 @@ public class UI {
         for (int i = 0; i < menuOptions.length; i++) {
             int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(menuOptions[i])) / 2;
             int optionY = 230 + i * 50;
-            if(Main.isFullScreen){
-                optionY = 400 + i * 50;
-            }
             if (i == selectedIndex) {
                 g.setColor(Color.YELLOW);
             } else {
@@ -342,14 +353,16 @@ public class UI {
 
     public void drawOption() {
         g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
+        fm = g.getFontMetrics();
         for (int i = 0; i < optionMenu.length; i++) {
-            int optionX = (gp.getWidth() - g.getFontMetrics().stringWidth(optionMenu[i])) / 2;
-            int optionY = 200 + i * 50;
-            if(Main.isFullScreen){
-                optionY = 400 + i * 50;
+            String menuText = optionMenu[i];
+            if (i==0){
+                menuText = "Volume: " + volumeLevel + "%";
             }
+            int optionX = (gp.getWidth() - fm.stringWidth(menuText)) / 2;
+            int optionY = 200 + i * 50;
             g.setColor(i == optionIndex ? Color.YELLOW : Color.WHITE);
-            g.drawString(optionMenu[i], optionX, optionY);
+            g.drawString(menuText, optionX, optionY);
         }
     }
 
@@ -372,5 +385,11 @@ public class UI {
     public int getAlphaText(){
         return alphaText;
     }
+
+    public void hideVolumeSlider() {
+        gp.remove(volumeSlider);
+        gp.repaint();
+    }
+
 }
 

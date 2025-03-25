@@ -11,8 +11,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tile_size = 16;
     public static int mapX = 800;
     public static int mapY = 475;
-    public int maxRow; //How many tile of row
-    public int maxCol;
+    public final int maxRow = 100; //How many tile of row
+    public final int maxCol = 100;
 
     public Thread gameThread;
 
@@ -79,13 +79,9 @@ public class GamePanel extends JPanel implements Runnable {
         if (currentTileMap == tileMap1) {
             currentTileMap = tileMap2;
             map = tileMap2.getMap();
-            maxRow = 50;
-            maxCol = 50;
         } else {
             currentTileMap = tileMap1;
             map = tileMap1.getMap();
-            maxRow = 100;
-            maxCol = 100;
         }
 
         player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);
