@@ -23,6 +23,11 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        if (gp.isQTEActive){
+            gp.checkQTE(e.getKeyChar());
+            return;
+        }
+
         if(gp.gameState == UI.MAIN_MENU){
             if(code == KeyEvent.VK_W){
                 if (ui.selectedIndex > 0){
@@ -105,6 +110,10 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+
+        if (gp.isQTEActive){
+            return;
+        }
         if(gp.gameState == ui.MAIN_MENU){
             if(code == KeyEvent.VK_ENTER){
                 enterPressed = false;

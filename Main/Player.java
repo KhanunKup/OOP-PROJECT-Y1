@@ -103,6 +103,12 @@ public class Player {
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
+            if (gp.isQTEActive){
+                state = "idle";
+                return;
+
+            }
+
             if (keyH.enterPressed) {
                 gp.switchMap();
                 keyH.enterPressed = false;

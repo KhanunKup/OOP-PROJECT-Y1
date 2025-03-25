@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public boolean isQTEActive = false;
     private int qteTimeLeft = 3;
-    public String qteSequence = "ddd"; // ลำดับปุ่มที่ต้องกด
+    public String qteSequence = "run"; // ลำดับปุ่มที่ต้องกด
     public int currentKeyIndex = 0;
     private long lastQTETime;
 
@@ -66,8 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
         if (isQTEActive) {
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.setColor(Color.RED);
-            g.drawString("Press '" + qteSequence.charAt(currentKeyIndex) + "' Now!", mapX / 2 - 100, mapY / 2);
-            g.drawString("Time Left: " + qteTimeLeft + "s", mapX / 2 - 50, mapY / 2 + 30);
+            g.drawString("Press '" + qteSequence.charAt(currentKeyIndex) + "' Now!", mapX / 2 - 100, mapY / 2 - 50);
+            g.drawString("Time Left: " + qteTimeLeft + "s", mapX / 2 - 50, mapY / 2 + 50);
         }
     }
 
@@ -125,21 +125,42 @@ public class GamePanel extends JPanel implements Runnable {
         currentKeyIndex = 0;
         isQTEActive = true;
         lastQTETime = System.currentTimeMillis();  // บันทึกเวลาเริ่มต้น
+
+        player.state = "idle";
+        player.keyH.upPressed = false;
+        player.keyH.downPressed = false;
+        player.keyH.leftPressed = false;
+        player.keyH.rightPressed = false;
+
         repaint();  // อัพเดตหน้าจอเพื่อแสดง
     }
 
     public void checkQTE(char pressedKey) {
-        if (isQTEActive && pressedKey == qteSequence.charAt(currentKeyIndex)) {
+        if (isQTEActive) {
+            System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(currentKeyIndex));
+
+
+            if (pressedKey == qteSequence.charAt(currentKeyIndex)) {
+                System.out.println("Correct!");
+                player.worldX += 50;
+            } else {
+                System.out.println("Wrong Key!");
+                player.worldX -= 50;
+            }
+
+            lastQTETime = System.currentTimeMillis();
+            qteTimeLeft = 3;
+            // ไปยังตัวอักษรถัดไปเสมอ
             currentKeyIndex++;
+
+            // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
             if (currentKeyIndex >= qteSequence.length()) {
                 isQTEActive = false;
-                System.out.println("Correct!");
+                System.out.println("QTE Completed!");
             }
-        } else if (isQTEActive) {
-            isQTEActive = false;
-            System.out.println("Wrong Key!");
+
+            repaint();
         }
-        repaint();
     }
 
     public void updateQTE() {
