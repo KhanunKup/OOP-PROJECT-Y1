@@ -3,7 +3,7 @@ package Main;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class VolumeChange implements ChangeListener {
+public class    VolumeChange implements ChangeListener {
     public UI ui;
 
     public VolumeChange(UI ui){

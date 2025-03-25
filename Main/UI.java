@@ -188,7 +188,6 @@ public class UI {
                     setAlpha(getAlpha() + 5);
                     System.out.println("Fading to black - Alpha: " + getAlpha());
                 } else {
-                    // When fully black, switch map
                     if (!showText) {
                         gp.switchMap();
                         mapChanged = true;
@@ -204,13 +203,11 @@ public class UI {
                     drawBackScreen(g);
                     gp.gameState = TXT_CUTSCENE;
                 } else {
-                    // Gradually reduce alpha to fade out
                     if (alpha > 0) {
                         setAlpha(getAlpha() - 5);
                         System.out.println("Fading out - Alpha: " + getAlpha());
                     } else {
                         gp.gameState = MOVING;
-                        // Completely faded out
                         Fading = false;
                         System.out.println("Fade complete");
                     }
@@ -228,6 +225,9 @@ public class UI {
     }
 
     public void drawText(){
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+
         if (SCENE == 1){
             if (!showImage){
                 g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
@@ -352,6 +352,9 @@ public class UI {
     }
 
     public void drawOption() {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+
         g.setFont(new Font(customFont.getFontName(), Font.BOLD, 36));
         fm = g.getFontMetrics();
         for (int i = 0; i < optionMenu.length; i++) {
