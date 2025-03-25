@@ -8,13 +8,14 @@ public class MapManager {
     Player player;
     String path,path_2;
     Image idleImage,idleImage_2;
+    int screenIdleX,screenIdleY;
 
     public MapManager(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
         path = "res/Character/Gratel/Gratel_Idle/gratel_idle1.png";
         idleImage = new ImageIcon(path).getImage();
-        path_2 = "res/Visibility-3.png";
+        path_2 = "res/VisibilityL.png";
         idleImage_2 = new ImageIcon(path_2).getImage();
     }
 
@@ -42,13 +43,13 @@ public class MapManager {
         int fixedX = 25;
         int fixedY = gp.maxRow * gp.yTileSize - gp.yTileSize;
 
-        int screenIdleX = fixedX - player.worldX + player.screenX;
-        int screenIdleY = fixedY - player.worldY + player.screenY;
+        screenIdleX = fixedX - player.worldX + player.screenX;
+        screenIdleY = fixedY - player.worldY + player.screenY;
 
-        System.out.println(screenIdleX+"X");
-        System.out.println(screenIdleY+"Y");
+        if (gp.currentTileMap == gp.tileMap1){
+            g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
+        }
 
-//        g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
-//        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
     }
 }

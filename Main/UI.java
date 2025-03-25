@@ -28,12 +28,15 @@ public class UI {
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;
     private double alpha = 0.0;
+    private int alphaText = 0;
     public double alphaSpeed = 0.02;
     public boolean showImage = false,showText = true;
     public boolean flashScreen = true;
+    public boolean Fading = false;
+    public boolean mapChanged = false;
 
     public static final int MAIN_MENU = 0;
-    public static final int TXT_CUTSCENE = 1;
+    public static int TXT_CUTSCENE = 1,SCENE = 1;
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
@@ -78,17 +81,17 @@ public class UI {
             gp.player.draw(g);
 
             drawObjectiveText();
+            drawBackScreen(g);
         }
         if(gp.gameState == OPTION){
             drawOption();
         }
     }
     public void drawPointer(){
-        ImageIcon icon = new ImageIcon("res/bg/send.png");
+        ImageIcon icon = new ImageIcon("res/icon/candy.png");
         Image image = icon.getImage();
 
-        System.out.println(pointerIndex);
-        g.drawImage(image, pointerPosition[pointerIndex][0], pointerPosition[pointerIndex][1], 64, 64, null);
+        g.drawImage(image, pointerPosition[pointerIndex][0], pointerPosition[pointerIndex][1], 52, 52, null);
     }
 
     public void drawTitle(){
@@ -116,22 +119,27 @@ public class UI {
     }
 
     public void drawObjectiveText() {
-        if (showText){
+        if (showText && SCENE == 1){
             textDelay += 1;
+
+            if (textDelay > 500){
+                //alpha -= alphaSpeed;
+                setAlphaText(getAlphaText()-1);
+            }
 
             if (textDelay > 200){
                 //alpha -= alphaSpeed;
                 setAlpha(getAlpha()-alphaSpeed);
-                System.out.println("Current Alpha: "+getAlpha());
             }
-            if (getAlpha() < 0){
+
+            if (getAlphaText() < 0){
                 showText = false;
-                setAlpha(0);
+                setAlphaText(0);
                 textDelay = 0;
             }
 
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
-            g.setColor(new Color(255, 255, 255, (int) getAlpha()));
+            g.setColor(new Color(255, 255, 255, getAlphaText()));
 
             fm = g.getFontMetrics();
             text = "OBJECTIVE:";
@@ -152,90 +160,183 @@ public class UI {
         }
     }
 
+    public void startFade() {
+        if (!Fading) {
+            Fading = true;
+            mapChanged = false;
+        }
+    }
 
-    public synchronized void drawText(){
-        if (!showImage){
-            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
 
-            //โค๊ดเพิ่มความจาง-เข้มกากๆของ Text by 67070106 August *มันอาจจะยังมี bug ถ้าหากบางที Thread มันเอ๋อ การลดความจางอาจจะจบก่อนที่หน้าใหม่จะถูกวาด ซึ่งมันก็จะขึ้นเเดงรัวๆจนกว่าหน้าใหม่จะขึ้น*
-            if (getAlpha() < 1.0 && !checkAlphaText) {
-                //alpha += alphaSpeed;
-                setAlpha(getAlpha()+alphaSpeed);
-            }
-
-            if (getAlpha() >= 1.0 || checkAlphaText) {
-                textDelay += 0.05;
-                checkAlphaText = true;
-                if (textDelay >= 10.15){
-                    //alpha -= 0.02;
-                    setAlpha(getAlpha()-0.02);
+    //fade เปลี่ยน map
+    public void updateFade() {
+        if (Fading) {
+            if (!mapChanged) {
+                // Fade to black
+                if (alpha < 255) {
+                    setAlpha(getAlpha() + 5);
+                    System.out.println("Fading to black - Alpha: " + getAlpha());
+                } else {
+                    // When fully black, switch map
+                    if (!showText) {
+                        gp.switchMap();
+                        mapChanged = true;
+                        showText = true;
+                        checkAlphaText = false;
+                        textDelay = 0;
+                        System.out.println("Map switched");
+                    }
+                }
+            } else {
+                // Fade out after map change
+                if (showText) {
+                    drawBackScreen(g);
+                    gp.gameState = TXT_CUTSCENE;
+                } else {
+                    // Gradually reduce alpha to fade out
+                    if (alpha > 0) {
+                        setAlpha(getAlpha() - 5);
+                        System.out.println("Fading out - Alpha: " + getAlpha());
+                    } else {
+                        gp.gameState = MOVING;
+                        // Completely faded out
+                        Fading = false;
+                        System.out.println("Fade complete");
+                    }
                 }
             }
+            gp.repaint();
+        }
+    }
 
-            if (getAlpha() < 0){
-                setAlpha(0);
+    public void drawBackScreen(Graphics g) {
+        if (getAlpha() > 0) {
+            g.setColor(new Color(0, 0, 0, (int)getAlpha()));
+            g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+        }
+    }
+
+    public void drawText(){
+        if (SCENE == 1){
+            if (!showImage){
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+
+                // ค่อย ๆ เพิ่ม alpha
+                if (getAlpha() < 255 && !checkAlphaText) {
+                    setAlpha(getAlpha() + 5);
+                }
+
+                if (getAlpha() >= 255 || checkAlphaText) {
+                    textDelay += 0.05;
+                    checkAlphaText = true;
+
+                    // ค่อย ๆ ลด alpha
+                    if (textDelay >= 10.15){
+                        setAlpha(getAlpha() - 7);
+                    }
+                }
+
+                if (getAlpha() < 0){
+                    setAlpha(0);
+                }
+
+                g.setColor(new Color(255, 255, 255, (int)getAlpha()));
+
+                fm = g.getFontMetrics();
+                text = "Han and Gra giggle as they play in the dense forest,";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) / 2 + fm.getAscent();
+                g.drawString(text, textX, textY);
+
+                text_2 = "the sun setting behind the trees.";
+                textY += textHeight;
+                textWidth = fm.stringWidth(text_2);
+                g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
             }
 
-            g.setColor(new Color(255, 255, 255, (int) (getAlpha() * 255)));
+            if (showImage) {
+                textDelay = 0;
+                System.out.println(imageDelay);
+                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20))) {
+                    g.setColor(Color.WHITE);
+                    g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+                    flashScreen = false;
+                    System.out.println("FlashScreen show!");
+                }
+
+                else if (imageDelay == 0){
+                    ImageIcon icon = new ImageIcon("res/eyes.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                }
+                else if (imageDelay == 10) {
+                    ImageIcon icon_2 = new ImageIcon("res/bonus.JPG");
+                    Image image_2 = icon_2.getImage();
+                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                }
+                else if (imageDelay >= 20) {
+                    ImageIcon icon_3 = new ImageIcon("res/beam.JPG");
+                    Image image_3 = icon_3.getImage();
+                    g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
+
+                    if (imageDelay >= 40) {
+                        setAlpha((int)((imageDelay - 40) * 32));
+
+                        if (getAlpha() > 255) {
+                            setAlpha(255);
+                        }
+
+                        if (getAlpha() < 0){
+                            setAlpha(0);
+                        }
+
+                        g.setColor(new Color(0, 0, 0, (int)getAlpha()));
+                        g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
+                    }
+                }
+            }
+        }
+
+        if (SCENE == 2){
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
+
+            // ค่อย ๆ เพิ่ม alpha
+            if (getAlphaText() < 255 && !checkAlphaText) {
+                setAlphaText(getAlphaText() + 5);
+            }
+
+            if (getAlphaText() >= 255 || checkAlphaText) {
+                textDelay += 0.05;
+                checkAlphaText = true;
+
+                // ค่อย ๆ ลด alpha
+                if (textDelay >= 10.15){
+                    setAlphaText(getAlphaText() - 3);
+                }
+                    if (getAlphaText() <= 0){
+                        showText = false;
+                    }
+            }
+
+            if (getAlphaText() < 0){
+                setAlphaText(0);
+            }
+
+            if (getAlphaText() > 255){
+                setAlphaText(255);
+            }
+
+            g.setColor(new Color(255, 255, 255, getAlphaText()));
 
             fm = g.getFontMetrics();
-            text = "Han and Gra giggle as they play in the dense forest,";
-            textWidth = fm.stringWidth(text);
+            String text_S2 = "Stumbling into a clearing, they find a house made of sweets, glowing under the moonlight.";
+            textWidth = fm.stringWidth(text_S2);
             textHeight = fm.getHeight();
             textX = (gp.getWidth() - textWidth) / 2;
             textY = (gp.getHeight() - textHeight) / 2 + fm.getAscent();
-            g.drawString(text, textX, textY);
-
-            text_2 = "the sun setting behind the trees.";
-            textY += textHeight;
-            textWidth = fm.stringWidth(text_2);
-            g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
-        }
-
-        if (showImage) {
-            textDelay = 0;
-            System.out.println(imageDelay);
-            if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20))) {
-                g.setColor(Color.WHITE);
-                g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
-                flashScreen = false;
-                System.out.println("FlashScreen show!");
-            }
-
-            else if (imageDelay == 0){
-                ImageIcon icon = new ImageIcon("res/eyes.JPG");
-                Image image = icon.getImage();
-                g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
-            }
-            else if (imageDelay == 10) {
-                ImageIcon icon_2 = new ImageIcon("res/bonus.JPG");
-                Image image_2 = icon_2.getImage();
-                g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
-            }
-            else if (imageDelay >= 20) {
-                imageDelay += 0.1;
-                ImageIcon icon_3 = new ImageIcon("res/beam.JPG");
-                Image image_3 = icon_3.getImage();
-                g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
-
-                if (imageDelay >= 40) {
-                    //alpha = (int)((imageDelay - 40) * 32);
-                    setAlpha((int)((imageDelay - 40) * 32));
-
-                    if (getAlpha() > 255) {
-                        setAlpha(255);
-                    }
-
-                    if (getAlpha() < 0){
-                        setAlpha(0);
-                    }
-
-
-                    Color fadeColor = new Color(0, 0, 0, (int)getAlpha());
-                    g.setColor(fadeColor);
-                    g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
-                }
-            }
+            g.drawString(text_S2, textX, textY);
         }
     }
 
@@ -257,12 +358,19 @@ public class UI {
     }
 
     public void setAlpha(double alpha){
-        this.alpha = alpha;
+        this.alpha = Math.max(0, Math.min(255, alpha));
     }
 
     public double getAlpha(){
         return alpha;
     }
 
+    public void setAlphaText(int alphaText){
+        this.alphaText = alphaText;
+    }
+
+    public int getAlphaText(){
+        return alphaText;
+    }
 }
 
