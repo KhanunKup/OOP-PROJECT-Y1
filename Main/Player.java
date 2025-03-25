@@ -115,7 +115,11 @@ public class Player {
                     UI.SCENE = 2;
                     gp.ui.showText = false;
                     gp.ui.startFade();
-                }
+            }
+
+            //if ((gp.mapM.screenIdleX >= 400 && gp.mapM.screenIdleY >= 125) && gp.currentTileMap == gp.tileMap2){
+
+            //}
 
             if (keyH.shiftPressed) {
                 speed = 3;
@@ -159,7 +163,6 @@ public class Player {
                 state = "idle";
             }
             animationHandler();
-
         }
     }
 

@@ -10,7 +10,6 @@ public class UI {
 
     Player player;
 
-    public int imageX, imageY, imgWidth, imgHeight;
     public String text, text_2;
     public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
@@ -28,7 +27,7 @@ public class UI {
     private double alpha = 0.0;
     private int alphaText = 0;
     public double alphaSpeed = 0.02;
-    public boolean showImage = false,showText = true;
+    public boolean showImage = false,showText = true,showObjText = true;
     public boolean flashScreen = true;
     public boolean Fading = false;
     public boolean mapChanged = false;
@@ -37,10 +36,6 @@ public class UI {
     public static int TXT_CUTSCENE = 1,SCENE = 1;
     public static final int MOVING = 2;
     public static final int OPTION = 3;
-
-    public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    public int screenWidth = screenSize.width;
-    public int screenHeight = screenSize.height;
 
     public Sound music;
 
@@ -91,9 +86,13 @@ public class UI {
             drawText();
         }
         if(gp.gameState == MOVING){
+            music.stop();
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
+            //System.out.println(showObjText);
+            //System.out.println("TextDelay :" + textDelay);
+            //System.out.println("Alpha Text :"+getAlphaText());
             drawObjectiveText();
             drawBackScreen(g);
         }
@@ -130,7 +129,19 @@ public class UI {
     }
 
     public void drawObjectiveText() {
-        if (showText && SCENE == 1){
+
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
+        g.setColor(new Color(255, 255, 255, getAlphaText()));
+
+        fm = g.getFontMetrics();
+        text = "OBJECTIVE:";
+        textWidth = fm.stringWidth(text);
+        textHeight = fm.getHeight();
+
+        textX = (gp.getWidth() - textWidth) / 2;
+        textY = 100;
+
+        if (showObjText && SCENE == 1){
             textDelay += 1;
 
             if (textDelay > 500){
@@ -144,27 +155,39 @@ public class UI {
             }
 
             if (getAlphaText() < 0){
-                showText = false;
+                showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
             }
-
-            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
-            g.setColor(new Color(255, 255, 255, getAlphaText()));
-
-            fm = g.getFontMetrics();
-            text = "OBJECTIVE:";
-            textWidth = fm.stringWidth(text);
-            textHeight = fm.getHeight();
-
-            textX = (gp.getWidth() - textWidth) / 2;
-            textY = 100;
 
             g.drawString(text, textX, textY);
 
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
             fm = g.getFontMetrics();
-            text_2 = "Find Khanun.";
+            text_2 = "Find Gratel.";
+            textY += textHeight + 5;
+            textWidth = fm.stringWidth(text_2);
+            g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
+        }
+
+        if (showObjText && SCENE == 2){
+            textDelay += 1;
+
+            if (textDelay > 200){
+                setAlphaText(getAlphaText()-1);
+            }
+
+            if (getAlphaText() < 0){
+                showObjText = false;
+                setAlphaText(0);
+                textDelay = 0;
+            }
+
+            g.drawString(text, textX, textY);
+
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+            fm = g.getFontMetrics();
+            text_2 = "Walk Around.";
             textY += textHeight + 5;
             textWidth = fm.stringWidth(text_2);
             g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
@@ -185,7 +208,7 @@ public class UI {
             if (!mapChanged) {
                 // Fade to black
                 if (alpha < 255) {
-                    setAlpha(getAlpha() + 5);
+                    setAlpha(getAlpha() + 10);
                     System.out.println("Fading to black - Alpha: " + getAlpha());
                 } else {
                     if (!showText) {
@@ -204,10 +227,12 @@ public class UI {
                     gp.gameState = TXT_CUTSCENE;
                 } else {
                     if (alpha > 0) {
-                        setAlpha(getAlpha() - 5);
+                        setAlpha(getAlpha() - 10);
                         System.out.println("Fading out - Alpha: " + getAlpha());
                     } else {
+                        showObjText = true;
                         gp.gameState = MOVING;
+                        setAlphaText(255);
                         Fading = false;
                         System.out.println("Fade complete");
                     }
