@@ -25,6 +25,7 @@ public class MapManager {
         int screenX;
         int screenY;
 
+        System.out.println("start");
         for (int row = 0; row < gp.maxRow; row++) {
             for (int col = 0; col < gp.maxCol; col++) {
                 int tile = gp.map[row][col];
@@ -32,9 +33,9 @@ public class MapManager {
                 worldY = row * gp.yTileSize;
                 screenX = worldX - player.worldX;
                 screenY = worldY - player.worldY;
-
                 if (screenX + gp.xTileSize >= 0 && screenX <= GamePanel.mapX &&
                         screenY + gp.yTileSize >= 0 && screenY <= GamePanel.mapY) {
+                    System.out.println(gp.currentTileMap.getTileImage(tile));
                     g.drawImage(gp.currentTileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
                 }
             }

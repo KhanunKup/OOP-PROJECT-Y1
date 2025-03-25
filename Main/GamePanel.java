@@ -6,10 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
-    public final int xTileSize = 16;
-    public final int yTileSize = 16;
+    public final int xTileSize = 24;
+    public final int yTileSize = 24;
     public final int tile_size = 16;
-    public static int mapX = 800;
+    public static int mapX = 800; //Camera size
     public static int mapY = 475;
     public final int maxRow = 100; //How many tile of row
     public final int maxCol = 100;

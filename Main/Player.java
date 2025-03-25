@@ -1,13 +1,9 @@
 package Main;
 
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
 import java.awt.*;
 
-import static Main.UI.TXT_CUTSCENE;
-
-public class Player {
+public class Player implements Walkable {
     final int animDelay = 7;
     int currentFrame = 0;
     int currentIdleFrame = 0;
@@ -17,7 +13,7 @@ public class Player {
     int screenX;
     int screenY;
 
-    int worldX, worldY, speed;
+    int worldX, worldY, speed, speedDiag;
     KeyHandler keyH;
     GamePanel gp;
     Image hansel;
@@ -43,6 +39,7 @@ public class Player {
         screenX = gp.mapX / 2 - gp.xTileSize / 2; //Center of the screen (because it's placed at top-left corner)
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
         speed = 3;
+        speedDiag = (int) (speed/Math.sqrt(2));
         idleAnimLeft = new Image[9];
         idleAnimRight = new Image[9];
         walkingAnimLeft = new Image[8];
@@ -122,38 +119,26 @@ public class Player {
             } else {
                 speed = 2;
             }
-            int speedDiag = (int) (speed/Math.sqrt(2));
+
 
             if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
                 state = "walking";
                 if (keyH.upPressed && keyH.rightPressed) {
-                    worldX += speedDiag;
-                    worldY -= speedDiag;
-                    direction = "right";
+                    walkDiagRightUp();
                 } else if (keyH.upPressed && keyH.leftPressed) {
-                    worldX -= speedDiag;
-                    worldY -= speedDiag;
-                    direction = "left";
+                    walkDiagLeftUp();
                 } else if (keyH.downPressed && keyH.rightPressed) {
-                    worldX += speedDiag;
-                    worldY += speedDiag;
-                    direction = "right";
+                    walkDiagRightDown();
                 } else if (keyH.downPressed && keyH.leftPressed) {
-                    worldX -= speedDiag;
-                    worldY += speedDiag;
-                    direction = "left";
+                    walkDiagLeftDown();
                 } else if (keyH.upPressed) {
-                    worldY -= speed;
-//                direction = "up";
+                    walkUp();
                 } else if (keyH.downPressed) {
-                    worldY += speed;
-//                direction = "down";
+                    walkDown();
                 } else if (keyH.leftPressed) {
-                    worldX -= speed;
-                    direction = "left";
+                    walkLeft();
                 } else if (keyH.rightPressed)  {
-                    worldX += speed;
-                    direction = "right";
+                    walkRight();
                 }
             } else {
                 state = "idle";
@@ -171,5 +156,57 @@ public class Player {
     public void setScreenPosition() {
         screenX = gp.mapX / 2 - gp.xTileSize / 2;
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
+    }
+
+    @Override
+    public void walkUp() {
+        worldY -= speed;
+//                direction = "up";
+    }
+
+    @Override
+    public void walkDown() {
+        worldY += speed;
+//                direction = "down";
+    }
+
+    @Override
+    public void walkLeft() {
+        worldX -= speed;
+        direction = "left";
+    }
+
+    @Override
+    public void walkRight() {
+        worldX += speed;
+        direction = "right";
+    }
+
+    @Override
+    public void walkDiagLeftUp() {
+        worldX -= speedDiag;
+        worldY -= speedDiag;
+        direction = "left";
+    }
+
+    @Override
+    public void walkDiagLeftDown() {
+        worldX -= speedDiag;
+        worldY += speedDiag;
+        direction = "left";
+    }
+
+    @Override
+    public void walkDiagRightUp() {
+        worldX += speedDiag;
+        worldY -= speedDiag;
+        direction = "right";
+    }
+
+    @Override
+    public void walkDiagRightDown() {
+        worldX += speedDiag;
+        worldY += speedDiag;
+        direction = "right";
     }
 }
