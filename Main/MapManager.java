@@ -6,8 +6,8 @@ import java.awt.*;
 public class MapManager {
     GamePanel gp;
     Player player;
-    String path,path_2;
-    Image idleImage,idleImage_2;
+    String path,path_2,path_3;
+    Image idleImage,idleImage_2,idleImage_3;
     int screenIdleX,screenIdleY;
 
     public MapManager(GamePanel gp, Player player) {
@@ -15,8 +15,12 @@ public class MapManager {
         this.player = player;
         path = "res/Character/Gratel/Gratel_Idle/gratel_idle1.png";
         idleImage = new ImageIcon(path).getImage();
+
         path_2 = "res/VisibilityL.png";
         idleImage_2 = new ImageIcon(path_2).getImage();
+
+        path_3 = "res/bg/House.png";
+        idleImage_3 = new ImageIcon(path_3).getImage();
     }
 
     public void drawMap(Graphics g) {
@@ -42,14 +46,21 @@ public class MapManager {
             }
         }
 
-        int fixedX = 25;
-        int fixedY = gp.maxRow * gp.yTileSize - gp.yTileSize;
-
-        screenIdleX = fixedX - player.worldX + player.screenX;
-        screenIdleY = fixedY - player.worldY + player.screenY;
-
         if (gp.currentTileMap == gp.tileMap1){
+            int fixedX = 25;
+            int fixedY = gp.maxRow * gp.yTileSize - gp.yTileSize;
+
+            screenIdleX = fixedX - player.worldX + player.screenX;
+            screenIdleY = fixedY - player.worldY + player.screenY;
+
             g.drawImage(idleImage, screenIdleX, screenIdleY-450, gp.xTileSize*2, gp.yTileSize*2, null);
+        }
+
+        if (gp.currentTileMap == gp.tileMap2){
+            screenIdleX = 680 - player.worldX + player.screenX;
+            screenIdleY = 10 - player.worldY + player.screenY;
+
+            g.drawImage(idleImage_3, screenIdleX, screenIdleY-150, 235, 235, null);
         }
 
         g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
