@@ -25,7 +25,9 @@ public class MapManager {
         int screenX;
         int screenY;
 
-        System.out.println("start");
+        ImageIcon bgImage = new ImageIcon("res/tiles/Leaf5.png");
+        g.drawImage(bgImage.getImage(), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
+
         for (int row = 0; row < gp.maxRow; row++) {
             for (int col = 0; col < gp.maxCol; col++) {
                 int tile = gp.map[row][col];
@@ -35,7 +37,6 @@ public class MapManager {
                 screenY = worldY - player.worldY;
                 if (screenX + gp.xTileSize >= 0 && screenX <= GamePanel.mapX &&
                         screenY + gp.yTileSize >= 0 && screenY <= GamePanel.mapY) {
-                    System.out.println(gp.currentTileMap.getTileImage(tile));
                     g.drawImage(gp.currentTileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
                 }
             }

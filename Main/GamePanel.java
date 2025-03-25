@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             while (true){
                 player.update();
+                System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();
                 Thread.sleep(16);

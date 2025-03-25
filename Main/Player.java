@@ -34,8 +34,8 @@ public class Player implements Walkable {
     public void valuesSetting() {
 //    world position -> position จริง ๆ ในเกม ทุก object, character, tile ถูก fixed ไว้แล้ว
 //      screen position -> position ที่เราทำการ draw (สั่งให้ java draw แล้วเห็นในจอ ว่ามันคือตรงไหน)
-        worldX = 0;
-        worldY = 0;
+        worldX = -350;
+        worldY = 1493;
         screenX = gp.mapX / 2 - gp.xTileSize / 2; //Center of the screen (because it's placed at top-left corner)
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
         speed = 3;
