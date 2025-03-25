@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
 
-    public int gameState = UI.MOVING; // 0 = title , 1 = play
+    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
 
     public TileMap currentTileMap,tileMap1,tileMap2;
     public int[][] map;
@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             while (true){
                 player.update();
-                System.out.println(player.worldX+", "+player.worldY);
+                //System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();
                 Thread.sleep(16);

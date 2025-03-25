@@ -108,7 +108,7 @@ public class Player implements Walkable {
             }
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
-            if (((gp.mapM.screenIdleX >= 350 && gp.mapM.screenIdleX <= 580) && (gp.mapM.screenIdleY <= 825 && gp.mapM.screenIdleY >= 600)) && gp.currentTileMap == gp.tileMap1){
+            if (((gp.mapM.screenIdleX >= 5 && gp.mapM.screenIdleX <= 240) && (gp.mapM.screenIdleY <= 885 && gp.mapM.screenIdleY >= 660)) && gp.currentTileMap == gp.tileMap1){
                     UI.SCENE = 2;
                     gp.ui.showText = false;
                     gp.ui.startFade();

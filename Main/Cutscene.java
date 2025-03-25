@@ -14,7 +14,7 @@ public class Cutscene implements Runnable {
         try {
             if (UI.SCENE == 1){
                 gp.repaint();
-                Thread.sleep(5000);
+                Thread.sleep(5500);
 
                 ui.imageDelay = 0;
                 ui.showImage = true;
