@@ -303,17 +303,17 @@ public class UI {
                 }
 
                 else if (imageDelay == 0){
-                    ImageIcon icon = new ImageIcon("res/eyes.JPG");
+                    ImageIcon icon = new ImageIcon("res/cutscene/closeEyes.JPG");
                     Image image = icon.getImage();
                     g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 10) {
-                    ImageIcon icon_2 = new ImageIcon("res/bonus.JPG");
+                    ImageIcon icon_2 = new ImageIcon("res/cutscene/Hide.JPG");
                     Image image_2 = icon_2.getImage();
                     g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay >= 20) {
-                    ImageIcon icon_3 = new ImageIcon("res/beam.JPG");
+                    ImageIcon icon_3 = new ImageIcon("res/cutscene/blank.JPG");
                     Image image_3 = icon_3.getImage();
                     g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
