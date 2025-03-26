@@ -40,7 +40,7 @@ public class UI {
     public Sound music;
 
     public JSlider volumeSlider;
-    public int volumeLevel = 100;
+    public int volumeLevel = 75;
 
     public VolumeChange volumeChange;
 
@@ -49,7 +49,7 @@ public class UI {
         this.player = player;
         music = new Sound();
         music.playSound("res/sound/SweetTombMainMenu.wav");
-        music.setVolume(1.0f);
+        music.setVolume(volumeLevel / 100f);
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
         volumeSlider.setOpaque(false);
