@@ -51,6 +51,25 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
+    public void updateMap(TileManager newMap){
+        currentTileMap = newMap;
+        map = currentTileMap.getMap();
+        player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);
+        player.worldY = Math.min(player.worldY, maxRow * yTileSize - yTileSize);
+    }
+
+    public void switchMap() {
+        System.out.println("Switching map... from " +
+                (currentTileMap == tileMap1 ? "Map1" : (currentTileMap == tileMap2 ? "Map2" : "Map3")));
+        if (currentTileMap == tileMap1) {
+            updateMap(tileMap2);
+        }else if (currentTileMap == tileMap2) {
+            updateMap(tileMap3);
+        }else {
+            updateMap(tileMap1);
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -76,25 +95,4 @@ public class GamePanel extends JPanel implements Runnable {
             e.printStackTrace();
         }
     }
-
-    public void switchMap() {
-        System.out.println("Switching map... from " +
-                (currentTileMap == tileMap1 ? "Map1" : (currentTileMap == tileMap2 ? "Map2" : "Map3")));
-        if (currentTileMap == tileMap1) {
-            currentTileMap = tileMap2;
-            map = tileMap2.getMap();
-        }else if (currentTileMap == tileMap2) {
-            currentTileMap = tileMap3;
-            map = tileMap3.getMap();
-        }else {
-            currentTileMap = tileMap1;
-            map = tileMap1.getMap();
-        }
-
-
-        player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);
-        player.worldY = Math.min(player.worldY, maxRow * yTileSize - yTileSize);
-    }
-
-
 }
