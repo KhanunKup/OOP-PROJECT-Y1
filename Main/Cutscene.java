@@ -24,6 +24,7 @@ public class Cutscene implements Runnable {
                 ui.imageDelay = 0;
                 ui.showImage = true;
                 gp.repaint();
+                ui.cutscene.play();
                 Thread.sleep(5000);
 
                 ui.flashScreen = true;

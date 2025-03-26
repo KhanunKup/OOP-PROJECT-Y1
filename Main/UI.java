@@ -38,7 +38,7 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music;
+    public Sound music, cutscene;
 
     public JSlider volumeSlider;
     public int volumeLevel = 100;
@@ -55,6 +55,9 @@ public class UI {
         music = new Sound();
         music.playSound("res/sound/SweetTombMainMenu.wav");
         music.setVolume(volumeLevel / 100f);
+        cutscene = new Sound();
+        cutscene.playSound("res/sound/Cutscene-1and2-Boy-Girl-Hiding.wav");
+        cutscene.setVolume(volumeLevel / 100f);
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
         volumeSlider.setOpaque(false);
@@ -93,10 +96,10 @@ public class UI {
             music.loop();
         }
         if(gp.gameState == TXT_CUTSCENE){
+            music.stop();
             drawText();
         }
         if(gp.gameState == MOVING){
-            music.stop();
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
