@@ -144,4 +144,13 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER) enterPressed = false;
         }
     }
+
+    public void keyBoolRelease() {
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+        enterPressed = false;
+        shiftPressed = false;
+    }
 }
