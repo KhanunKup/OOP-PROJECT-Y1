@@ -29,7 +29,7 @@ public class MapManager {
         int screenX;
         int screenY;
 
-        ImageIcon bgImage = new ImageIcon("res/tiles/Leaf5.png");
+        ImageIcon bgImage = new ImageIcon("res/tiles/forest/Leaf5.png");
         g.drawImage(bgImage.getImage(), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
 
         for (int row = 0; row < gp.maxRow; row++) {
@@ -37,8 +37,8 @@ public class MapManager {
                 int tile = gp.map[row][col];
                 worldX = col * gp.xTileSize;
                 worldY = row * gp.yTileSize;
-                screenX = worldX - player.worldX;
-                screenY = worldY - player.worldY;
+                screenX = worldX - player.worldX + player.screenX;
+                screenY = worldY - player.worldY + player.screenY;
                 if (screenX + gp.xTileSize >= 0 && screenX <= GamePanel.mapX &&
                         screenY + gp.yTileSize >= 0 && screenY <= GamePanel.mapY) {
                     g.drawImage(gp.currentTileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);

@@ -1,6 +1,8 @@
 package Main;
 
-import tile.TileMap;
+import tile.ForestMap;
+import tile.HouseMap;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +10,6 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
     public final int xTileSize = 24;
     public final int yTileSize = 24;
-    public final int tile_size = 16;
     public static int mapX = 800; //Camera size
     public static int mapY = 475;
     public final int maxRow = 100; //How many tile of row
@@ -16,9 +17,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
 
-    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
+    public int gameState = UI.MOVING; // 0 = title , 1 = play
 
-    public TileMap currentTileMap,tileMap1,tileMap2;
+    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3;
     public int[][] map;
 
     public Player player;
@@ -35,9 +36,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.player = new Player(this, keyH);
         ui.setPlayer(player);
         this.mapM = new MapManager(this, player);
-        tileMap1 = new TileMap("res/map/Map1-Final.txt");
-        tileMap2 = new TileMap("res/map/Map2-Final.txt");
-        currentTileMap = tileMap2;
+        tileMap1 = new ForestMap("res/map/Map1-Final.txt");
+        tileMap2 = new ForestMap("res/map/Map2-Final.txt");
+        tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
+        currentTileMap = tileMap3;
 
 
         this.addKeyListener(keyH);
@@ -76,14 +78,19 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void switchMap() {
-        System.out.println("Switching map... from " + (currentTileMap == tileMap1 ? "Map1" : "Map2"));
+        System.out.println("Switching map... from " +
+                (currentTileMap == tileMap1 ? "Map1" : (currentTileMap == tileMap2 ? "Map2" : "Map3")));
         if (currentTileMap == tileMap1) {
             currentTileMap = tileMap2;
             map = tileMap2.getMap();
-        } else {
+        }else if (currentTileMap == tileMap2) {
+            currentTileMap = tileMap3;
+            map = tileMap3.getMap();
+        }else {
             currentTileMap = tileMap1;
             map = tileMap1.getMap();
         }
+
 
         player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);
         player.worldY = Math.min(player.worldY, maxRow * yTileSize - yTileSize);
