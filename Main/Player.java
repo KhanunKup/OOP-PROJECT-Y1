@@ -25,7 +25,7 @@ public class Player implements Walkable {
     public Player(GamePanel gamePanel, KeyHandler keyH) {
         this.gp = gamePanel;
         this.keyH = keyH;
-        direction = "left";
+        direction = "right";
         state = "idle";
         valuesSetting();
         playerLoading();
@@ -34,8 +34,8 @@ public class Player implements Walkable {
     public void valuesSetting() {
 //    world position -> position จริง ๆ ในเกม ทุก object, character, tile ถูก fixed ไว้แล้ว
 //      screen position -> position ที่เราทำการ draw (สั่งให้ java draw แล้วเห็นในจอ ว่ามันคือตรงไหน)
-        worldX = -350;
-        worldY = 1493;
+        worldX = 275;
+        worldY = 597;
         screenX = gp.mapX / 2 - gp.xTileSize / 2; //Center of the screen (because it's placed at top-left corner)
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
         speed = 3;
@@ -124,12 +124,17 @@ public class Player implements Walkable {
     }
 
     public void update() {
+        System.out.println("X :" + worldX);
+        System.out.println("Y :" + worldY);
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
             if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
                     UI.SCENE = 2;
+                    worldX = -266;
+                    worldY = 1508;
+                    direction = "right";
                     gp.ui.showText = false;
                     gp.ui.startFade();
             }
