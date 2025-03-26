@@ -41,7 +41,7 @@ public class UI {
     public Sound music;
 
     public JSlider volumeSlider;
-    public int volumeLevel = 75;
+    public int volumeLevel = 100;
 
     public VolumeChange volumeChange;
 
