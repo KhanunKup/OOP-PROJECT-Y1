@@ -128,15 +128,19 @@ public class Player implements Walkable {
             setScreenPosition();
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
-            if (((gp.mapM.screenIdleX >= 5 && gp.mapM.screenIdleX <= 240) && (gp.mapM.screenIdleY <= 885 && gp.mapM.screenIdleY >= 660)) && gp.currentTileMap == gp.tileMap1){
+            if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
                     UI.SCENE = 2;
                     gp.ui.showText = false;
                     gp.ui.startFade();
             }
 
-            //if ((gp.mapM.screenIdleX >= 400 && gp.mapM.screenIdleY >= 125) && gp.currentTileMap == gp.tileMap2){
-
-            //}
+            if (((gp.mapM.screenIdleX <= -30 && gp.mapM.screenIdleY >= -280) && (gp.mapM.screenIdleY >= -100)) && gp.currentTileMap == gp.tileMap2){
+                UI.SCENE = 3;
+                gp.ui.showText = false;
+                gp.ui.showImage = true;
+                gp.ui.imageDelay = 60;
+                gp.ui.startFade();
+            }
 
             if (keyH.shiftPressed) {
                 speed = 3;
@@ -159,6 +163,7 @@ public class Player implements Walkable {
         screenX = gp.mapX / 2 - gp.xTileSize / 2;
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
     }
+
 
     @Override
     public void walkUp() {
