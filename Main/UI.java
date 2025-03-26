@@ -19,8 +19,9 @@ public class UI {
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
-    public String[] optionMenu = {"Volume","Back"};
+    public String[] optionMenu = {"Volume","Display FPS","Back"};
     public int optionIndex = 0,pointerIndex = 0;
+    public boolean showFPS = true;
 
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;
@@ -44,6 +45,10 @@ public class UI {
 
     public VolumeChange volumeChange;
 
+    public FPSCounter fpsCounter;
+
+    public Config config;
+
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
@@ -60,6 +65,11 @@ public class UI {
         volumeSlider.setFocusable(true);
         volumeChange = new VolumeChange(this);
         volumeSlider.addChangeListener(volumeChange);
+        fpsCounter = new FPSCounter();
+        config = new Config("config.txt");
+        config.load();
+        volumeLevel = config.getVolumeLevel();
+        showFPS = config.isShowFPS();
         loadFont();
     }
 
@@ -95,6 +105,9 @@ public class UI {
             //System.out.println("Alpha Text :"+getAlphaText());
             drawObjectiveText();
             drawBackScreen(g);
+            if(showFPS){
+                drawFPS(g,fpsCounter);
+            }
         }
         if(gp.gameState == OPTION){
             drawOption();
@@ -200,7 +213,6 @@ public class UI {
             mapChanged = false;
         }
     }
-
 
     //fade เปลี่ยน map
     public void updateFade() {
@@ -386,12 +398,21 @@ public class UI {
             String menuText = optionMenu[i];
             if (i==0){
                 menuText = "Volume: " + volumeLevel + "%";
+            } else if (i==1) {
+                menuText = showFPS ? "FPS : On" : "FPS : Off";
             }
             int optionX = (gp.getWidth() - fm.stringWidth(menuText)) / 2;
             int optionY = 200 + i * 50;
             g.setColor(i == optionIndex ? Color.YELLOW : Color.WHITE);
             g.drawString(menuText, optionX, optionY);
         }
+    }
+
+    public void drawFPS(Graphics g,FPSCounter fpsCounter){
+        fpsCounter.update();
+        g.setColor(Color.GREEN);
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+        g.drawString("FPS: " + fpsCounter.getFps(), 20, gp.getHeight() - 20);
     }
 
     public void setPlayer(Player player) {
@@ -417,6 +438,10 @@ public class UI {
     public void hideVolumeSlider() {
         gp.remove(volumeSlider);
         gp.repaint();
+    }
+
+    public void saveConfig() {
+        config.save(volumeLevel, showFPS);
     }
 
 }

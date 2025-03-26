@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
     public GamePanel gp;
     public UI ui;
-    public Player player;
+
+    private int previousState;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
                     shiftPressed;
@@ -14,6 +15,7 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
         this.ui = ui;
+        this.previousState = gp.gameState;
     }
 
     @Override
@@ -80,9 +82,14 @@ public class KeyHandler implements KeyListener {
             }
             if (code == KeyEvent.VK_ENTER && !enterPressed) {
                 enterPressed = true;
-                if (ui.optionIndex == 1) {
-                    gp.gameState = UI.MAIN_MENU;
+                if (ui.optionIndex == 1){
+                    ui.showFPS = !ui.showFPS;
+                    ui.saveConfig();
+                }
+                if (ui.optionIndex == 2) {
+                    gp.gameState = previousState;
                     ui.hideVolumeSlider();
+                    ui.saveConfig();
                 }
             }
             if (ui.optionIndex == 0){
@@ -90,11 +97,13 @@ public class KeyHandler implements KeyListener {
                     ui.volumeLevel = Math.max(0, ui.volumeLevel - 5);
                     ui.music.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
+                    ui.saveConfig();
                 }
                 else if (code == KeyEvent.VK_RIGHT) {
                     ui.volumeLevel = Math.max(0, ui.volumeLevel + 5);
                     ui.music.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
+                    ui.saveConfig();
                 }
             }
         }
@@ -105,6 +114,11 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_D) rightPressed = true;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = true;
             if (code == KeyEvent.VK_ENTER) enterPressed = true;
+
+            if (code == KeyEvent.VK_ESCAPE) {
+                previousState = gp.gameState;
+                gp.gameState = UI.OPTION;
+            }
         }
     }
 

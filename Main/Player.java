@@ -127,11 +127,6 @@ public class Player implements Walkable {
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
-            if (keyH.enterPressed) {
-                gp.switchMap();
-                keyH.enterPressed = false;
-            }
-
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
             if (((gp.mapM.screenIdleX >= 5 && gp.mapM.screenIdleX <= 240) && (gp.mapM.screenIdleY <= 885 && gp.mapM.screenIdleY >= 660)) && gp.currentTileMap == gp.tileMap1){
                     UI.SCENE = 2;
