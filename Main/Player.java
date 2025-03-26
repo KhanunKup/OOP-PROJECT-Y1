@@ -98,6 +98,31 @@ public class Player implements Walkable {
 
     }
 
+    public void moveCharacter(Walkable walker){
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            state = "walking";
+            if (keyH.upPressed && keyH.rightPressed) {
+                walker.walkDiagRightUp();
+            } else if (keyH.upPressed && keyH.leftPressed) {
+                walker.walkDiagLeftUp();
+            } else if (keyH.downPressed && keyH.rightPressed) {
+                walker.walkDiagRightDown();
+            } else if (keyH.downPressed && keyH.leftPressed) {
+                walker.walkDiagLeftDown();
+            } else if (keyH.upPressed) {
+                walker.walkUp();
+            } else if (keyH.downPressed) {
+                walker.walkDown();
+            } else if (keyH.leftPressed) {
+                walker.walkLeft();
+            } else if (keyH.rightPressed)  {
+                walker.walkRight();
+            }
+        } else {
+            state = "idle";
+        }
+    }
+
     public void update() {
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
@@ -124,29 +149,8 @@ public class Player implements Walkable {
                 speed = 2;
             }
 
+            moveCharacter(this);
 
-            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-                state = "walking";
-                if (keyH.upPressed && keyH.rightPressed) {
-                    walkDiagRightUp();
-                } else if (keyH.upPressed && keyH.leftPressed) {
-                    walkDiagLeftUp();
-                } else if (keyH.downPressed && keyH.rightPressed) {
-                    walkDiagRightDown();
-                } else if (keyH.downPressed && keyH.leftPressed) {
-                    walkDiagLeftDown();
-                } else if (keyH.upPressed) {
-                    walkUp();
-                } else if (keyH.downPressed) {
-                    walkDown();
-                } else if (keyH.leftPressed) {
-                    walkLeft();
-                } else if (keyH.rightPressed)  {
-                    walkRight();
-                }
-            } else {
-                state = "idle";
-            }
             animationHandler();
         }
     }
