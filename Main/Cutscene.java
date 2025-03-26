@@ -1,5 +1,8 @@
 package Main;
 
+import static Main.UI.MOVING;
+import static Main.UI.TXT_CUTSCENE;
+
 public class Cutscene implements Runnable {
     public GamePanel gp;
     public UI ui;
@@ -12,6 +15,8 @@ public class Cutscene implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println("Current Scene: " + UI.SCENE);
+
             if (UI.SCENE == 1){
                 gp.repaint();
                 Thread.sleep(5500);
@@ -45,9 +50,12 @@ public class Cutscene implements Runnable {
                 gp.repaint();
             }
 
-            if (UI.SCENE == 2){
+            if (UI.SCENE == 3){
                 gp.repaint();
                 Thread.sleep(5000);
+                ui.showImage = false;
+                gp.gameState = MOVING;
+                ui.showText = false;
             }
 
         } catch (InterruptedException ex) {

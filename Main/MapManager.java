@@ -53,17 +53,20 @@ public class MapManager {
             screenIdleX = fixedX - player.worldX + player.screenX;
             screenIdleY = fixedY - player.worldY + player.screenY;
 
-            System.out.println("X :" + screenIdleX);
-            System.out.println("Y :" + screenIdleY);
+            //System.out.println("X :" + screenIdleX);
+            //System.out.println("Y :" + screenIdleY);
 
-            g.drawImage(idleImage, screenIdleX+250, screenIdleY-550, gp.xTileSize*2, gp.yTileSize*2, null);
+            g.drawImage(idleImage, screenIdleX+600, screenIdleY-250, gp.xTileSize*2, gp.yTileSize*2, null);
         }
 
         if (gp.currentTileMap == gp.tileMap2){
             screenIdleX = 1225 - player.worldX + player.screenX;
-            screenIdleY = 10 - player.worldY + player.screenY;
+            screenIdleY = 160 - player.worldY + player.screenY;
 
-            g.drawImage(idleImage_3, screenIdleX, screenIdleY-75, 320, 320, null);
+            //System.out.println("X :" + screenIdleX);
+            //System.out.println("Y :" + screenIdleY);
+
+            g.drawImage(idleImage_3, screenIdleX+400, screenIdleY, 320, 320, null);
         }
 
         g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);

@@ -10,7 +10,7 @@ public class UI {
 
     Player player;
 
-    public String text, text_2;
+    public String text, text_2,text_3;
     public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
     public Font customFont;
@@ -192,6 +192,29 @@ public class UI {
             textWidth = fm.stringWidth(text_2);
             g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
         }
+
+        if (showObjText && SCENE == 3){
+            textDelay += 1;
+
+            if (textDelay > 200){
+                setAlphaText(getAlphaText()-1);
+            }
+
+            if (getAlphaText() < 0){
+                showObjText = false;
+                setAlphaText(0);
+                textDelay = 0;
+            }
+
+            g.drawString(text, textX, textY);
+
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+            fm = g.getFontMetrics();
+            text_3 = "Eat Candy.";
+            textY += textHeight + 5;
+            textWidth = fm.stringWidth(text_3);
+            g.drawString(text_3, (gp.getWidth() - textWidth) / 2, textY);
+        }
     }
 
     public void startFade() {
@@ -207,7 +230,7 @@ public class UI {
         if (Fading) {
             if (!mapChanged) {
                 // Fade to black
-                if (alpha < 255) {
+                if (getAlpha() < 255) {
                     setAlpha(getAlpha() + 10);
                     System.out.println("Fading to black - Alpha: " + getAlpha());
                 } else {
@@ -223,10 +246,13 @@ public class UI {
             } else {
                 // Fade out after map change
                 if (showText) {
-                    drawBackScreen(g);
-                    gp.gameState = TXT_CUTSCENE;
+                    if (SCENE == 3){
+                        new Thread(new Cutscene(gp, this)).start();
+                    }
+                    callBG();
+
                 } else {
-                    if (alpha > 0) {
+                    if (getAlpha() > 0) {
                         setAlpha(getAlpha() - 10);
                         System.out.println("Fading out - Alpha: " + getAlpha());
                     } else {
@@ -240,6 +266,11 @@ public class UI {
             }
             gp.repaint();
         }
+    }
+
+    public void callBG(){
+        drawBackScreen(g);
+        gp.gameState = TXT_CUTSCENE;
     }
 
     public void drawBackScreen(Graphics g) {
@@ -373,6 +404,18 @@ public class UI {
             textX = (gp.getWidth() - textWidth) / 2;
             textY = (gp.getHeight() - textHeight) / 2 + fm.getAscent();
             g.drawString(text_S2, textX, textY);
+        }
+
+        if (SCENE == 3){
+
+            if (imageDelay == 60 && showImage){
+                ImageIcon icon_6 = new ImageIcon("res/cutscene/closeEyes.JPG");
+                Image image_6 = icon_6.getImage();
+                g.drawImage(image_6, 0, 0, gp.getWidth(), gp.getHeight(), null);
+            }
+
+            System.out.println(getAlpha());
+
         }
     }
 
