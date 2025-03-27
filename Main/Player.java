@@ -124,8 +124,8 @@ public class Player implements Walkable {
     }
 
     public void update() {
-        System.out.println("X :" + worldX);
-        System.out.println("Y :" + worldY);
+//        System.out.println("X :" + worldX);
+//        System.out.println("Y :" + worldY);
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
@@ -134,6 +134,7 @@ public class Player implements Walkable {
                     UI.SCENE = 2;
                     gp.ui.showText = false;
                     gp.ui.startFade();
+                    keyH.keyBoolRelease();
             }
 
             if (((gp.mapM.screenIdleX <= -30 && gp.mapM.screenIdleY >= -280) && (gp.mapM.screenIdleY >= -100)) && gp.currentTileMap == gp.tileMap2){

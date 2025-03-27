@@ -38,7 +38,7 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music, cutscene;
+    public Sound music, cutscene, selectSound, confirmSound, slidebarSound;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -61,6 +61,15 @@ public class UI {
         cutscene = new Sound();
         cutscene.playSound("res/sound/Cutscene-1and2-Boy-Girl-Hiding.wav");
         cutscene.setVolume(volumeLevel / 100f);
+        selectSound = new Sound();
+        selectSound.playSound("res/sound/menu-select.wav");
+        selectSound.setVolume(volumeLevel / 100f);
+        confirmSound = new Sound();
+        confirmSound.playSound("res/sound/menu-confirm.wav");
+        confirmSound.setVolume(volumeLevel / 100f);
+        slidebarSound = new Sound();
+        slidebarSound.playSound("res/sound/menu-slidebar.wav");
+        slidebarSound.setVolume(volumeLevel / 100f);
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
         volumeSlider.setOpaque(false);
