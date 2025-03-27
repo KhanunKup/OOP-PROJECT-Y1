@@ -363,7 +363,7 @@ public class UI {
             if (showImage) {
                 textDelay = 0;
                 System.out.println(imageDelay);
-                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20 || imageDelay == 30 || imageDelay == 40))) {
+                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20 || imageDelay == 30 || imageDelay == 40 || imageDelay == 50))) {
                     g.setColor(Color.WHITE);
                     g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
                     flashScreen = false;
@@ -376,24 +376,30 @@ public class UI {
                     g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 10) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/2.JPG");
-                    Image image_2 = icon_2.getImage();
-                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    ImageIcon icon = new ImageIcon("res/cutscene/2.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 20) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/3.JPG");
-                    Image image_2 = icon_2.getImage();
-                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    ImageIcon icon = new ImageIcon("res/cutscene/3.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 30) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/4.JPG");
-                    Image image_2 = icon_2.getImage();
-                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    ImageIcon icon = new ImageIcon("res/cutscene/4.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
-                else if (imageDelay >= 40) {
-                    ImageIcon icon_3 = new ImageIcon("res/cutscene/5.JPG");
-                    Image image_3 = icon_3.getImage();
-                    g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                else if (imageDelay == 40) {
+                    ImageIcon icon = new ImageIcon("res/cutscene/5.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                }
+
+                else if (imageDelay == 50) {
+                    ImageIcon icon = new ImageIcon("res/cutscene/6.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
                 }
             }
