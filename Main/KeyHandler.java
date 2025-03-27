@@ -27,7 +27,6 @@ public class KeyHandler implements KeyListener {
 
         if(gp.gameState == UI.MAIN_MENU){
             if(code == KeyEvent.VK_W){
-                ui.selectSound.stop();
                 ui.selectSound.play();
                 if (ui.selectedIndex > 0){
                     ui.selectedIndex--;
@@ -43,7 +42,6 @@ public class KeyHandler implements KeyListener {
                 }
             }
             if(code == KeyEvent.VK_S){
-                ui.selectSound.stop();
                 ui.selectSound.play();
                 if (ui.selectedIndex < ui.menuOptions.length - 1){
                     ui.selectedIndex++;
@@ -80,9 +78,11 @@ public class KeyHandler implements KeyListener {
         }
         if(gp.gameState == UI.OPTION){
             if (code == KeyEvent.VK_W) {
+                ui.selectSound.play();
                 ui.optionIndex = (ui.optionIndex - 1 + ui.optionMenu.length) % ui.optionMenu.length;
             }
             if (code == KeyEvent.VK_S) {
+                ui.selectSound.play();
                 ui.optionIndex = (ui.optionIndex + 1) % ui.optionMenu.length;
             }
             if (code == KeyEvent.VK_ENTER && !enterPressed) {
