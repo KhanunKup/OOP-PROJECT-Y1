@@ -27,6 +27,8 @@ public class KeyHandler implements KeyListener {
 
         if(gp.gameState == UI.MAIN_MENU){
             if(code == KeyEvent.VK_W){
+                ui.selectSound.stop();
+                ui.selectSound.play();
                 if (ui.selectedIndex > 0){
                     ui.selectedIndex--;
                 }else {
@@ -41,6 +43,8 @@ public class KeyHandler implements KeyListener {
                 }
             }
             if(code == KeyEvent.VK_S){
+                ui.selectSound.stop();
+                ui.selectSound.play();
                 if (ui.selectedIndex < ui.menuOptions.length - 1){
                     ui.selectedIndex++;
                 } else {
@@ -55,6 +59,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
             if(code == KeyEvent.VK_ENTER && !enterPressed) {
+                ui.confirmSound.play();
                 enterPressed = true;
                 switch (ui.selectedIndex) {
                     case 0:
@@ -83,23 +88,27 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ENTER && !enterPressed) {
                 enterPressed = true;
                 if (ui.optionIndex == 1){
+                    ui.confirmSound.play();
                     ui.showFPS = !ui.showFPS;
                     ui.saveConfig();
                 }
                 if (ui.optionIndex == 2) {
                     gp.gameState = previousState;
+                    ui.confirmSound.play();
                     ui.hideVolumeSlider();
                     ui.saveConfig();
                 }
             }
             if (ui.optionIndex == 0){
                 if (code == KeyEvent.VK_LEFT) {
+                    ui.slidebarSound.play();
                     ui.volumeLevel = Math.max(0, ui.volumeLevel - 5);
                     ui.music.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
                     ui.saveConfig();
                 }
                 else if (code == KeyEvent.VK_RIGHT) {
+                    ui.slidebarSound.play();
                     ui.volumeLevel = Math.max(0, ui.volumeLevel + 5);
                     ui.music.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);

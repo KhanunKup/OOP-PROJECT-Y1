@@ -124,8 +124,8 @@ public class Player implements Walkable {
     }
 
     public void update() {
-        System.out.println("X :" + worldX);
-        System.out.println("Y :" + worldY);
+//        System.out.println("X :" + worldX);
+//        System.out.println("Y :" + worldY);
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
