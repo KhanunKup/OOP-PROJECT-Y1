@@ -108,14 +108,26 @@ public class KeyHandler implements KeyListener {
                 if (code == KeyEvent.VK_LEFT) {
                     ui.slidebarSound.play();
                     ui.volumeLevel = Math.max(0, ui.volumeLevel - 5);
+                    if(ui.volumeLevel <= 0){
+                        ui.volumeLevel = 0;
+                    }
                     ui.music.setVolume(ui.volumeLevel / 100.0f);
+                    ui.selectSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.confirmSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.slidebarSound.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
                     ui.saveConfig();
                 }
                 else if (code == KeyEvent.VK_RIGHT) {
                     ui.slidebarSound.play();
                     ui.volumeLevel = Math.max(0, ui.volumeLevel + 5);
+                    if(ui.volumeLevel >= 100){
+                        ui.volumeLevel = 100;
+                    }
                     ui.music.setVolume(ui.volumeLevel / 100.0f);
+                    ui.selectSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.confirmSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.slidebarSound.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
                     ui.saveConfig();
                 }
