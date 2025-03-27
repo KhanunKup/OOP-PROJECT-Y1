@@ -13,7 +13,7 @@ public class Player implements Walkable {
     int screenX;
     int screenY;
 
-    int worldX, worldY, speed, speedDiag;
+    static int worldX, worldY, speed, speedDiag;
     KeyHandler keyH;
     GamePanel gp;
     Image hansel;
@@ -124,8 +124,8 @@ public class Player implements Walkable {
     }
 
     public void update() {
-//        System.out.println("X :" + worldX);
-//        System.out.println("Y :" + worldY);
+        System.out.println("X :" + worldX);
+        System.out.println("Y :" + worldY);
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
@@ -143,10 +143,11 @@ public class Player implements Walkable {
                 gp.ui.showImage = true;
                 gp.ui.imageDelay = 60;
                 gp.ui.startFade();
+                keyH.keyBoolRelease();
             }
 
             if (keyH.shiftPressed) {
-                speed = 3;
+                speed = 10;
             } else {
                 speed = 2;
             }
