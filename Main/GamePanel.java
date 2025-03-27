@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandler keyH;
     public UI ui;
     public MapManager mapM;
+    public ImageManager imageManager;
 
     public boolean isQTEActive = false;
     private int qteTimeLeft = 3;
@@ -42,7 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.keyH = new KeyHandler(this, ui);
         this.player = new Player(this, keyH);
         ui.setPlayer(player);
-        this.mapM = new MapManager(this, player);
+        this.imageManager = new ImageManager();
+        this.mapM = new MapManager(this, player, imageManager);
         tileMap1 = new ForestMap("res/map/Map1-Final.txt");
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");

@@ -38,10 +38,10 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music;
+    public Sound music, cutscene, selectSound, confirmSound, slidebarSound;
 
     public JSlider volumeSlider;
-    public int volumeLevel = 100;
+    public int volumeLevel;
 
     public VolumeChange volumeChange;
 
@@ -52,9 +52,24 @@ public class UI {
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+        config = new Config("config.txt");
+        config.load();
+        volumeLevel = config.getVolumeLevel();
         music = new Sound();
         music.playSound("res/sound/SweetTombMainMenu.wav");
         music.setVolume(volumeLevel / 100f);
+        cutscene = new Sound();
+        cutscene.playSound("res/sound/Cutscene-1and2-Boy-Girl-Hiding.wav");
+        cutscene.setVolume(volumeLevel / 100f);
+        selectSound = new Sound();
+        selectSound.playSound("res/sound/menu-select.wav");
+        selectSound.setVolume(volumeLevel / 100f);
+        confirmSound = new Sound();
+        confirmSound.playSound("res/sound/menu-confirm.wav");
+        confirmSound.setVolume(volumeLevel / 100f);
+        slidebarSound = new Sound();
+        slidebarSound.playSound("res/sound/menu-slidebar.wav");
+        slidebarSound.setVolume(volumeLevel / 100f);
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
         volumeSlider.setOpaque(false);
@@ -66,9 +81,6 @@ public class UI {
         volumeChange = new VolumeChange(this);
         volumeSlider.addChangeListener(volumeChange);
         fpsCounter = new FPSCounter();
-        config = new Config("config.txt");
-        config.load();
-        volumeLevel = config.getVolumeLevel();
         showFPS = config.isShowFPS();
         loadFont();
     }
@@ -93,10 +105,10 @@ public class UI {
             music.loop();
         }
         if(gp.gameState == TXT_CUTSCENE){
+            music.stop();
             drawText();
         }
         if(gp.gameState == MOVING){
-            music.stop();
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
@@ -273,6 +285,19 @@ public class UI {
                         setAlphaText(255);
                         Fading = false;
                         System.out.println("Fade complete");
+
+                        if (gp.currentTileMap == gp.tileMap2){
+                            player.worldX = 42;
+                            player.worldY = 1730;
+                            player.direction = "right";
+                        }
+
+                        if (gp.currentTileMap == gp.tileMap3){
+                            player.worldX = 985;
+                            player.worldY = 1500;
+                            player.direction = "right";
+                        }
+
                     }
                 }
             }
@@ -338,7 +363,7 @@ public class UI {
             if (showImage) {
                 textDelay = 0;
                 System.out.println(imageDelay);
-                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20))) {
+                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20 || imageDelay == 30 || imageDelay == 40))) {
                     g.setColor(Color.WHITE);
                     g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
                     flashScreen = false;
@@ -346,34 +371,30 @@ public class UI {
                 }
 
                 else if (imageDelay == 0){
-                    ImageIcon icon = new ImageIcon("res/cutscene/closeEyes.JPG");
+                    ImageIcon icon = new ImageIcon("res/cutscene/1.JPG");
                     Image image = icon.getImage();
                     g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 10) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/Hide.JPG");
+                    ImageIcon icon_2 = new ImageIcon("res/cutscene/2.JPG");
                     Image image_2 = icon_2.getImage();
                     g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
-                else if (imageDelay >= 20) {
-                    ImageIcon icon_3 = new ImageIcon("res/cutscene/blank.JPG");
+                else if (imageDelay == 20) {
+                    ImageIcon icon_2 = new ImageIcon("res/cutscene/3.JPG");
+                    Image image_2 = icon_2.getImage();
+                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                }
+                else if (imageDelay == 30) {
+                    ImageIcon icon_2 = new ImageIcon("res/cutscene/4.JPG");
+                    Image image_2 = icon_2.getImage();
+                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                }
+                else if (imageDelay >= 40) {
+                    ImageIcon icon_3 = new ImageIcon("res/cutscene/5.JPG");
                     Image image_3 = icon_3.getImage();
                     g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
-                    if (imageDelay >= 40) {
-                        setAlpha((int)((imageDelay - 40) * 32));
-
-                        if (getAlpha() > 255) {
-                            setAlpha(255);
-                        }
-
-                        if (getAlpha() < 0){
-                            setAlpha(0);
-                        }
-
-                        g.setColor(new Color(0, 0, 0, (int)getAlpha()));
-                        g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
-                    }
                 }
             }
         }
@@ -421,7 +442,7 @@ public class UI {
         if (SCENE == 3){
 
             if (imageDelay == 60 && showImage){
-                ImageIcon icon_6 = new ImageIcon("res/cutscene/closeEyes.JPG");
+                ImageIcon icon_6 = new ImageIcon("res/cutscene/1.JPG");
                 Image image_6 = icon_6.getImage();
                 g.drawImage(image_6, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
