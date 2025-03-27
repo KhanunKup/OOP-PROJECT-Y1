@@ -41,7 +41,7 @@ public class UI {
     public Sound music, cutscene;
 
     public JSlider volumeSlider;
-    public int volumeLevel = 100;
+    public int volumeLevel;
 
     public VolumeChange volumeChange;
 
@@ -52,6 +52,9 @@ public class UI {
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+        config = new Config("config.txt");
+        config.load();
+        volumeLevel = config.getVolumeLevel();
         music = new Sound();
         music.playSound("res/sound/SweetTombMainMenu.wav");
         music.setVolume(volumeLevel / 100f);
@@ -69,9 +72,6 @@ public class UI {
         volumeChange = new VolumeChange(this);
         volumeSlider.addChangeListener(volumeChange);
         fpsCounter = new FPSCounter();
-        config = new Config("config.txt");
-        config.load();
-        volumeLevel = config.getVolumeLevel();
         showFPS = config.isShowFPS();
         loadFont();
     }

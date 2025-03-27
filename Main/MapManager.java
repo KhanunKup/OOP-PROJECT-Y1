@@ -6,42 +6,33 @@ import java.awt.*;
 public class MapManager {
     GamePanel gp;
     Player player;
-    String path,path_2,path_3,path_4,path_5,path_6,path_7,path_8,path_9,path_10;
-    Image idleImage,idleImage_2,idleImage_3,idleImage_4,idleImage_5,idleImage_6,idleImage_7,idleImage_8,idleImage_9,idleImage_10;
     int screenIdleX,screenIdleY;
+    ImageManager imageManager;
 
-    public MapManager(GamePanel gp, Player player) {
+    public MapManager(GamePanel gp, Player player, ImageManager imageManager) {
         this.gp = gp;
         this.player = player;
-        path = "res/Character/Gratel/Gratel_Idle/gratel_idle1.png";
-        idleImage = new ImageIcon(path).getImage();
+        this.imageManager = imageManager;
 
-        path_2 = "res/VisibilityL.png";
-        idleImage_2 = new ImageIcon(path_2).getImage();
+        imageManager.setImage("gratel","res/Character/Gratel/Gratel_Idle/gratel_idle1.png");
 
-        path_3 = "res/bg/House.png";
-        idleImage_3 = new ImageIcon(path_3).getImage();
+        imageManager.setImage("visible","res/VisibilityL.png");
 
-        path_4 = "res/object/Carpet.png";
-        idleImage_4 = new ImageIcon(path_4).getImage();
+        imageManager.setImage("house","res/bg/House.png");
 
-        path_5 = "res/object/Bed.png";
-        idleImage_5 = new ImageIcon(path_5).getImage();
+        imageManager.setImage("carpet","res/object/Carpet.png");
 
-        path_6 = "res/object/BedRoomFur.png";
-        idleImage_6 = new ImageIcon(path_6).getImage();
+        imageManager.setImage("bed","res/object/Bed.png");
 
-        path_7 = "res/object/CellarFloor.png";
-        idleImage_7 = new ImageIcon(path_7).getImage();
+        imageManager.setImage("bedroomfur","res/object/BedRoomFur.png");
 
-        path_8 = "res/object/Table.png";
-        idleImage_8 = new ImageIcon(path_8).getImage();
+        imageManager.setImage("cellarfloor","res/object/CellarFloor.png");
 
-        path_9 = "res/object/TopFur.png";
-        idleImage_9 = new ImageIcon(path_9).getImage();
+        imageManager.setImage("table","res/object/Table.png");
 
-        path_10 = "res/object/Tree.png";
-        idleImage_10 = new ImageIcon(path_10).getImage();
+        imageManager.setImage("topfur","res/object/TopFur.png");
+
+        imageManager.setImage("tree","res/object/Tree.png");
     }
 
     public void drawMap(Graphics g) {
@@ -77,7 +68,7 @@ public class MapManager {
             //System.out.println("X :" + screenIdleX);
             //System.out.println("Y :" + screenIdleY);
 
-            g.drawImage(idleImage, screenIdleX+600, screenIdleY-250, gp.xTileSize*2, gp.yTileSize*2, null);
+            g.drawImage(imageManager.getImage("gratel"), screenIdleX+600, screenIdleY-250, gp.xTileSize*2, gp.yTileSize*2, null);
         }
 
         if (gp.currentTileMap == gp.tileMap2){
@@ -87,35 +78,35 @@ public class MapManager {
             //System.out.println("X :" + screenIdleX);
             //System.out.println("Y :" + screenIdleY);
 
-            g.drawImage(idleImage_3, screenIdleX+400, screenIdleY, 320, 320, null);
+            g.drawImage(imageManager.getImage("house"), screenIdleX+400, screenIdleY, 320, 320, null);
         }
 
         if (gp.currentTileMap == gp.tileMap3){
             screenIdleX = 985 - player.worldX + player.screenX;
             screenIdleY = 1470 - player.worldY + player.screenY;
 
-            g.drawImage(idleImage_4, screenIdleX-145, screenIdleY-590, 700, 700, null);
+            g.drawImage(imageManager.getImage("carpet"), screenIdleX-145, screenIdleY-590, 700, 700, null);
 
             screenIdleX = 1460 - player.worldX + player.screenX;
             screenIdleY = 1200 - player.worldY + player.screenY;
-            g.drawImage(idleImage_5, screenIdleX-550, screenIdleY-320, 650, 650, null);
+            g.drawImage(imageManager.getImage("bed"), screenIdleX-550, screenIdleY-320, 650, 650, null);
 
-            g.drawImage(idleImage_6, screenIdleX-600, screenIdleY-320, 700, 700, null);
+            g.drawImage(imageManager.getImage("bedroomfur"), screenIdleX-600, screenIdleY-320, 700, 700, null);
 
-            g.drawImage(idleImage_9, screenIdleX-610, screenIdleY-350, 700, 700, null);
+            g.drawImage(imageManager.getImage("topfur"), screenIdleX-610, screenIdleY-350, 700, 700, null);
 
-            g.drawImage(idleImage_7, screenIdleX-620, screenIdleY-665, 700, 1000, null);
+            g.drawImage(imageManager.getImage("cellarfloor"), screenIdleX-620, screenIdleY-665, 700, 1000, null);
 
             screenIdleX = 970 - player.worldX + player.screenX;
             screenIdleY = 1260 - player.worldY + player.screenY;
-            g.drawImage(idleImage_8, screenIdleX-125, screenIdleY-400, 700, 700, null);
+            g.drawImage(imageManager.getImage("table"), screenIdleX-125, screenIdleY-400, 700, 700, null);
 
             screenIdleX = 1225 - player.worldX + player.screenX;
             screenIdleY = 160 - player.worldY + player.screenY;
-            g.drawImage(idleImage_10, screenIdleX+400, screenIdleY, 124, 124, null);
+            g.drawImage(imageManager.getImage("tree"), screenIdleX+400, screenIdleY, 124, 124, null);
 
         }
 
-        g.drawImage(idleImage_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+        g.drawImage(imageManager.getImage("visible"), 0, 0, gp.getWidth(), gp.getHeight(), null);
     }
 }
