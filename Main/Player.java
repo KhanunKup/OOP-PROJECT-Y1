@@ -8,6 +8,10 @@ public class Player extends Human implements Walkable{
     int currentFrame = 0;
     int currentIdleFrame = 0;
     String direction, animDirection, state;
+    int footstepTimer = 0;
+    final int footstepDelay = 25;
+    Sound dirtFootstep;
+
 
     int screenX;
     int screenY;
@@ -34,6 +38,9 @@ public class Player extends Human implements Walkable{
         state = "idle";
         this.setHitbox((gp.xTileSize * 2 - 24) / 2 , (gp.yTileSize * 2 - 24) / 2 , 24 , 24);
         ui = new UI(gp,this);
+        dirtFootstep = new Sound();
+        dirtFootstep.playSound("res/sound/soundtrack/dirt-footstep.wav");
+        dirtFootstep.setVolume(ui.volumeLevel / 100f);
         valuesSetting();
         playerLoading(imageManager);
     }
@@ -107,6 +114,12 @@ public class Player extends Human implements Walkable{
     public void moveCharacter(Walkable walker){
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             state = "walking";
+            if (footstepTimer >= footstepDelay) {
+                dirtFootstep.play();
+                footstepTimer = 0; // Reset timer
+            } else {
+                footstepTimer++; // Increment timer
+            }
             if (keyH.upPressed && keyH.rightPressed) {
                 direction = "upRight";
                 animDirection = "right";
