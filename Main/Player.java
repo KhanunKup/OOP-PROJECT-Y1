@@ -3,13 +3,11 @@ package Main;
 import javax.swing.*;
 import java.awt.*;
 
-public class Player implements Walkable {
+public class Player extends Human implements Walkable{
     final int animDelay = 7;
     int currentFrame = 0;
     int currentIdleFrame = 0;
     String direction, animDirection, state;
-
-    Rectangle hitbox;
 
     int screenX;
     int screenY;
@@ -23,13 +21,19 @@ public class Player implements Walkable {
     String[] walkingAnimLeft;
     String[] walkingAnimRight;
 
+    UI ui;
+
     public Player(GamePanel gamePanel, KeyHandler keyH, ImageManager imageManager) {
+        this.setSpeed(2);
+        this.setWorldX(665);
+        this.setWorldY(817);
         this.gp = gamePanel;
         this.keyH = keyH;
         direction = "right";
         animDirection = "right";
         state = "idle";
-        hitbox = new Rectangle();
+        this.setHitbox((gp.xTileSize * 2 - 24) / 2 , (gp.yTileSize * 2 - 24) / 2 , 24 , 24);
+        ui = new UI(gp,this);
         valuesSetting();
         playerLoading(imageManager);
     }
@@ -37,24 +41,16 @@ public class Player implements Walkable {
     public void valuesSetting() {
 //    world position -> position จริง ๆ ในเกม ทุก object, character, tile ถูก fixed ไว้แล้ว
 //      screen position -> position ที่เราทำการ draw (สั่งให้ java draw แล้วเห็นในจอ ว่ามันคือตรงไหน)
-        worldX = 665;
-        worldY = 817;
+        worldX = this.getWorldX();
+        worldY = this.getWorldY();
+        speed = this.getSpeed();
         screenX = gp.mapX / 2 - gp.xTileSize / 2; //Center of the screen (because it's placed at top-left corner)
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
-        speed = 3;
         speedDiag = (int) (speed/Math.sqrt(2));
         idleAnimLeft = new String[9];
         idleAnimRight = new String[9];
         walkingAnimLeft = new String[8];
         walkingAnimRight = new String[8];
-        int hitboxWidth = 24;
-        int hitboxHeight = 24;
-        int hitboxXOffset = (gp.xTileSize * 2 - hitboxWidth) / 2;
-        int hitboxYOffset = (gp.yTileSize * 2 - hitboxHeight) / 2;
-        hitbox.x = hitboxXOffset;
-        hitbox.y = hitboxYOffset;
-        hitbox.width = hitboxWidth;
-        hitbox.height = hitboxHeight;
     }
 
     public void playerLoading(ImageManager imageManager) {
@@ -136,7 +132,7 @@ public class Player implements Walkable {
                 animDirection = "right";
             }
 
-            if (gp.collChecker.isBlockWalkable(this.direction, this) == true) { //if walkable
+            if (gp.collChecker.isBlockWalkable(this.direction, this)) { //if walkable
                 switch (direction) {
                     case "upRight":
                         walker.walkDiagUpRight();
@@ -194,12 +190,11 @@ public class Player implements Walkable {
             }
 
             if (keyH.shiftPressed) {
-                speed = 3;
-                speedDiag = (int) (speed/Math.sqrt(2));
-            } else {
-                speed = 2;
-                speedDiag = (int) (speed/Math.sqrt(2));
+                speed = this.getSpeed()+2;
+            }else {
+                speed = this.getSpeed();
             }
+            speedDiag = (int) (speed/Math.sqrt(2));
 
             moveCharacter(this);
 
