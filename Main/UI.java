@@ -393,7 +393,7 @@ public class UI {
                 g.setColor(new Color(255, 255, 255, (int)getAlpha()));
 
                 fm = g.getFontMetrics();
-                text = "Han and Gra giggle as they play in the dense forest,";
+                text = "Hansel and Gratel giggle as they play in the dense forest,";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
                 textX = (gp.getWidth() - textWidth) / 2;
