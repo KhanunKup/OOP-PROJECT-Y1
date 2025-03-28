@@ -42,9 +42,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.ui = new UI(this, null);
         this.keyH = new KeyHandler(this, ui);
-        this.player = new Player(this, keyH);
-        ui.setPlayer(player);
         this.imageManager = new ImageManager();
+        this.player = new Player(this, keyH, imageManager);
+        ui.setPlayer(player);
         this.mapM = new MapManager(this, player, imageManager);
         tileMap1 = new ForestMap("res/map/Map1-Final.txt");
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
         try {
             while (true){
-                player.update();
+                player.update(imageManager);
                 //System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();
