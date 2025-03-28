@@ -130,20 +130,49 @@ public class Player implements Walkable {
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
 
+            //เสายาวซ้าย
             if (((worldX<= 860 && worldX >=829) && (worldY<= 1508 && worldY >= 850)) && gp.currentTileMap == gp.tileMap3) {
                 worldX += 3;
             }
+            //
             if (((worldX<= 1163 && worldX >=858) && (worldY<= 1150 && worldY >= 1134)) && gp.currentTileMap == gp.tileMap3){
                 worldY +=3;
             }
+            //
             if (((worldX<= 1163 && worldX >=860) && (worldY<= 1000 && worldY >= 990)) && gp.currentTileMap == gp.tileMap3){
                 worldY -=3;
             }
+            //
             if (((worldX<= 1100 && worldX >=1088) && (worldY<= 1366 && worldY >= 1150)) && gp.currentTileMap == gp.tileMap3){
                 worldX -=3;
             }
-            if (((worldX<= 1165 && worldX >=1151) && (worldY<= 1360 && worldY >= 1149)) && gp.currentTileMap == gp.tileMap3){
+            //
+            if (((worldX<= 1165 && worldX >=1120) && (worldY<= 1360 && worldY >= 1145)) && gp.currentTileMap == gp.tileMap3){
                 worldX +=3;
+            }
+            //ขอบขนบรรได
+            if (((worldX<= 1100 && worldX >=859) && (worldY<= 920 && worldY >= 910)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
+            }
+            //ขอบขวาเสาซ้าย
+            if (((worldX<= 1180 && worldX >=1150) && (worldY<= 1129 && worldY >= 1025)) && gp.currentTileMap == gp.tileMap3){
+                worldX +=3;
+            }
+            //ขอบเสาซ้ายเล็กๆ
+            if (((worldX<= 1135 && worldX >=1100) && (worldY<= 1390 && worldY >= 1376)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
+            }
+            //ขอบล่าง
+            if (((worldX<= 1500 && worldX >=850) && (worldY<= 1513 && worldY >= 1505)) && gp.currentTileMap == gp.tileMap3){
+                worldY -=3;
+            }
+            //ขอบขวา
+            if (((worldX<= 1500 && worldX >=1491) && (worldY<= 1503 && worldY >= 918)) && gp.currentTileMap == gp.tileMap3){
+                worldX -=3;
+            }
+            //ขอบประตูขวา
+            if (((worldX<= 1500 && worldX >=1470) && (worldY<= 1410 && worldY >= 1400)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
             }
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
