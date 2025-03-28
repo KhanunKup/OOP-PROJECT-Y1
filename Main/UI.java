@@ -40,7 +40,7 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music, cutsceneHiding, cutsceneFrightening, selectSound, confirmSound, slidebarSound;
+    public Sound music, cutsceneHiding, cutsceneFrightening, selectSound, confirmSound, slidebarSound, map1soundtrack;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -58,27 +58,32 @@ public class UI {
         config.load();
         volumeLevel = config.getVolumeLevel();
         music = new Sound();
-        music.playSound("res/sound/SweetTombMainMenu.wav");
+        music.playSound("res/sound/soundtrack/SweetTombMainMenu.wav");
         music.setVolume(volumeLevel / 100f);
 
         cutsceneHiding = new Sound();
-        cutsceneHiding.playSound("res/sound/Cutscene-1and2-Boy-Girl-Hiding.wav");
+        cutsceneHiding.playSound("res/sound/soundtrack/Cutscene-1and2-Boy-Girl-Hiding.wav");
         cutsceneHiding.setVolume(volumeLevel / 100f);
 
         cutsceneFrightening = new Sound();
-        cutsceneFrightening.playSound("res/sound/Cutscene3-4-5.wav");
+        cutsceneFrightening.playSound("res/sound/soundtrack/Cutscene3-4-5.wav");
         cutsceneFrightening.setVolume(volumeLevel / 100f);
 
+        map1soundtrack = new Sound();
+        map1soundtrack.playSound("res/sound/soundtrack/death-note-soundtrack-slow-pitchdown.wav");
+        map1soundtrack.setVolume(volumeLevel / 100f);
+
+
         selectSound = new Sound();
-        selectSound.playSound("res/sound/menu-select.wav");
+        selectSound.playSound("res/sound/soundEffect/menu-select.wav");
         selectSound.setVolume(volumeLevel / 100f);
 
         confirmSound = new Sound();
-        confirmSound.playSound("res/sound/menu-confirm.wav");
+        confirmSound.playSound("res/sound/soundEffect/menu-confirm.wav");
         confirmSound.setVolume(volumeLevel / 100f);
 
         slidebarSound = new Sound();
-        slidebarSound.playSound("res/sound/menu-slidebar.wav");
+        slidebarSound.playSound("res/sound/soundEffect/menu-slidebar.wav");
         slidebarSound.setVolume(volumeLevel / 100f);
 
         volumeSlider = new JSlider(0, 100, volumeLevel);
@@ -120,6 +125,7 @@ public class UI {
             drawText();
         }
         if(gp.gameState == MOVING){
+            map1soundtrack.play();
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
@@ -183,6 +189,7 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
+
 
             if (textDelay > 500){
                 //alpha -= alphaSpeed;

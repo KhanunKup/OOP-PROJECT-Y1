@@ -196,8 +196,10 @@ public class Player implements Walkable {
 
             if (keyH.shiftPressed) {
                 speed = 3;
+                speedDiag = (int) (speed/Math.sqrt(2));
             } else {
                 speed = 2;
+                speedDiag = (int) (speed/Math.sqrt(2));
             }
 
             moveCharacter(this);
