@@ -5,10 +5,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class ForestMap extends TileManager{
     public ForestMap(String filePath){
         super(filePath, 39);
+        solidTiles = new HashSet<Integer>();
+        loadSolidTiles(); //เอาไว้บอกว่ามี tiles ไหนบ้างที่เป็น solid
     }
 
     @Override
@@ -83,5 +86,22 @@ public class ForestMap extends TileManager{
     @Override
     public int[][] getMap() {
         return map;
+    }
+
+    public void loadSolidTiles() {
+        //adding leaf to be solid tile (26-38)
+        solidTiles.add(26);
+        solidTiles.add(27);
+        solidTiles.add(28);
+        solidTiles.add(29);
+        solidTiles.add(30);
+        solidTiles.add(31);
+        solidTiles.add(32);
+        solidTiles.add(33);
+        solidTiles.add(34);
+        solidTiles.add(35);
+        solidTiles.add(36);
+        solidTiles.add(37);
+        solidTiles.add(38);
     }
 }

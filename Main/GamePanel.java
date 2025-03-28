@@ -24,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4;
     public int[][] map;
 
+    public CollisionChecker collChecker;
+
     public Player player;
     public KeyHandler keyH;
     public UI ui;
@@ -42,15 +44,17 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.ui = new UI(this, null);
         this.keyH = new KeyHandler(this, ui);
-        this.player = new Player(this, keyH);
-        ui.setPlayer(player);
         this.imageManager = new ImageManager();
+        this.player = new Player(this, keyH, imageManager);
+        ui.setPlayer(player);
         this.mapM = new MapManager(this, player, imageManager);
         tileMap1 = new ForestMap("res/map/Map1-Final.txt");
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap2;
+        currentTileMap = tileMap1;
+
+        collChecker = new CollisionChecker(this);
 
         this.addKeyListener(keyH);
 
@@ -95,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
         try {
             while (true){
-                player.update();
+                player.update(imageManager);
                 //System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();

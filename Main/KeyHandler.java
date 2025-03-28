@@ -146,6 +146,10 @@ public class KeyHandler implements KeyListener {
                 gp.gameState = UI.OPTION;
             }
 
+            if(code == KeyEvent.VK_X){
+                ui.devmode = !ui.devmode;
+            }
+
             if (gp.currentTileMap == gp.tileMap3){
                 int num = -1;
                 if ((Player.worldX <= 1085 && Player.worldX >= 815) && (Player.worldY >= 1120)){
@@ -198,6 +202,7 @@ public class KeyHandler implements KeyListener {
         if (gp.isQTEActive){
             return;
         }
+
         if(gp.gameState == ui.MAIN_MENU){
             if(code == KeyEvent.VK_ENTER){
                 enterPressed = false;

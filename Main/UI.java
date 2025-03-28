@@ -10,7 +10,7 @@ public class UI {
 
     Player player;
 
-    public String text, text_2,text_3;
+    public String text, text_2,text_3,minigame;
     public int textX, textY, textWidth, textHeight;
     public FontMetrics fm;
     public Font customFont;
@@ -22,8 +22,8 @@ public class UI {
     public int selectedIndex = 0;
 
     public String[] optionMenu = {"Volume","Display FPS","Back"};
-    public int optionIndex = 0,pointerIndex = 0,numIndex = 0;
-    public boolean showFPS = true;
+    public int optionIndex = 0,pointerIndex = 0;
+    public boolean showFPS;
 
     public boolean checkAlphaText = false;
     public double textDelay,imageDelay;
@@ -40,7 +40,7 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music, cutscene, selectSound, confirmSound, slidebarSound;
+    public Sound music, cutsceneHiding, cutsceneFrightening, selectSound, confirmSound, slidebarSound, map1soundtrack;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -51,27 +51,60 @@ public class UI {
 
     public Config config;
 
+    public ImageManager imageManager;
+
+    public boolean devmode;
+
     public UI(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+
+        this.imageManager = new ImageManager();
+        imageManager.setImage("pointer","res/icon/candy.png");
+        imageManager.setImage("bg","res/bg/sweet.png");
+        imageManager.setImage("cutscene1","res/cutscene/1.JPG");
+        imageManager.setImage("cutscene2","res/cutscene/2.JPG");
+        imageManager.setImage("cutscene3","res/cutscene/3.JPG");
+        imageManager.setImage("cutscene4","res/cutscene/4.JPG");
+        imageManager.setImage("cutscene5","res/cutscene/5.JPG");
+        imageManager.setImage("cutscene6","res/cutscene/6.JPG");
+        imageManager.setImage("cutscene7","res/cutscene/7.JPG");
+        imageManager.setImage("blackbar","res/minigame/bar-black-export.png");
+        imageManager.setImage("whitebar","res/minigame/bar-white-export.png");
+        imageManager.setImage("greenbar","res/minigame/bar-green-export.png");
+
         config = new Config("config.txt");
         config.load();
         volumeLevel = config.getVolumeLevel();
         music = new Sound();
-        music.playSound("res/sound/SweetTombMainMenu.wav");
+        music.playSound("res/sound/soundtrack/SweetTombMainMenu.wav");
         music.setVolume(volumeLevel / 100f);
-        cutscene = new Sound();
-        cutscene.playSound("res/sound/Cutscene-1and2-Boy-Girl-Hiding.wav");
-        cutscene.setVolume(volumeLevel / 100f);
+
+        cutsceneHiding = new Sound();
+        cutsceneHiding.playSound("res/sound/soundtrack/Cutscene-1and2-Boy-Girl-Hiding.wav");
+        cutsceneHiding.setVolume(volumeLevel / 100f);
+
+        cutsceneFrightening = new Sound();
+        cutsceneFrightening.playSound("res/sound/soundtrack/Cutscene3-4-5.wav");
+        cutsceneFrightening.setVolume(volumeLevel / 100f);
+
+        map1soundtrack = new Sound();
+        map1soundtrack.playSound("res/sound/soundtrack/death-note-soundtrack-slow-pitchdown.wav");
+        map1soundtrack.setVolume(volumeLevel / 100f);
+
+
         selectSound = new Sound();
-        selectSound.playSound("res/sound/menu-select.wav");
+        selectSound.playSound("res/sound/soundEffect/menu-select.wav");
         selectSound.setVolume(volumeLevel / 100f);
+
         confirmSound = new Sound();
-        confirmSound.playSound("res/sound/menu-confirm.wav");
+        confirmSound.playSound("res/sound/soundEffect/menu-confirm.wav");
         confirmSound.setVolume(volumeLevel / 100f);
+
         slidebarSound = new Sound();
-        slidebarSound.playSound("res/sound/menu-slidebar.wav");
+        slidebarSound.playSound("res/sound/soundEffect/menu-slidebar.wav");
         slidebarSound.setVolume(volumeLevel / 100f);
+
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
         volumeSlider.setOpaque(false);
@@ -82,8 +115,10 @@ public class UI {
         volumeSlider.setFocusable(true);
         volumeChange = new VolumeChange(this);
         volumeSlider.addChangeListener(volumeChange);
+
         fpsCounter = new FPSCounter();
         showFPS = config.isShowFPS();
+
         loadFont();
     }
 
@@ -123,8 +158,18 @@ public class UI {
                 drawFPS(g,fpsCounter);
             }
 
-            if (showMiniGame){
-                drawMiniGameMap3();
+            if(devmode){
+                devmode(g);
+            }
+
+            if(gp.currentTileMap == gp.tileMap3){
+                if (showMiniGame){
+                    drawMiniGameMap3();
+                }else {
+                    if (((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) || ((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) || ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880))){
+                        drawMiniGameKey();
+                    }
+                }
             }
         }
         if(gp.gameState == OPTION){
@@ -132,17 +177,11 @@ public class UI {
         }
     }
     public void drawPointer(){
-        ImageIcon icon = new ImageIcon("res/icon/candy.png");
-        Image image = icon.getImage();
-
-        g.drawImage(image, pointerPosition[pointerIndex][0], pointerPosition[pointerIndex][1], 52, 52, null);
+        g.drawImage(imageManager.getImage("pointer"), pointerPosition[pointerIndex][0], pointerPosition[pointerIndex][1], 52, 52, null);
     }
 
     public void drawTitle(){
-        ImageIcon icon = new ImageIcon("res/bg/sweet.png");
-        Image image = icon.getImage();
-
-        g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+        g.drawImage(imageManager.getImage("bg"), 0, 0, gp.getWidth(), gp.getHeight(), null);
 
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 64));
 
@@ -174,6 +213,7 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
+
 
             if (textDelay > 500){
                 //alpha -= alphaSpeed;
@@ -353,7 +393,7 @@ public class UI {
                 g.setColor(new Color(255, 255, 255, (int)getAlpha()));
 
                 fm = g.getFontMetrics();
-                text = "Han and Gra giggle as they play in the dense forest,";
+                text = "Hansel and Gratel giggle as they play in the dense forest,";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
                 textX = (gp.getWidth() - textWidth) / 2;
@@ -377,35 +417,23 @@ public class UI {
                 }
 
                 else if (imageDelay == 0){
-                    ImageIcon icon = new ImageIcon("res/cutscene/1.JPG");
-                    Image image = icon.getImage();
-                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    g.drawImage(imageManager.getImage("cutscene1"), 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 10) {
-                    ImageIcon icon = new ImageIcon("res/cutscene/2.JPG");
-                    Image image = icon.getImage();
-                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    g.drawImage(imageManager.getImage("cutscene2"), 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 20) {
-                    ImageIcon icon = new ImageIcon("res/cutscene/3.JPG");
-                    Image image = icon.getImage();
-                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    g.drawImage(imageManager.getImage("cutscene3"), 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 30) {
-                    ImageIcon icon = new ImageIcon("res/cutscene/4.JPG");
-                    Image image = icon.getImage();
-                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    g.drawImage(imageManager.getImage("cutscene4"), 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 40) {
-                    ImageIcon icon = new ImageIcon("res/cutscene/5.JPG");
-                    Image image = icon.getImage();
-                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    g.drawImage(imageManager.getImage("cutscene5"), 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
 
                 else if (imageDelay == 50) {
-                    ImageIcon icon = new ImageIcon("res/cutscene/6.JPG");
-                    Image image = icon.getImage();
-                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    g.drawImage(imageManager.getImage("cutscene6"), 0, 0, gp.getWidth(), gp.getHeight(), null);
 
                 }
             }
@@ -454,9 +482,7 @@ public class UI {
         if (SCENE == 3){
 
             if (imageDelay == 60 && showImage){
-                ImageIcon icon_6 = new ImageIcon("res/cutscene/7.JPG");
-                Image image_6 = icon_6.getImage();
-                g.drawImage(image_6, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                g.drawImage(imageManager.getImage("cutscene7"), 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
 
             System.out.println(getAlpha());
@@ -484,27 +510,37 @@ public class UI {
         }
     }
 
+    public void drawMiniGameKey(){
+        g.setColor(Color.white);
+        fm = g.getFontMetrics();
+        minigame = "Press [ E ] to eat candy.";
+        textWidth = fm.stringWidth(minigame);
+        textHeight = fm.getHeight();
+        textX = (gp.getWidth() - textWidth) / 2;
+        textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+        g.drawString(minigame, textX, textY);
+    }
+
     public void drawMiniGameMap3(){
-        ImageIcon icon = new ImageIcon("res/minigame/bar-black-export.png");
-        Image image = icon.getImage();
-
-        ImageIcon icon_2 = new ImageIcon("res/minigame/bar-white-export.png");
-        Image image_2 = icon_2.getImage();
-
-        ImageIcon icon_3 = new ImageIcon("res/minigame/bar-green-export.png");
-        Image image_3 = icon_3.getImage();
-
         int imageWidth = gp.xTileSize * 10;
         int imageHeight = gp.yTileSize * 2;
 
         //System.out.println(((gp.getWidth() - imageWidth) / 2));
 
+        g.setColor(Color.white);
+        fm = g.getFontMetrics();
+        minigame = "Press [ Space ] to eat candy.";
+        textWidth = fm.stringWidth(minigame);
+        textHeight = fm.getHeight();
+        textX = (gp.getWidth() - textWidth) / 2;
+        textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+        g.drawString(minigame, textX, textY);
 
         //ท้ายหลอด x = 460
         //ต้นหลอก x = (gp.getWidth() - imageWidth) / 2 || 280
-        g.drawImage(image, (gp.getWidth() - imageWidth) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth, imageHeight, null);
-        g.drawImage(image_2, 370, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/4, imageHeight, null);
-        g.drawImage(image_3, greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
+        g.drawImage(imageManager.getImage("blackbar"), (gp.getWidth() - imageWidth) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth, imageHeight, null);
+        g.drawImage(imageManager.getImage("whitebar"), 370, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/4, imageHeight, null);
+        g.drawImage(imageManager.getImage("greenbar"), greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
         greenBarPosition += 2;
 
         if (greenBarPosition >= 480) {
@@ -519,6 +555,14 @@ public class UI {
         g.setColor(Color.GREEN);
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
         g.drawString("FPS: " + fpsCounter.getFps(), 20, gp.getHeight() - 20);
+    }
+
+    public void devmode(Graphics g){
+        g.setColor(Color.GREEN);
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+        g.drawString("X: "+ Player.worldX, 20, gp.getHeight() - 200);
+        g.drawString("Y: "+ Player.worldY, 20, gp.getHeight() - 170);
+        g.drawString("Speed: "+ Player.speed, 20, gp.getHeight() - 140);
     }
 
     public void setPlayer(Player player) {

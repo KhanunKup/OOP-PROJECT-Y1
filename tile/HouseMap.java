@@ -5,10 +5,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class HouseMap extends TileManager{
     public HouseMap(String filePath){
         super(filePath, 36);
+        solidTiles = new HashSet<Integer>();
+        loadSolidTiles();
     }
 
     @Override
@@ -80,5 +83,9 @@ public class HouseMap extends TileManager{
     @Override
     public int[][] getMap() {
         return map;
+    }
+
+    @Override
+    public void loadSolidTiles() {
     }
 }

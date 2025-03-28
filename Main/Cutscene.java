@@ -1,7 +1,6 @@
 package Main;
 
 import static Main.UI.MOVING;
-import static Main.UI.TXT_CUTSCENE;
 
 public class Cutscene implements Runnable {
     public GamePanel gp;
@@ -24,7 +23,7 @@ public class Cutscene implements Runnable {
                 ui.imageDelay = 0;
                 ui.showImage = true;
                 gp.repaint();
-                ui.cutscene.play();
+                ui.cutsceneHiding.play();
                 Thread.sleep(5000);
 
                 ui.flashScreen = true;
@@ -39,6 +38,7 @@ public class Cutscene implements Runnable {
 
                 ui.imageDelay = 20;
                 gp.repaint();
+                ui.cutsceneFrightening.play();
                 Thread.sleep(3000);
 
                 ui.flashScreen = true;
