@@ -55,6 +55,13 @@ public class Cutscene implements Runnable {
                 gp.repaint();
                 Thread.sleep(3000);
 
+                ui.flashScreen = true;
+                gp.repaint();
+
+                ui.imageDelay = 50;
+                gp.repaint();
+                Thread.sleep(3000);
+
                 ui.showImage = false;
                 gp.gameState = 2;
                 ui.setAlpha(255);

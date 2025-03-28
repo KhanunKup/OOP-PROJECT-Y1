@@ -10,7 +10,7 @@ public class KeyHandler implements KeyListener {
     private int previousState;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
-                    shiftPressed;
+                    shiftPressed,ePressed;
 
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
@@ -24,6 +24,11 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+
+        if (gp.isQTEActive){
+            gp.checkQTE(e.getKeyChar());
+            return;
+        }
 
         if(gp.gameState == UI.MAIN_MENU){
             if(code == KeyEvent.VK_W){
@@ -140,12 +145,52 @@ public class KeyHandler implements KeyListener {
                 previousState = gp.gameState;
                 gp.gameState = UI.OPTION;
             }
+
+            if (gp.currentTileMap == gp.tileMap3){
+                int num = -1;
+                if ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015)){
+                    num = 2;
+                }
+                else if ((Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)){
+                    num = 1;
+                }
+                else if ((Player.worldX <= 1070) && (Player.worldY <= 1300 && Player.worldY >= 1160)){
+                    num = 0;
+                }
+
+                if (((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) || ((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) || ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880))){
+                    if (code == KeyEvent.VK_E){
+                        ui.greenBarPosition = 280;
+                        ui.showMiniGame = true;
+                        ui.spaceAble = true;
+                    }
+                    else if (ui.spaceAble){
+                        if ((code == KeyEvent.VK_SPACE) && (ui.greenBarPosition >= 370 && ui.greenBarPosition <= 440)){
+                            ui.showMiniGame = false;
+
+                            try {
+                                MapManager.candyPosition.remove(num);
+                            }
+                            catch (Exception ex){
+                                MapManager.candyPosition.remove(0);
+                            }
+                        }
+                    }
+                }
+                else {
+                    ui.showMiniGame = false;
+                }
+            }
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+
+        if (gp.isQTEActive){
+            return;
+        }
         if(gp.gameState == ui.MAIN_MENU){
             if(code == KeyEvent.VK_ENTER){
                 enterPressed = false;
@@ -163,6 +208,15 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_D) rightPressed = false;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
             if (code == KeyEvent.VK_ENTER) enterPressed = false;
+        }
+        if (gp.isQTEActive) {
+            char pressedKey = Character.toLowerCase((char) code);
+            System.out.println("Pressed Key: " + pressedKey); // พิมพ์ปุ่มที่กด
+
+            // ตรวจสอบว่าปุ่มที่กดตรงกับลำดับใน qteSequence หรือไม่
+            System.out.println("Expected Key: " + gp.qteSequence.charAt(gp.KeyIndex)); // พิมพ์ตัวอักษรที่คาดหวัง
+            // แปลง KeyCode เป็นตัวอักษร
+            gp.checkQTE(pressedKey); // เช็คว่าผู้เล่นกดปุ่มถูกต้องใน QTE หรือไม่
         }
     }
 
