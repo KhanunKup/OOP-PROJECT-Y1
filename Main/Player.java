@@ -69,7 +69,7 @@ public class Player implements Walkable {
         imageManager.setImage("idleAnimRight",idleAnimRight);
 
         for (int i = 0; i < 8; i++) {
-            walkingAnimLeft[i] = "res/Character/Hansel/Hansel_Walking/hansel_walking_left"+(i+1)+".png";;
+            walkingAnimLeft[i] = "res/Character/Hansel/Hansel_Walking/hansel_walking_left"+(i+1)+".png";
         }
         imageManager.setImage("walkingAnimLeft",walkingAnimLeft);
 
@@ -90,18 +90,18 @@ public class Player implements Walkable {
             if (currentIdleFrame > walkingAnimLeft.length-1) {
                 currentIdleFrame = 0;
             }
-            if (direction.equals("left")) {
+            if (animDirection.equals("left")) {
                 hansel = imageManager.getImages("idleAnimLeft");
-            } else if (direction.equals("right")) {
+            } else if (animDirection.equals("right")) {
                 hansel = imageManager.getImages("idleAnimRight");
             }
         } else if (state.equals("walking")) {
             if (currentIdleFrame > walkingAnimLeft.length-1) {
                 currentIdleFrame = 0;
             }
-            if (direction.equals("left")) {
+            if (animDirection.equals("left")) {
                 hansel = imageManager.getImages("walkingAnimLeft");
-            } else if (direction.equals("right")) {
+            } else if (animDirection.equals("right")) {
                 hansel = imageManager.getImages("walkingAnimRight");
             }
         }
