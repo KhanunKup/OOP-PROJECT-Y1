@@ -152,15 +152,16 @@ public class KeyHandler implements KeyListener {
 
             if (gp.currentTileMap == gp.tileMap3){
                 int num = -1;
-                if ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015)){
-                    num = 2;
-                }
-                else if ((Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)){
-                    num = 1;
-                }
-                else if ((Player.worldX <= 1070) && (Player.worldY <= 1300 && Player.worldY >= 1160)){
+                if ((Player.worldX <= 1085 && Player.worldX >= 815) && (Player.worldY >= 1120)){
                     num = 0;
                 }
+                else if ((Player.worldX >= 1300 && Player.worldX <= 1520) && Player.worldY >= 1120){
+                    num = 2;
+                }
+                else {
+                    num = 1;
+                }
+
 
                 if (((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) || ((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) || ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880))){
                     if (code == KeyEvent.VK_E){
@@ -173,10 +174,16 @@ public class KeyHandler implements KeyListener {
                             ui.showMiniGame = false;
 
                             try {
-                                MapManager.candyPosition.remove(num);
+                                MapManager.candyPosition.remove(num-ui.numCount);
                             }
                             catch (Exception ex){
                                 MapManager.candyPosition.remove(0);
+                                //System.out.println("Out of bounds.");
+                            }
+                            finally {
+                                //System.out.println(num-ui.numCount);
+                                //System.out.println(num);
+                                ui.numCount += 1;
                             }
                         }
                     }

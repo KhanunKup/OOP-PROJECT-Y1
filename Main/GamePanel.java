@@ -25,6 +25,8 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4;
     public int[][] map;
 
+    public CollisionChecker collChecker;
+
     public Player player;
     public KeyHandler keyH;
     public UI ui;
@@ -52,6 +54,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         currentTileMap = tileMap1;
+
+        collChecker = new CollisionChecker(this);
 
         this.addKeyListener(keyH);
 

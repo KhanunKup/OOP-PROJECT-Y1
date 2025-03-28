@@ -69,5 +69,9 @@ public class CellerMap extends TileManager{
     public int[][] getMap() {
         return map;
     }
+
+    @Override
+    public void loadSolidTiles() {
+    }
 }
 

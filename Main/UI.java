@@ -16,8 +16,8 @@ public class UI {
     public Font customFont;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
-    public int[] whiteBarPosition = {370,450,400};
-    public int greenBarPosition = 280;
+    //public int[] whiteBarPosition = {370,450,400};
+    public int greenBarPosition = 280, numCount = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
@@ -40,7 +40,7 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music, cutscene, selectSound, confirmSound, slidebarSound;
+    public Sound music, cutsceneHiding, cutsceneFrightening, selectSound, confirmSound, slidebarSound, map1soundtrack;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -68,6 +68,7 @@ public class UI {
         imageManager.setImage("cutscene4","res/cutscene/4.JPG");
         imageManager.setImage("cutscene5","res/cutscene/5.JPG");
         imageManager.setImage("cutscene6","res/cutscene/6.JPG");
+        imageManager.setImage("cutscene7","res/cutscene/7.JPG");
         imageManager.setImage("blackbar","res/minigame/bar-black-export.png");
         imageManager.setImage("whitebar","res/minigame/bar-white-export.png");
         imageManager.setImage("greenbar","res/minigame/bar-green-export.png");
@@ -76,20 +77,34 @@ public class UI {
         config.load();
         volumeLevel = config.getVolumeLevel();
         music = new Sound();
-        music.playSound("res/sound/SweetTombMainMenu.wav");
+        music.playSound("res/sound/soundtrack/SweetTombMainMenu.wav");
         music.setVolume(volumeLevel / 100f);
-        cutscene = new Sound();
-        cutscene.playSound("res/sound/Cutscene-1and2-Boy-Girl-Hiding.wav");
-        cutscene.setVolume(volumeLevel / 100f);
+
+        cutsceneHiding = new Sound();
+        cutsceneHiding.playSound("res/sound/soundtrack/Cutscene-1and2-Boy-Girl-Hiding.wav");
+        cutsceneHiding.setVolume(volumeLevel / 100f);
+
+        cutsceneFrightening = new Sound();
+        cutsceneFrightening.playSound("res/sound/soundtrack/Cutscene3-4-5.wav");
+        cutsceneFrightening.setVolume(volumeLevel / 100f);
+
+        map1soundtrack = new Sound();
+        map1soundtrack.playSound("res/sound/soundtrack/death-note-soundtrack-slow-pitchdown.wav");
+        map1soundtrack.setVolume(volumeLevel / 100f);
+
+
         selectSound = new Sound();
-        selectSound.playSound("res/sound/menu-select.wav");
+        selectSound.playSound("res/sound/soundEffect/menu-select.wav");
         selectSound.setVolume(volumeLevel / 100f);
+
         confirmSound = new Sound();
-        confirmSound.playSound("res/sound/menu-confirm.wav");
+        confirmSound.playSound("res/sound/soundEffect/menu-confirm.wav");
         confirmSound.setVolume(volumeLevel / 100f);
+
         slidebarSound = new Sound();
-        slidebarSound.playSound("res/sound/menu-slidebar.wav");
+        slidebarSound.playSound("res/sound/soundEffect/menu-slidebar.wav");
         slidebarSound.setVolume(volumeLevel / 100f);
+
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
         volumeSlider.setOpaque(false);
@@ -198,6 +213,7 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
+
 
             if (textDelay > 500){
                 //alpha -= alphaSpeed;
@@ -377,7 +393,7 @@ public class UI {
                 g.setColor(new Color(255, 255, 255, (int)getAlpha()));
 
                 fm = g.getFontMetrics();
-                text = "Han and Gra giggle as they play in the dense forest,";
+                text = "Hansel and Gratel giggle as they play in the dense forest,";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
                 textX = (gp.getWidth() - textWidth) / 2;
@@ -466,7 +482,7 @@ public class UI {
         if (SCENE == 3){
 
             if (imageDelay == 60 && showImage){
-                g.drawImage(imageManager.getImage("cutscene1"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+                g.drawImage(imageManager.getImage("cutscene7"), 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
 
             System.out.println(getAlpha());
@@ -527,7 +543,7 @@ public class UI {
         g.drawImage(imageManager.getImage("greenbar"), greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
         greenBarPosition += 2;
 
-        if (greenBarPosition >= 465) {
+        if (greenBarPosition >= 480) {
             greenBarPosition = 280;
         }
 
