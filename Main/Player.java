@@ -174,6 +174,47 @@ public class Player implements Walkable {
             if (((worldX<= 1500 && worldX >=1470) && (worldY<= 1410 && worldY >= 1400)) && gp.currentTileMap == gp.tileMap3){
                 worldY +=3;
             }
+            //ขอบประตูขวา ขวา
+            if (((worldX<= 1500 && worldX >=1449) && (worldY<= 1384 && worldY >= 1290)) && gp.currentTileMap == gp.tileMap3){
+                worldX -=3;
+            }
+            //ขอบขวา ซ้าย
+            if (((worldX<= 1405 && worldX >=1245) && (worldY<= 1405 && worldY >= 1400)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
+            }
+            //ขอบขวา ขวา
+            if (((worldX<= 1235 && worldX >=1226) && (worldY<= 1389 && worldY >= 1028)) && gp.currentTileMap == gp.tileMap3){
+                worldX -=3;
+            }
+            //ขอบขวา ซ้าย
+            if (((worldX<= 1440 && worldX >=1429) && (worldY<= 1389 && worldY >= 1293)) && gp.currentTileMap == gp.tileMap3){
+                worldX +=3;
+            }
+            //ขวาซ้าย บน
+            if (((worldX<= 1400 && worldX >=1286) && (worldY<= 1273 && worldY >= 1268)) && gp.currentTileMap == gp.tileMap3){
+                worldY -=3;
+            }
+            //ขวาซ้าย ซ้าย
+            if (((worldX<= 1300 && worldX >=1289) && (worldY<= 1266 && worldY >= 1133)) && gp.currentTileMap == gp.tileMap3){
+                worldX +=3;
+            }
+            //ขอบบนห้องนอนเล็ก
+            if (((worldX<= 1490 && worldX >=1280) && (worldY<= 1150 && worldY >= 1148)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
+            }
+            //ขอบล่าง
+            if (((worldX<= 1490 && worldX >=1260) && (worldY<= 1020 && worldY >= 1011)) && gp.currentTileMap == gp.tileMap3){
+                worldY -=3;
+            }
+            //ขอบบน
+            if (((worldX<= 1500 && worldX >=1085) && (worldY<= 950 && worldY >= 946)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
+            }
+            //
+            if (((worldX<= 1100 && worldX >=1085) && (worldY<= 957 && worldY >= 922)) && gp.currentTileMap == gp.tileMap3){
+                worldX -=3;
+            }
+
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
             if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
