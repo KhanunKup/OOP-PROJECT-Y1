@@ -16,6 +16,8 @@ public class UI {
     public Font customFont;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
+    public int[] whiteBarPosition = {370,450,400};
+    public int greenBarPosition = 280;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
@@ -28,7 +30,7 @@ public class UI {
     private double alpha = 0.0;
     private int alphaText = 0;
     public double alphaSpeed = 0.02;
-    public boolean showImage = false,showText = true,showObjText = true;
+    public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false;
     public boolean flashScreen = true;
     public boolean Fading = false;
     public boolean mapChanged = false;
@@ -128,6 +130,10 @@ public class UI {
             drawBackScreen(g);
             if(showFPS){
                 drawFPS(g,fpsCounter);
+            }
+
+            if (showMiniGame){
+                drawMiniGameMap3();
             }
         }
         if(gp.gameState == OPTION){
@@ -372,7 +378,7 @@ public class UI {
             if (showImage) {
                 textDelay = 0;
                 System.out.println(imageDelay);
-                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20 || imageDelay == 30 || imageDelay == 40))) {
+                if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20 || imageDelay == 30 || imageDelay == 40 || imageDelay == 50))) {
                     g.setColor(Color.WHITE);
                     g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
                     flashScreen = false;
@@ -385,24 +391,30 @@ public class UI {
                     g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 10) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/2.JPG");
-                    Image image_2 = icon_2.getImage();
-                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    ImageIcon icon = new ImageIcon("res/cutscene/2.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 20) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/3.JPG");
-                    Image image_2 = icon_2.getImage();
-                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    ImageIcon icon = new ImageIcon("res/cutscene/3.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
                 else if (imageDelay == 30) {
-                    ImageIcon icon_2 = new ImageIcon("res/cutscene/4.JPG");
-                    Image image_2 = icon_2.getImage();
-                    g.drawImage(image_2, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                    ImageIcon icon = new ImageIcon("res/cutscene/4.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
                 }
-                else if (imageDelay >= 40) {
-                    ImageIcon icon_3 = new ImageIcon("res/cutscene/5.JPG");
-                    Image image_3 = icon_3.getImage();
-                    g.drawImage(image_3, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                else if (imageDelay == 40) {
+                    ImageIcon icon = new ImageIcon("res/cutscene/5.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
+                }
+
+                else if (imageDelay == 50) {
+                    ImageIcon icon = new ImageIcon("res/cutscene/6.JPG");
+                    Image image = icon.getImage();
+                    g.drawImage(image, 0, 0, gp.getWidth(), gp.getHeight(), null);
 
                 }
             }
@@ -479,6 +491,36 @@ public class UI {
             g.setColor(i == optionIndex ? Color.YELLOW : Color.WHITE);
             g.drawString(menuText, optionX, optionY);
         }
+    }
+
+    public void drawMiniGameMap3(){
+        ImageIcon icon = new ImageIcon("res/minigame/bar-black-export.png");
+        Image image = icon.getImage();
+
+        ImageIcon icon_2 = new ImageIcon("res/minigame/bar-white-export.png");
+        Image image_2 = icon_2.getImage();
+
+        ImageIcon icon_3 = new ImageIcon("res/minigame/bar-green-export.png");
+        Image image_3 = icon_3.getImage();
+
+        int imageWidth = gp.xTileSize * 10;
+        int imageHeight = gp.yTileSize * 2;
+
+        //System.out.println(((gp.getWidth() - imageWidth) / 2));
+
+
+        //ท้ายหลอด x = 460
+        //ต้นหลอก x = (gp.getWidth() - imageWidth) / 2 || 280
+        g.drawImage(image, (gp.getWidth() - imageWidth) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth, imageHeight, null);
+        g.drawImage(image_2, 370, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/4, imageHeight, null);
+        g.drawImage(image_3, greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
+        greenBarPosition += 2;
+
+        if (greenBarPosition >= 465) {
+            greenBarPosition = 280;
+        }
+
+        System.out.println(greenBarPosition);
     }
 
     public void drawFPS(Graphics g,FPSCounter fpsCounter){

@@ -2,17 +2,24 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MapManager {
     GamePanel gp;
     Player player;
     int screenIdleX,screenIdleY;
     ImageManager imageManager;
+    //static int[][] candyPosition = {{985,1240},{1255,935},{1485,1210}};
+    static ArrayList<int[]> candyPosition = new ArrayList<>();
 
     public MapManager(GamePanel gp, Player player, ImageManager imageManager) {
         this.gp = gp;
         this.player = player;
         this.imageManager = imageManager;
+        candyPosition.add(new int[]{985, 1240});
+        candyPosition.add(new int[]{1255, 935});
+        candyPosition.add(new int[]{1485, 1210});
 
         imageManager.setImage("gratel","res/Character/Gratel/Gratel_Idle/gratel_idle1.png");
 
@@ -33,6 +40,8 @@ public class MapManager {
         imageManager.setImage("topfur","res/object/TopFur.png");
 
         imageManager.setImage("tree","res/object/Tree.png");
+
+        imageManager.setImage("candy","res/object/Candy.png");
     }
 
     public void drawMap(Graphics g) {
@@ -101,9 +110,19 @@ public class MapManager {
             screenIdleY = 1260 - player.worldY + player.screenY;
             g.drawImage(imageManager.getImage("table"), screenIdleX-125, screenIdleY-400, 700, 700, null);
 
-            screenIdleX = 1225 - player.worldX + player.screenX;
-            screenIdleY = 160 - player.worldY + player.screenY;
-            g.drawImage(imageManager.getImage("tree"), screenIdleX+400, screenIdleY, 124, 124, null);
+            screenIdleX = 1310 - player.worldX + player.screenX;
+            screenIdleY = 1410 - player.worldY + player.screenY;
+            g.drawImage(imageManager.getImage("tree"), screenIdleX-450, screenIdleY-530, 700, 700, null);
+
+            for (int i = 0; i < candyPosition.size();i++){
+                int[] pos = candyPosition.get(i);
+                //screenIdleX = candyPosition[i][0] - Player.worldX + player.screenX;
+                //screenIdleY = candyPosition[i][1] - Player.worldY + player.screenY;
+                screenIdleX = pos[0] - Player.worldX + player.screenX;
+                screenIdleY = pos[1] - Player.worldY + player.screenY;
+
+                g.drawImage(imageManager.getImage("candy"), screenIdleX, screenIdleY, gp.xTileSize, gp.yTileSize, null);
+            }
 
         }
 
