@@ -1,5 +1,6 @@
 package Main;
 
+import tile.CellerMap;
 import tile.ForestMap;
 import tile.HouseMap;
 import tile.TileManager;
@@ -20,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int gameState = UI.MOVING; // 0 = title , 1 = play
 
-    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3;
+    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4;
     public int[][] map;
 
     public CollisionChecker collChecker;
@@ -50,7 +51,9 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap1 = new ForestMap("res/map/Map1-Final.txt");
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
-        currentTileMap = tileMap1;
+        tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
+        currentTileMap = tileMap4;
+
         collChecker = new CollisionChecker(this);
 
         this.addKeyListener(keyH);
