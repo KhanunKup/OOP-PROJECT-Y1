@@ -23,6 +23,8 @@ public class Player extends Human implements Walkable{
 
     UI ui;
 
+    CollisionChecker collisionChecker;
+
     public Player(GamePanel gamePanel, KeyHandler keyH, ImageManager imageManager) {
         this.setSpeed(2);
         this.setWorldX(665);
@@ -34,6 +36,7 @@ public class Player extends Human implements Walkable{
         state = "idle";
         this.setHitbox((gp.xTileSize * 2 - 24) / 2 , (gp.yTileSize * 2 - 24) / 2 , 24 , 24);
         ui = new UI(gp,this);
+        this.collisionChecker = new CollisionChecker(gp);
         valuesSetting();
         playerLoading(imageManager);
     }
@@ -173,89 +176,46 @@ public class Player extends Human implements Walkable{
             setScreenPosition();
 
             //เสายาวซ้าย
-            if (((worldX<= 860 && worldX >=829) && (worldY<= 1508 && worldY >= 850)) && gp.currentTileMap == gp.tileMap3) {
-                worldX += 3;
-            }
+            collisionChecker.setCollisionPlusX(860,829,1508,850, gp.tileMap3);
             //
-            if (((worldX<= 1163 && worldX >=858) && (worldY<= 1150 && worldY >= 1134)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1163,858,1150,1134,gp.tileMap3);
             //
-            if (((worldX<= 1163 && worldX >=860) && (worldY<= 1000 && worldY >= 990)) && gp.currentTileMap == gp.tileMap3){
-                worldY -=3;
-            }
+            collisionChecker.setCollisionMinusY(1163,860,1000,990,gp.tileMap3);
             //
-            if (((worldX<= 1100 && worldX >=1088) && (worldY<= 1366 && worldY >= 1150)) && gp.currentTileMap == gp.tileMap3){
-                worldX -=3;
-            }
+            collisionChecker.setCollisionMinusX(1100,1088,1366,1150,gp.tileMap3);
             //
-            if (((worldX<= 1165 && worldX >=1120) && (worldY<= 1360 && worldY >= 1145)) && gp.currentTileMap == gp.tileMap3){
-                worldX +=3;
-            }
+            collisionChecker.setCollisionPlusX(1165,1120,1360,1145,gp.tileMap3);
             //ขอบขนบรรได
-            if (((worldX<= 1100 && worldX >=859) && (worldY<= 920 && worldY >= 910)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1100,859,920,910, gp.tileMap3);
             //ขอบขวาเสาซ้าย
-            if (((worldX<= 1180 && worldX >=1150) && (worldY<= 1129 && worldY >= 1025)) && gp.currentTileMap == gp.tileMap3){
-                worldX +=3;
-            }
+            collisionChecker.setCollisionPlusX(1180,1150,1129,1025,gp.tileMap3);
             //ขอบเสาซ้ายเล็กๆ
-            if (((worldX<= 1135 && worldX >=1100) && (worldY<= 1390 && worldY >= 1376)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1135,1100,1390,1376, gp.tileMap3);
             //ขอบล่าง
-            if (((worldX<= 1500 && worldX >=850) && (worldY<= 1513 && worldY >= 1505)) && gp.currentTileMap == gp.tileMap3){
-                worldY -=3;
-            }
+            collisionChecker.setCollisionMinusY(1500,850,1513,1505,gp.tileMap3);
             //ขอบขวา
-            if (((worldX<= 1500 && worldX >=1491) && (worldY<= 1503 && worldY >= 918)) && gp.currentTileMap == gp.tileMap3){
-                worldX -=3;
-            }
+            collisionChecker.setCollisionMinusX(1500,1491,1503,918,gp.tileMap3);
             //ขอบประตูขวา
-            if (((worldX<= 1500 && worldX >=1470) && (worldY<= 1410 && worldY >= 1400)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1500,1470,1410,1400, gp.tileMap3);
             //ขอบประตูขวา ขวา
-            if (((worldX<= 1500 && worldX >=1449) && (worldY<= 1384 && worldY >= 1290)) && gp.currentTileMap == gp.tileMap3){
-                worldX -=3;
-            }
+            collisionChecker.setCollisionMinusX(1500,1449,1384,1290,gp.tileMap3);
             //ขอบขวา ซ้าย
-            if (((worldX<= 1405 && worldX >=1245) && (worldY<= 1405 && worldY >= 1400)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1405,1245,1405,1400, gp.tileMap3);
             //ขอบขวา ขวา
-            if (((worldX<= 1235 && worldX >=1226) && (worldY<= 1389 && worldY >= 1028)) && gp.currentTileMap == gp.tileMap3){
-                worldX -=3;
-            }
+            collisionChecker.setCollisionMinusX(1235,1226,1389,1028,gp.tileMap3);
             //ขอบขวา ซ้าย
-            if (((worldX<= 1440 && worldX >=1429) && (worldY<= 1389 && worldY >= 1293)) && gp.currentTileMap == gp.tileMap3){
-                worldX +=3;
-            }
+            collisionChecker.setCollisionPlusX(1440,1429,1389,1293,gp.tileMap3);
             //ขวาซ้าย บน
-            if (((worldX<= 1400 && worldX >=1286) && (worldY<= 1273 && worldY >= 1268)) && gp.currentTileMap == gp.tileMap3){
-                worldY -=3;
-            }
+            collisionChecker.setCollisionMinusY(1400,1286,1273,1268,gp.tileMap3);
             //ขวาซ้าย ซ้าย
-            if (((worldX<= 1300 && worldX >=1289) && (worldY<= 1266 && worldY >= 1133)) && gp.currentTileMap == gp.tileMap3){
-                worldX +=3;
-            }
+            collisionChecker.setCollisionPlusX(1300,1289,1266,1133,gp.tileMap3);
             //ขอบบนห้องนอนเล็ก
-            if (((worldX<= 1490 && worldX >=1280) && (worldY<= 1150 && worldY >= 1148)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1490,1280,1150,1148, gp.tileMap3);
             //ขอบล่าง
-            if (((worldX<= 1490 && worldX >=1260) && (worldY<= 1020 && worldY >= 1011)) && gp.currentTileMap == gp.tileMap3){
-                worldY -=3;
-            }
             //ขอบบน
-            if (((worldX<= 1500 && worldX >=1085) && (worldY<= 950 && worldY >= 946)) && gp.currentTileMap == gp.tileMap3){
-                worldY +=3;
-            }
+            collisionChecker.setCollisionPlusY(1490,1260,1020,1011, gp.tileMap3);
             //
-            if (((worldX<= 1100 && worldX >=1085) && (worldY<= 957 && worldY >= 922)) && gp.currentTileMap == gp.tileMap3){
-                worldX -=3;
-            }
+            collisionChecker.setCollisionMinusX(1100,1085,957,922,gp.tileMap3);
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
             if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
