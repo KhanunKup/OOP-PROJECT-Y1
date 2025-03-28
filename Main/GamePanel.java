@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxRow = 100; //How many tile of row
     public final int maxCol = 100;
     GamePanel gp;
+    Player py;
 
     public Thread gameThread;
 
@@ -32,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public boolean isQTEActive = false;
     private int qteTimeLeft = 3;
-    public String qteSequence = "run";
+    public String qteSequence = "resclurage";
     public int KeyIndex = 0;
     private long lastQTETime;
 
@@ -50,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap3;
+        currentTileMap = tileMap1;
 
         this.addKeyListener(keyH);
 
@@ -113,7 +114,9 @@ public class GamePanel extends JPanel implements Runnable {
             int screenIdleX = fixedX - player.worldX + player.screenX;
             int screenIdleY = fixedY - player.worldY + player.screenY;
 
-            if ((screenIdleX >= 0 && screenIdleX <= 100 && screenIdleY >= 750 && screenIdleY <= 850)){
+
+            // สำหรับแก้ใน map 5 ถ้าเอามาลงแล้ว
+            if (((py.worldX<= 1100 && py.worldX >=1085) && (py.worldY<= 957 && py.worldY >= 922)) && gp.currentTileMap == gp.tileMap1){
                 startQTE();
             }
         }
@@ -147,6 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             lastQTETime = System.currentTimeMillis();
             qteTimeLeft = 3;
+
             // ไปยังตัวอักษรถัดไปเสมอ
             KeyIndex++;
 
