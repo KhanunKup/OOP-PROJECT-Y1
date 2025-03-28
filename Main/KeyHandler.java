@@ -197,8 +197,6 @@ public class KeyHandler implements KeyListener {
                                     break;
                                 }
                             }
-
-                                ui.numCount += 1;
                         }
                     }
                 }
