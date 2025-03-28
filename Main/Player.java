@@ -9,6 +9,7 @@ public class Player implements Walkable {
     int currentIdleFrame = 0;
     String direction;
     String state;
+    float moveSpeed = 0.5f;
 
     int screenX;
     int screenY;
@@ -128,6 +129,22 @@ public class Player implements Walkable {
         System.out.println("Y :" + worldY);
         if (gp.gameState == UI.MOVING) {
             setScreenPosition();
+
+            if (((worldX<= 860 && worldX >=829) && (worldY<= 1508 && worldY >= 850)) && gp.currentTileMap == gp.tileMap3) {
+                worldX += 3;
+            }
+            if (((worldX<= 1163 && worldX >=858) && (worldY<= 1150 && worldY >= 1134)) && gp.currentTileMap == gp.tileMap3){
+                worldY +=3;
+            }
+            if (((worldX<= 1163 && worldX >=860) && (worldY<= 1000 && worldY >= 990)) && gp.currentTileMap == gp.tileMap3){
+                worldY -=3;
+            }
+            if (((worldX<= 1100 && worldX >=1088) && (worldY<= 1366 && worldY >= 1150)) && gp.currentTileMap == gp.tileMap3){
+                worldX -=3;
+            }
+            if (((worldX<= 1165 && worldX >=1151) && (worldY<= 1360 && worldY >= 1149)) && gp.currentTileMap == gp.tileMap3){
+                worldX +=3;
+            }
 
             //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
             if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){

@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static int mapY = 475;
     public final int maxRow = 100; //How many tile of row
     public final int maxCol = 100;
+    GamePanel gp;
 
     public Thread gameThread;
 
@@ -27,6 +28,12 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui;
     public MapManager mapM;
     public ImageManager imageManager;
+
+    public boolean isQTEActive = false;
+    private int qteTimeLeft = 3;
+    public String qteSequence = "run";
+    public int KeyIndex = 0;
+    private long lastQTETime;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(mapX, mapY));
@@ -94,6 +101,73 @@ public class GamePanel extends JPanel implements Runnable {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+    public void checkQTETrigger(){
+        if (!isQTEActive){
+            int fixedX = 25;
+            int fixedY = gp.maxRow * gp.yTileSize - gp.yTileSize;
+
+            int screenIdleX = fixedX - player.worldX + player.screenX;
+            int screenIdleY = fixedY - player.worldY + player.screenY;
+
+            if ((screenIdleX >= 0 && screenIdleX <= 100 && screenIdleY >= 750 && screenIdleY <= 850)){
+                startQTE();
+            }
+        }
+    }
+    public void startQTE(){
+        qteTimeLeft = 3;
+        KeyIndex = 0;
+        isQTEActive = true;
+        lastQTETime = System.currentTimeMillis();
+
+        player.state = "idle";
+        player.keyH.upPressed = false;
+        player.keyH.downPressed = false;
+        player.keyH.leftPressed = false;
+        player.keyH.rightPressed = false;
+
+        repaint();
+    }
+    public void checkQTE(char pressedKey) {
+        if (isQTEActive) {
+            System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
+
+
+            if (pressedKey == qteSequence.charAt(KeyIndex)) {
+                System.out.println("Correct!");
+                player.worldX += 50;
+            } else {
+                System.out.println("Wrong Key!");
+                player.worldX -= 50;
+            }
+
+            lastQTETime = System.currentTimeMillis();
+            qteTimeLeft = 3;
+            // ไปยังตัวอักษรถัดไปเสมอ
+            KeyIndex++;
+
+            // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
+            if (KeyIndex >= qteSequence.length()) {
+                isQTEActive = false;
+                System.out.println("QTE Completed!");
+            }
+
+            repaint();
+        }
+    }
+    public void updateQTE() {
+        if (isQTEActive) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = (currentTime - lastQTETime) / 1000;
+            qteTimeLeft = 3 - (int) elapsedTime;
+
+            if (qteTimeLeft <= 0) {
+                isQTEActive = false;
+                System.out.println("Time's up!");
+                repaint();
+            }
         }
     }
 }

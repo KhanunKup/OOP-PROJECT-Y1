@@ -25,6 +25,11 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        if (gp.isQTEActive){
+            gp.checkQTE(e.getKeyChar());
+            return;
+        }
+
         if(gp.gameState == UI.MAIN_MENU){
             if(code == KeyEvent.VK_W){
                 ui.selectSound.play();
@@ -182,6 +187,10 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+
+        if (gp.isQTEActive){
+            return;
+        }
         if(gp.gameState == ui.MAIN_MENU){
             if(code == KeyEvent.VK_ENTER){
                 enterPressed = false;
@@ -199,6 +208,15 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_D) rightPressed = false;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
             if (code == KeyEvent.VK_ENTER) enterPressed = false;
+        }
+        if (gp.isQTEActive) {
+            char pressedKey = Character.toLowerCase((char) code);
+            System.out.println("Pressed Key: " + pressedKey); // พิมพ์ปุ่มที่กด
+
+            // ตรวจสอบว่าปุ่มที่กดตรงกับลำดับใน qteSequence หรือไม่
+            System.out.println("Expected Key: " + gp.qteSequence.charAt(gp.KeyIndex)); // พิมพ์ตัวอักษรที่คาดหวัง
+            // แปลง KeyCode เป็นตัวอักษร
+            gp.checkQTE(pressedKey); // เช็คว่าผู้เล่นกดปุ่มถูกต้องใน QTE หรือไม่
         }
     }
 
