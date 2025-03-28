@@ -16,13 +16,13 @@ public class UI {
     public Font customFont;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
-    public int[] whiteBarPosition = {370,450,400};
-    public int greenBarPosition = 280;
+    //public int[] whiteBarPosition = {370,450,400};
+    public int greenBarPosition = 280, numCount = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
     public String[] optionMenu = {"Volume","Display FPS","Back"};
-    public int optionIndex = 0,pointerIndex = 0;
+    public int optionIndex = 0,pointerIndex = 0,numIndex = 0;
     public boolean showFPS = true;
 
     public boolean checkAlphaText = false;
@@ -507,7 +507,7 @@ public class UI {
         g.drawImage(image_3, greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
         greenBarPosition += 2;
 
-        if (greenBarPosition >= 465) {
+        if (greenBarPosition >= 480) {
             greenBarPosition = 280;
         }
 
