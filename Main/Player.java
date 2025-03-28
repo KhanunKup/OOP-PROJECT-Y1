@@ -17,13 +17,13 @@ public class Player implements Walkable {
     static int worldX, worldY, speed, speedDiag;
     KeyHandler keyH;
     GamePanel gp;
-    Image hansel;
-    Image idleAnimLeft[];
-    Image idleAnimRight[];
-    Image walkingAnimLeft[];
-    Image walkingAnimRight[];
+    Image[] hansel;
+    String[] idleAnimLeft;
+    String[] idleAnimRight;
+    String[] walkingAnimLeft;
+    String[] walkingAnimRight;
 
-    public Player(GamePanel gamePanel, KeyHandler keyH) {
+    public Player(GamePanel gamePanel, KeyHandler keyH, ImageManager imageManager) {
         this.gp = gamePanel;
         this.keyH = keyH;
         direction = "right";
@@ -31,7 +31,7 @@ public class Player implements Walkable {
         state = "idle";
         hitbox = new Rectangle();
         valuesSetting();
-        playerLoading();
+        playerLoading(imageManager);
     }
 
     public void valuesSetting() {
@@ -43,10 +43,10 @@ public class Player implements Walkable {
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
         speed = 3;
         speedDiag = (int) (speed/Math.sqrt(2));
-        idleAnimLeft = new Image[9];
-        idleAnimRight = new Image[9];
-        walkingAnimLeft = new Image[8];
-        walkingAnimRight = new Image[8];
+        idleAnimLeft = new String[9];
+        idleAnimRight = new String[9];
+        walkingAnimLeft = new String[8];
+        walkingAnimRight = new String[8];
         int hitboxWidth = 24;
         int hitboxHeight = 24;
         int hitboxXOffset = (gp.xTileSize * 2 - hitboxWidth) / 2;
@@ -57,28 +57,29 @@ public class Player implements Walkable {
         hitbox.height = hitboxHeight;
     }
 
-    public void playerLoading() {
+    public void playerLoading(ImageManager imageManager) {
         for (int i = 0; i < 9; i++) { //Storing player.png in an array
-            String path = "res/Character/Hansel/Hansel_Idle/hansel_idle_left"+(i+1)+".png";
-            idleAnimLeft[i] = new ImageIcon(path).getImage();
+            idleAnimLeft[i] = "res/Character/Hansel/Hansel_Idle/hansel_idle_left"+(i+1)+".png";
         }
+        imageManager.setImage("idleAnimLeft",idleAnimLeft);
 
         for (int i = 0; i < 9; i++) {
-            String path = "res/Character/Hansel/Hansel_Idle/hansel_idle_right"+(i+1)+".png";
-            idleAnimRight[i] = new ImageIcon(path).getImage();
+            idleAnimRight[i] = "res/Character/Hansel/Hansel_Idle/hansel_idle_right"+(i+1)+".png";
         }
+        imageManager.setImage("idleAnimRight",idleAnimRight);
 
         for (int i = 0; i < 8; i++) {
-            String path = "res/Character/Hansel/Hansel_Walking/hansel_walking_left"+(i+1)+".png";
-            walkingAnimLeft[i] = new ImageIcon(path).getImage();
+            walkingAnimLeft[i] = "res/Character/Hansel/Hansel_Walking/hansel_walking_left"+(i+1)+".png";;
         }
+        imageManager.setImage("walkingAnimLeft",walkingAnimLeft);
+
         for (int i = 0; i < 8; i++) {
-            String path = "res/Character/Hansel/Hansel_Walking/hansel_walking_right"+(i+1)+".png";
-            walkingAnimRight[i] = new ImageIcon(path).getImage();
+            walkingAnimRight[i] = "res/Character/Hansel/Hansel_Walking/hansel_walking_right"+(i+1)+".png";
         }
+        imageManager.setImage("walkingAnimRight",walkingAnimRight);
     }
 
-    public void animationHandler() {
+    public void animationHandler(ImageManager imageManager) {
         currentFrame++;
         if (currentFrame >= animDelay) {
             currentFrame = 0;
@@ -89,21 +90,19 @@ public class Player implements Walkable {
             if (currentIdleFrame > walkingAnimLeft.length-1) {
                 currentIdleFrame = 0;
             }
-
-            if (animDirection.equals("left")) {
-                hansel = idleAnimLeft[currentIdleFrame];
-            } else if (animDirection.equals("right")) {
-                hansel = idleAnimRight[currentIdleFrame];
+            if (direction.equals("left")) {
+                hansel = imageManager.getImages("idleAnimLeft");
+            } else if (direction.equals("right")) {
+                hansel = imageManager.getImages("idleAnimRight");
             }
         } else if (state.equals("walking")) {
             if (currentIdleFrame > walkingAnimLeft.length-1) {
                 currentIdleFrame = 0;
             }
-
-            if (animDirection.equals("left")) {
-                hansel = walkingAnimLeft[currentIdleFrame];
-            } else if (animDirection.equals("right")) {
-                hansel = walkingAnimRight[currentIdleFrame];
+            if (direction.equals("left")) {
+                hansel = imageManager.getImages("walkingAnimLeft");
+            } else if (direction.equals("right")) {
+                hansel = imageManager.getImages("walkingAnimRight");
             }
         }
 
@@ -171,7 +170,7 @@ public class Player implements Walkable {
         }
     }
 
-    public void update() {
+    public void update(ImageManager imageManager) {
 //        System.out.println("X :" + worldX);
 //        System.out.println("Y :" + worldY);
         if (gp.gameState == UI.MOVING) {
@@ -204,13 +203,16 @@ public class Player implements Walkable {
 
             moveCharacter(this);
 
-            animationHandler();
+            animationHandler(imageManager);
         }
     }
 
     public void draw(Graphics g) {
-        g.drawImage(hansel, screenX, screenY, gp.xTileSize *2, gp.yTileSize *2, null);
-        g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
+//        g.fillRect(x, y, gp.xTile, gp.yTile);
+        if (hansel != null && hansel.length > 0) {
+            g.drawImage(hansel[currentIdleFrame], screenX, screenY, gp.xTileSize *2, gp.yTileSize *2, null);
+            g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
+        }
     }
 
     public void setScreenPosition() {
