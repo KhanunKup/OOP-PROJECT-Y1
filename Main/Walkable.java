@@ -5,8 +5,8 @@ public interface Walkable {
     void walkDown();
     void walkLeft();
     void walkRight();
-    void walkDiagLeftUp();
-    void walkDiagLeftDown();
-    void walkDiagRightUp();
-    void walkDiagRightDown();
+    void walkDiagUpLeft();
+    void walkDiagDownLeft();
+    void walkDiagUpRight();
+    void walkDiagDownRight();
 }

@@ -17,10 +17,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
 
-    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
+    public int gameState = UI.MOVING; // 0 = title , 1 = play
 
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3;
     public int[][] map;
+
+    public CollisionChecker collChecker;
 
     public Player player;
     public KeyHandler keyH;
@@ -42,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         currentTileMap = tileMap1;
+        collChecker = new CollisionChecker(this);
 
         this.addKeyListener(keyH);
 

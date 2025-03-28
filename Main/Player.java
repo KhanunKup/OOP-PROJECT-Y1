@@ -7,8 +7,9 @@ public class Player implements Walkable {
     final int animDelay = 7;
     int currentFrame = 0;
     int currentIdleFrame = 0;
-    String direction;
-    String state;
+    String direction, animDirection, state;
+
+    Rectangle hitbox;
 
     int screenX;
     int screenY;
@@ -26,7 +27,9 @@ public class Player implements Walkable {
         this.gp = gamePanel;
         this.keyH = keyH;
         direction = "right";
+        animDirection = "right";
         state = "idle";
+        hitbox = new Rectangle();
         valuesSetting();
         playerLoading();
     }
@@ -44,6 +47,14 @@ public class Player implements Walkable {
         idleAnimRight = new Image[9];
         walkingAnimLeft = new Image[8];
         walkingAnimRight = new Image[8];
+        int hitboxWidth = 24;
+        int hitboxHeight = 24;
+        int hitboxXOffset = (gp.xTileSize * 2 - hitboxWidth) / 2;
+        int hitboxYOffset = (gp.yTileSize * 2 - hitboxHeight) / 2;
+        hitbox.x = hitboxXOffset;
+        hitbox.y = hitboxYOffset;
+        hitbox.width = hitboxWidth;
+        hitbox.height = hitboxHeight;
     }
 
     public void playerLoading() {
@@ -79,9 +90,9 @@ public class Player implements Walkable {
                 currentIdleFrame = 0;
             }
 
-            if (direction.equals("left")) {
+            if (animDirection.equals("left")) {
                 hansel = idleAnimLeft[currentIdleFrame];
-            } else if (direction.equals("right")) {
+            } else if (animDirection.equals("right")) {
                 hansel = idleAnimRight[currentIdleFrame];
             }
         } else if (state.equals("walking")) {
@@ -89,9 +100,9 @@ public class Player implements Walkable {
                 currentIdleFrame = 0;
             }
 
-            if (direction.equals("left")) {
+            if (animDirection.equals("left")) {
                 hansel = walkingAnimLeft[currentIdleFrame];
-            } else if (direction.equals("right")) {
+            } else if (animDirection.equals("right")) {
                 hansel = walkingAnimRight[currentIdleFrame];
             }
         }
@@ -102,22 +113,59 @@ public class Player implements Walkable {
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             state = "walking";
             if (keyH.upPressed && keyH.rightPressed) {
-                walker.walkDiagRightUp();
+                direction = "upRight";
+                animDirection = "right";
             } else if (keyH.upPressed && keyH.leftPressed) {
-                walker.walkDiagLeftUp();
+                direction = "upLeft";
+                animDirection = "left";
             } else if (keyH.downPressed && keyH.rightPressed) {
-                walker.walkDiagRightDown();
+                direction = "downRight";
+                animDirection = "right";
             } else if (keyH.downPressed && keyH.leftPressed) {
-                walker.walkDiagLeftDown();
+                direction = "downLeft";
+                animDirection = "left";
             } else if (keyH.upPressed) {
-                walker.walkUp();
+                direction = "up";
+                //animDirection จะเป็น direction ล่าสุด
             } else if (keyH.downPressed) {
-                walker.walkDown();
+                direction = "down";
             } else if (keyH.leftPressed) {
-                walker.walkLeft();
+                direction = "left";
+                animDirection = "left";
             } else if (keyH.rightPressed)  {
-                walker.walkRight();
+                direction = "right";
+                animDirection = "right";
             }
+
+            if (gp.collChecker.isBlockWalkable(this.direction, this) == true) { //if walkable
+                switch (direction) {
+                    case "upRight":
+                        walker.walkDiagUpRight();
+                        break;
+                    case "upLeft":
+                        walker.walkDiagUpLeft();
+                        break;
+                    case "downRight":
+                        walker.walkDiagDownRight();
+                        break;
+                    case "downLeft":
+                        walker.walkDiagDownLeft();
+                        break;
+                    case "up":
+                        walker.walkUp();
+                        break;
+                    case "down":
+                        walker.walkDown();
+                        break;
+                    case "left":
+                        walker.walkLeft();
+                        break;
+                    case "right":
+                        walker.walkRight();
+                        break;
+                }
+            }
+
         } else {
             state = "idle";
         }
@@ -143,6 +191,7 @@ public class Player implements Walkable {
                 gp.ui.showImage = true;
                 gp.ui.imageDelay = 60;
                 gp.ui.startFade();
+                keyH.keyBoolRelease();
             }
 
             if (keyH.shiftPressed) {
@@ -158,8 +207,8 @@ public class Player implements Walkable {
     }
 
     public void draw(Graphics g) {
-//        g.fillRect(x, y, gp.xTile, gp.yTile);
         g.drawImage(hansel, screenX, screenY, gp.xTileSize *2, gp.yTileSize *2, null);
+        g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
     }
 
     public void setScreenPosition() {
@@ -167,56 +216,48 @@ public class Player implements Walkable {
         screenY = gp.mapY / 2 - gp.yTileSize / 2;
     }
 
-
+    //used for player position(x,y) changes
     @Override
     public void walkUp() {
         worldY -= speed;
-//                direction = "up";
     }
 
     @Override
     public void walkDown() {
         worldY += speed;
-//                direction = "down";
     }
 
     @Override
     public void walkLeft() {
         worldX -= speed;
-        direction = "left";
     }
 
     @Override
     public void walkRight() {
         worldX += speed;
-        direction = "right";
     }
 
     @Override
-    public void walkDiagLeftUp() {
+    public void walkDiagUpLeft() {
         worldX -= speedDiag;
         worldY -= speedDiag;
-        direction = "left";
     }
 
     @Override
-    public void walkDiagLeftDown() {
+    public void walkDiagDownLeft() {
         worldX -= speedDiag;
         worldY += speedDiag;
-        direction = "left";
     }
 
     @Override
-    public void walkDiagRightUp() {
+    public void walkDiagUpRight() {
         worldX += speedDiag;
         worldY -= speedDiag;
-        direction = "right";
     }
 
     @Override
-    public void walkDiagRightDown() {
+    public void walkDiagDownRight() {
         worldX += speedDiag;
         worldY += speedDiag;
-        direction = "right";
     }
 }
