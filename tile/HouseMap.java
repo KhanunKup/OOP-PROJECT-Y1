@@ -83,7 +83,7 @@ public class HouseMap extends TileManager{
         return map;
     }
 
+    @Override
     public void loadSolidTiles() {
-
     }
 }
