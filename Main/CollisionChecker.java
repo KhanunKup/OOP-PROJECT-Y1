@@ -2,6 +2,7 @@ package Main;
 
 public class CollisionChecker {
     GamePanel gp;
+    public int leftCol, rightCol, topRow, bottomRow;
 
     public CollisionChecker(GamePanel gp) {
         this.gp = gp;
@@ -19,6 +20,20 @@ public class CollisionChecker {
         int rightCol = (rightX + player.speed) / gp.xTileSize;
         int topRow = (topY - player.speed) / gp.yTileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
         int bottomRow = (bottomY + player.speed) / gp.yTileSize;
+
+        if (leftCol <= 0) { //ทำให้อยู่ใน 100x100 map (สร้าง boundary)
+                player.worldX += player.speed;
+            }
+            if (rightCol >= gp.maxCol - 1) {
+                player.worldX -= player.speed;
+            }
+            if (topRow <= 0) {
+                player.worldY += player.speed;
+            }
+            if (bottomRow >= gp.maxRow - 1) {
+                player.worldY -= player.speed;
+            }
+
 
         int tile1, tile2; //2 tiles used for checking for collision
 

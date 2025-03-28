@@ -14,7 +14,7 @@ public class Player implements Walkable {
     int screenX;
     int screenY;
 
-    static int worldX, worldY, speed, speedDiag;
+    public static int worldX, worldY, speed, speedDiag;
     KeyHandler keyH;
     GamePanel gp;
     Image[] hansel;

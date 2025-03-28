@@ -145,7 +145,6 @@ public class UI {
             drawText();
         }
         if(gp.gameState == MOVING){
-            map1soundtrack.play();
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
