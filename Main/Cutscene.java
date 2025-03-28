@@ -74,7 +74,7 @@ public class Cutscene implements Runnable {
 
             if (UI.SCENE == 3){
                 gp.repaint();
-                Thread.sleep(3000);
+                Thread.sleep(5000);
                 ui.showImage = false;
                 gp.gameState = MOVING;
                 ui.showText = false;

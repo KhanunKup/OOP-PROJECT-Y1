@@ -454,7 +454,7 @@ public class UI {
         if (SCENE == 3){
 
             if (imageDelay == 60 && showImage){
-                ImageIcon icon_6 = new ImageIcon("res/cutscene/1.JPG");
+                ImageIcon icon_6 = new ImageIcon("res/cutscene/7.JPG");
                 Image image_6 = icon_6.getImage();
                 g.drawImage(image_6, 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
