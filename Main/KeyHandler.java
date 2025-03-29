@@ -151,19 +151,19 @@ public class KeyHandler implements KeyListener {
             }
 
             if (gp.currentTileMap == gp.tileMap3){
-                int num = -1;
+                int candyNum;
                 if ((Player.worldX <= 1085 && Player.worldX >= 815) && (Player.worldY >= 1120)){
-                    num = 0;
+                    candyNum = 0;
                 }
                 else if ((Player.worldX >= 1300 && Player.worldX <= 1520) && Player.worldY >= 1120){
-                    num = 2;
+                    candyNum = 2;
                 }
                 else {
-                    num = 1;
+                    candyNum = 1;
                 }
 
 
-                if (((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) || ((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) || ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880))){
+                if ((((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) && ui.checkCandy1) || (((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) && ui.checkCandy3) || (((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880)) && ui.checkCandy2)){
                     if (code == KeyEvent.VK_E){
                         ui.greenBarPosition = 280;
                         ui.showMiniGame = true;
@@ -173,17 +173,29 @@ public class KeyHandler implements KeyListener {
                         if ((code == KeyEvent.VK_SPACE) && (ui.greenBarPosition >= 370 && ui.greenBarPosition <= 440)){
                             ui.showMiniGame = false;
 
-                            try {
-                                MapManager.candyPosition.remove(num-ui.numCount);
+                            int[] targetPosition = {985, 1240};
+                            switch (candyNum) {
+                                case 0:
+                                    targetPosition = new int[]{985, 1240};
+                                    ui.checkCandy1 = false;
+                                    break;
+                                case 1:
+                                    targetPosition = new int[]{1255, 935};
+                                    ui.checkCandy2 = false;
+                                    break;
+                                case 2:
+                                    targetPosition = new int[]{1485, 1210};
+                                    ui.checkCandy3 = false;
+                                    break;
                             }
-                            catch (Exception ex){
-                                MapManager.candyPosition.remove(0);
-                                //System.out.println("Out of bounds.");
-                            }
-                            finally {
-                                //System.out.println(num-ui.numCount);
-                                //System.out.println(num);
-                                ui.numCount += 1;
+
+                            // Remove the specific candy by its coordinates
+                            for (int i = 0; i < MapManager.candyPosition.size(); i++) {
+                                int[] pos = MapManager.candyPosition.get(i);
+                                if (pos[0] == targetPosition[0] && pos[1] == targetPosition[1]) {
+                                    MapManager.candyPosition.remove(i);
+                                    break;
+                                }
                             }
                         }
                     }

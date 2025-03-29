@@ -17,7 +17,7 @@ public class UI {
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
     //public int[] whiteBarPosition = {370,450,400};
-    public int greenBarPosition = 280, numCount = 0;
+    public int greenBarPosition = 280;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
@@ -25,7 +25,7 @@ public class UI {
     public int optionIndex = 0,pointerIndex = 0;
     public boolean showFPS;
 
-    public boolean checkAlphaText = false;
+    public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true;
     public double textDelay,imageDelay;
     private double alpha = 0.0;
     private int alphaText = 0;
@@ -166,7 +166,7 @@ public class UI {
                 if (showMiniGame){
                     drawMiniGameMap3();
                 }else {
-                    if (((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) || ((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) || ((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880))){
+                    if ((((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) && checkCandy1) || (((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) && checkCandy3) || (((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880)) && checkCandy2)){
                         drawMiniGameKey();
                     }
                 }
