@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public boolean isQTEActive = false;
     private int qteTimeLeft = 3;
-    public String qteSequence = "resclurage";
+    public String qteSequence = "escapefromherethisnotsafe";
     public int KeyIndex = 0;
     private long lastQTETime;
 
