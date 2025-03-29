@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap3;
+        currentTileMap = tileMap4;
 
         collChecker = new CollisionChecker(this);
 
@@ -80,8 +80,8 @@ public class GamePanel extends JPanel implements Runnable {
             updateMap(tileMap2);
         }else if (currentTileMap == tileMap2) {
             updateMap(tileMap3);
-        }else {
-            updateMap(tileMap1);
+        }else if (currentTileMap == tileMap3){
+            updateMap(tileMap4);
         }
     }
 

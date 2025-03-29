@@ -42,6 +42,18 @@ public class MapManager {
         imageManager.setImage("tree","res/object/Tree.png");
 
         imageManager.setImage("candy","res/object/Candy.png");
+
+        imageManager.setImage("body","res/object/body.png");
+
+        imageManager.setImage("blood","res/object/blood.png");
+
+        imageManager.setImage("obj_head","res/object/obj_head.png");
+
+        imageManager.setImage("SpiderWeb2","res/object/SpiderWeb2.png");
+
+        imageManager.setImage("objectvie","res/object/objectvie.png");
+
+        imageManager.setImage("obj_interstines","res/object/obj_interstines.png");
     }
 
     public void drawMap(Graphics g) {
@@ -124,6 +136,43 @@ public class MapManager {
                 g.drawImage(imageManager.getImage("candy"), screenIdleX, screenIdleY, gp.xTileSize, gp.yTileSize, null);
             }
 
+        }
+
+        if (gp.currentTileMap == gp.tileMap4){
+            screenIdleX = 1240 - Player.worldX + player.screenX;
+            screenIdleY = 1240 - Player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("body"), screenIdleX-1240, screenIdleY-1240, 2400, 2400, null);
+
+            screenIdleX = 820 - Player.worldX + player.screenX;
+            screenIdleY = 1220 - Player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("blood"), screenIdleX-820, screenIdleY-1220, 2400, 2400, null);
+
+            screenIdleX = 865 - Player.worldX + player.screenX;
+            screenIdleY = 1225 - Player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("obj_head"), screenIdleX-865, screenIdleY-1225, 2400, 2400, null);
+
+            //screenIdleX = 895 - Player.worldX + player.screenX;
+            //screenIdleY = 1110 - Player.worldY + player.screenY;
+
+            //g.drawImage(imageManager.getImage("CropSack"), screenIdleX, screenIdleY-95, gp.xTileSize*3, gp.yTileSize*2, null);
+
+            screenIdleX = 825 - Player.worldX + player.screenX;
+            screenIdleY = 1250 - Player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("objectvie"), screenIdleX-825, screenIdleY-1250, 2400, 2400, null);
+
+            screenIdleX = 800 - Player.worldX + player.screenX;
+            screenIdleY = 1113 - Player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("obj_interstines"), screenIdleX-800, screenIdleY-1113, 2400, 2400, null);
+
+            screenIdleX = 903 - Player.worldX + player.screenX;
+            screenIdleY = 1113 - Player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("SpiderWeb2"), screenIdleX, screenIdleY, (gp.xTileSize*2)-10, gp.yTileSize, null);
         }
 
         g.drawImage(imageManager.getImage("visible"), 0, 0, gp.getWidth(), gp.getHeight(), null);

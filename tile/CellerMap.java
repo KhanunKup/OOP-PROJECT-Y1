@@ -5,10 +5,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 
 public class CellerMap extends TileManager{
     public CellerMap(String filePath){
         super(filePath, 24);
+        solidTiles = new HashSet<Integer>();
     }
 
     @Override

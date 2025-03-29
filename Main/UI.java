@@ -11,13 +11,13 @@ public class UI {
     Player player;
 
     public String text, text_2,text_3,minigame;
-    public int textX, textY, textWidth, textHeight;
+    public int textX, textY, textWidth, textHeight,imageWidth,imageHeight;
     public FontMetrics fm;
     public Font customFont;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
     //public int[] whiteBarPosition = {370,450,400};
-    public int greenBarPosition = 280;
+    public int greenBarPosition = 280 , candyCount = 0,spaceBarCount = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
     public int selectedIndex = 0;
 
@@ -25,11 +25,11 @@ public class UI {
     public int optionIndex = 0,pointerIndex = 0;
     public boolean showFPS;
 
-    public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true;
+    public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true,checkJailBreak = true;
     public double textDelay,imageDelay;
     private double alpha = 0.0;
     private int alphaText = 0;
-    public double alphaSpeed = 0.02;
+    public double alphaSpeed = 0.02,timer = 0.0;
     public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false;
     public boolean flashScreen = true;
     public boolean Fading = false;
@@ -69,9 +69,11 @@ public class UI {
         imageManager.setImage("cutscene5","res/cutscene/5.JPG");
         imageManager.setImage("cutscene6","res/cutscene/6.JPG");
         imageManager.setImage("cutscene7","res/cutscene/7.JPG");
+        imageManager.setImage("cutscene8","res/cutscene/8.JPG");
         imageManager.setImage("blackbar","res/minigame/bar-black-export.png");
         imageManager.setImage("whitebar","res/minigame/bar-white-export.png");
         imageManager.setImage("greenbar","res/minigame/bar-green-export.png");
+
 
         config = new Config("config.txt");
         config.load();
@@ -164,9 +166,20 @@ public class UI {
 
             if(gp.currentTileMap == gp.tileMap3){
                 if (showMiniGame){
-                    drawMiniGameMap3();
+                    drawMiniGameMap();
                 }else {
                     if ((((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) && checkCandy1) || (((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) && checkCandy3) || (((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880)) && checkCandy2)){
+                        drawMiniGameKey();
+                    }
+                }
+            }
+
+            if (gp.currentTileMap == gp.tileMap4){
+                if (showMiniGame){
+                    drawMiniGameMap();
+                }
+                else {
+                    if ((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250)){
                         drawMiniGameKey();
                     }
                 }
@@ -311,12 +324,30 @@ public class UI {
                         checkAlphaText = false;
                         textDelay = 0;
                         System.out.println("Map switched");
+
+                        if (gp.currentTileMap == gp.tileMap2){
+                            player.worldX = 42;
+                            player.worldY = 1730;
+                            player.direction = "right";
+                        }
+
+                        else if (gp.currentTileMap == gp.tileMap3){
+                            player.worldX = 985;
+                            player.worldY = 1500;
+                            player.direction = "right";
+                        }
+
+                        else if (gp.currentTileMap == gp.tileMap4){
+                            player.worldX = 1056;
+                            player.worldY = 1248;
+                            player.direction = "right";
+                        }
                     }
                 }
             } else {
                 // Fade out after map change
                 if (showText) {
-                    if (SCENE == 3){
+                    if (SCENE == 3 || SCENE == 4){
                         new Thread(new Cutscene(gp, this)).start();
                     }
                     callBG();
@@ -331,18 +362,6 @@ public class UI {
                         setAlphaText(255);
                         Fading = false;
                         System.out.println("Fade complete");
-
-                        if (gp.currentTileMap == gp.tileMap2){
-                            player.worldX = 42;
-                            player.worldY = 1730;
-                            player.direction = "right";
-                        }
-
-                        if (gp.currentTileMap == gp.tileMap3){
-                            player.worldX = 985;
-                            player.worldY = 1500;
-                            player.direction = "right";
-                        }
 
                     }
                 }
@@ -485,8 +504,19 @@ public class UI {
                 g.drawImage(imageManager.getImage("cutscene7"), 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
 
-            System.out.println(getAlpha());
+            //System.out.println(getAlpha());
 
+        }
+
+        if (SCENE == 4){
+
+            if (imageDelay == 70 && showImage){
+                g.drawImage(imageManager.getImage("cutscene8"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+            }
+
+            else if (imageDelay == 80 && showImage){
+                g.drawImage(imageManager.getImage("cutscene7"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+            }
         }
     }
 
@@ -513,41 +543,99 @@ public class UI {
     public void drawMiniGameKey(){
         g.setColor(Color.white);
         fm = g.getFontMetrics();
-        minigame = "Press [ E ] to eat candy.";
-        textWidth = fm.stringWidth(minigame);
-        textHeight = fm.getHeight();
-        textX = (gp.getWidth() - textWidth) / 2;
-        textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
-        g.drawString(minigame, textX, textY);
+
+        if (gp.currentTileMap == gp.tileMap3){
+            minigame = "Press [ E ] to eat candy.";
+            textWidth = fm.stringWidth(minigame);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+            g.drawString(minigame, textX, textY);
+        }
+        else if ((gp.currentTileMap == gp.tileMap4) && checkJailBreak){
+            minigame = "Press [ E ] to jail break.";
+            textWidth = fm.stringWidth(minigame);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+            g.drawString(minigame, textX, textY);
+        }
     }
 
-    public void drawMiniGameMap3(){
-        int imageWidth = gp.xTileSize * 10;
-        int imageHeight = gp.yTileSize * 2;
+    public void drawMiniGameMap(){
+        if (gp.currentTileMap == gp.tileMap3){
+            imageWidth = gp.xTileSize * 10;
+            imageHeight = gp.yTileSize * 2;
 
-        //System.out.println(((gp.getWidth() - imageWidth) / 2));
+            //System.out.println(((gp.getWidth() - imageWidth) / 2));
 
-        g.setColor(Color.white);
-        fm = g.getFontMetrics();
-        minigame = "Press [ Space ] to eat candy.";
-        textWidth = fm.stringWidth(minigame);
-        textHeight = fm.getHeight();
-        textX = (gp.getWidth() - textWidth) / 2;
-        textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
-        g.drawString(minigame, textX, textY);
+            g.setColor(Color.white);
+            fm = g.getFontMetrics();
+            minigame = "Press [ Space ] to eat candy.";
+            textWidth = fm.stringWidth(minigame);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+            g.drawString(minigame, textX, textY);
 
-        //ท้ายหลอด x = 460
-        //ต้นหลอก x = (gp.getWidth() - imageWidth) / 2 || 280
-        g.drawImage(imageManager.getImage("blackbar"), (gp.getWidth() - imageWidth) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth, imageHeight, null);
-        g.drawImage(imageManager.getImage("whitebar"), 370, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/4, imageHeight, null);
-        g.drawImage(imageManager.getImage("greenbar"), greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
-        greenBarPosition += 2;
+            //ท้ายหลอด x = 460
+            //ต้นหลอก x = (gp.getWidth() - imageWidth) / 2 || 280
+            g.drawImage(imageManager.getImage("blackbar"), (gp.getWidth() - imageWidth) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth, imageHeight, null);
+            g.drawImage(imageManager.getImage("whitebar"), 370, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/4, imageHeight, null);
+            g.drawImage(imageManager.getImage("greenbar"), greenBarPosition, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/6, imageHeight, null);
+            greenBarPosition += 2;
 
-        if (greenBarPosition >= 480) {
-            greenBarPosition = 280;
+            if (greenBarPosition >= 480) {
+                greenBarPosition = 280;
+            }
+
+            //System.out.println(greenBarPosition);
         }
+        else if (gp.currentTileMap == gp.tileMap4){
 
-        System.out.println(greenBarPosition);
+            g.setColor(Color.white);
+            fm = g.getFontMetrics();
+            minigame = "Press [ Space ].";
+            textWidth = fm.stringWidth(minigame);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+            g.drawString(minigame, textX, textY);
+
+            String timer_clock = String.format("%.1f", timer);
+            textY = (gp.getHeight() - textHeight) + fm.getAscent()-300;
+            g.drawString(timer_clock, textX+90, textY);
+
+            //ท้ายหลอด x = 460
+            //ต้นหลอก x = (gp.getWidth() - imageWidth) / 2 || 280
+            imageWidth -= 5;
+
+            if (imageWidth < 1) {
+                imageWidth = 1;
+            }
+            g.drawImage(imageManager.getImage("blackbar"), (gp.getWidth() - (gp.xTileSize * 10)) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), gp.xTileSize * 10, gp.yTileSize * 2, null);
+            g.drawImage(imageManager.getImage("whitebar"), 280, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/20, imageHeight, null);
+
+            if (timer >= 10){
+                showMiniGame = false;
+                spaceAble = false;
+                timer = 0.0;
+            }
+
+            if (imageWidth/20 >= 240){
+                spaceAble = false;
+                checkJailBreak = false;
+                showMiniGame = false;
+
+                player.worldX = 1050;
+                player.worldY = 1390;
+                player.direction = "left";
+            }
+
+            timer += 0.02;
+            System.out.println(timer);
+
+        }
     }
 
     public void drawFPS(Graphics g,FPSCounter fpsCounter){
