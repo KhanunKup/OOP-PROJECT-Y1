@@ -103,7 +103,7 @@ public class HouseMap extends TileManager{
         solidTiles.add(16);
         solidTiles.add(17);
         solidTiles.add(20);
-        solidTiles.add(23);
+        //solidTiles.add(23);
         solidTiles.add(24);
         solidTiles.add(25);
         solidTiles.add(26);
