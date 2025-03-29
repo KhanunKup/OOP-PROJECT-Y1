@@ -2,7 +2,6 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MapManager {
@@ -56,20 +55,20 @@ public class MapManager {
         for (int row = 0; row < gp.maxRow; row++) {
             for (int col = 0; col < gp.maxCol; col++) {
                 int tile = gp.map[row][col];
-                worldX = col * gp.xTileSize;
-                worldY = row * gp.yTileSize;
+                worldX = col * gp.tileSize;
+                worldY = row * gp.tileSize;
                 screenX = worldX - player.worldX + player.screenX;
                 screenY = worldY - player.worldY + player.screenY;
-                if (screenX + gp.xTileSize >= 0 && screenX <= GamePanel.mapX &&
-                        screenY + gp.yTileSize >= 0 && screenY <= GamePanel.mapY) {
-                    g.drawImage(gp.currentTileMap.getTileImage(tile), screenX, screenY, gp.xTileSize, gp.yTileSize, null);
+                if (screenX + gp.tileSize >= 0 && screenX <= GamePanel.mapX &&
+                        screenY + gp.tileSize >= 0 && screenY <= GamePanel.mapY) {
+                    g.drawImage(gp.currentTileMap.getTileImage(tile), screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
             }
         }
 
         if (gp.currentTileMap == gp.tileMap1){
             int fixedX = 25;
-            int fixedY = gp.maxRow * gp.yTileSize - gp.yTileSize;
+            int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
 
             screenIdleX = fixedX - player.worldX + player.screenX;
             screenIdleY = fixedY - player.worldY + player.screenY;
@@ -77,7 +76,7 @@ public class MapManager {
             //System.out.println("X :" + screenIdleX);
             //System.out.println("Y :" + screenIdleY);
 
-            g.drawImage(imageManager.getImage("gratel"), screenIdleX+600, screenIdleY-250, gp.xTileSize*2, gp.yTileSize*2, null);
+            g.drawImage(imageManager.getImage("gratel"), screenIdleX+600, screenIdleY-250, gp.tileSize *2, gp.tileSize *2, null);
         }
 
         if (gp.currentTileMap == gp.tileMap2){
@@ -121,7 +120,7 @@ public class MapManager {
                 screenIdleX = pos[0] - Player.worldX + player.screenX;
                 screenIdleY = pos[1] - Player.worldY + player.screenY;
 
-                g.drawImage(imageManager.getImage("candy"), screenIdleX, screenIdleY, gp.xTileSize, gp.yTileSize, null);
+                g.drawImage(imageManager.getImage("candy"), screenIdleX, screenIdleY, gp.tileSize, gp.tileSize, null);
             }
 
         }

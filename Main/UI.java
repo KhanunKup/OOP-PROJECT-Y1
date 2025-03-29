@@ -76,34 +76,8 @@ public class UI {
         config = new Config("config.txt");
         config.load();
         volumeLevel = config.getVolumeLevel();
-        music = new Sound();
-        music.playSound("res/sound/soundtrack/SweetTombMainMenu.wav");
-        music.setVolume(volumeLevel / 100f);
 
-        cutsceneHiding = new Sound();
-        cutsceneHiding.playSound("res/sound/soundtrack/Cutscene-1and2-Boy-Girl-Hiding.wav");
-        cutsceneHiding.setVolume(volumeLevel / 100f);
-
-        cutsceneFrightening = new Sound();
-        cutsceneFrightening.playSound("res/sound/soundtrack/Cutscene3-4-5.wav");
-        cutsceneFrightening.setVolume(volumeLevel / 100f);
-
-        map1soundtrack = new Sound();
-        map1soundtrack.playSound("res/sound/soundtrack/death-note-soundtrack-slow-pitchdown.wav");
-        map1soundtrack.setVolume(volumeLevel / 100f);
-
-
-        selectSound = new Sound();
-        selectSound.playSound("res/sound/soundEffect/menu-select.wav");
-        selectSound.setVolume(volumeLevel / 100f);
-
-        confirmSound = new Sound();
-        confirmSound.playSound("res/sound/soundEffect/menu-confirm.wav");
-        confirmSound.setVolume(volumeLevel / 100f);
-
-        slidebarSound = new Sound();
-        slidebarSound.playSound("res/sound/soundEffect/menu-slidebar.wav");
-        slidebarSound.setVolume(volumeLevel / 100f);
+        loadSound();
 
         volumeSlider = new JSlider(0, 100, volumeLevel);
         volumeSlider.setBounds(250, 250, 300, 50);
@@ -120,6 +94,16 @@ public class UI {
         showFPS = config.isShowFPS();
 
         loadFont();
+    }
+
+    public void loadSound() {
+        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/Cutscene-1and2-Boy-Girl-Hiding.wav");
+        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/Cutscene3-4-5.wav");
+        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/death-note-soundtrack-slow-pitchdown.wav");
+        selectSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-select.wav");
+        confirmSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-confirm.wav");
+        slidebarSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-slidebar.wav");
+        music = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
     }
 
     public void loadFont(){
@@ -522,8 +506,8 @@ public class UI {
     }
 
     public void drawMiniGameMap3(){
-        int imageWidth = gp.xTileSize * 10;
-        int imageHeight = gp.yTileSize * 2;
+        int imageWidth = gp.tileSize * 10;
+        int imageHeight = gp.tileSize * 2;
 
         //System.out.println(((gp.getWidth() - imageWidth) / 2));
 

@@ -111,11 +111,19 @@ public class KeyHandler implements KeyListener {
                     if(ui.volumeLevel <= 0){
                         ui.volumeLevel = 0;
                     }
-                    ui.music.setVolume(ui.volumeLevel / 100.0f);
+
                     ui.selectSound.setVolume(ui.volumeLevel / 100.0f);
                     ui.confirmSound.setVolume(ui.volumeLevel / 100.0f);
                     ui.slidebarSound.setVolume(ui.volumeLevel / 100.0f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
+
+                    gp.player.grassFootstep.setVolume(ui.volumeLevel / 100f);
+                    gp.player.dirtFootstep.setVolume(ui.volumeLevel / 100f);
+
+                    ui.music.setVolume(ui.volumeLevel / 100.0f);
+                    ui.map1soundtrack.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneHiding.setVolume(ui.volumeLevel / 100.0f);
                     ui.saveConfig();
                 }
                 else if (code == KeyEvent.VK_RIGHT) {

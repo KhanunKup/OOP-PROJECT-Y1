@@ -11,8 +11,10 @@ public abstract class TileManager {
 
     public TileManager(String filePath, int maxTileTypes) {
         tileTextures = new BufferedImage[maxTileTypes];
+        solidTiles = new HashSet<Integer>();
         loadMap(filePath);
         loadTextures();
+        loadSolidTiles(); //เอาไว้บอกว่ามี tiles ไหนบ้างที่เป็น solid
     }
 
     public abstract void loadMap(String filePath);
