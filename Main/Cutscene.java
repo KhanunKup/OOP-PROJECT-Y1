@@ -80,6 +80,20 @@ public class Cutscene implements Runnable {
                 ui.showText = false;
             }
 
+            if (UI.SCENE == 4){
+
+                gp.repaint();
+                Thread.sleep(5000);
+
+                ui.imageDelay = 80;
+                gp.repaint();
+                Thread.sleep(5000);
+
+                ui.showImage = false;
+                gp.gameState = MOVING;
+                ui.showText = false;
+            }
+
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
