@@ -11,6 +11,7 @@ public class CellerMap extends TileManager{
     public CellerMap(String filePath){
         super(filePath, 24);
         solidTiles = new HashSet<Integer>();
+        loadSolidTiles();
     }
 
     @Override

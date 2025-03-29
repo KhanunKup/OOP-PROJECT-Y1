@@ -54,6 +54,8 @@ public class MapManager {
         imageManager.setImage("objectvie","res/object/objectvie.png");
 
         imageManager.setImage("obj_interstines","res/object/obj_interstines.png");
+
+        imageManager.setImage("bgImage","res/tiles/forest/Leaf5.png");
     }
 
     public void drawMap(Graphics g) {
@@ -62,8 +64,7 @@ public class MapManager {
         int screenX;
         int screenY;
 
-        ImageIcon bgImage = new ImageIcon("res/tiles/forest/Leaf5.png");
-        g.drawImage(bgImage.getImage(), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
+        g.drawImage(imageManager.getImage("bgImage"), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
 
         for (int row = 0; row < gp.maxRow; row++) {
             for (int col = 0; col < gp.maxCol; col++) {
