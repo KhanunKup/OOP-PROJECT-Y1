@@ -74,24 +74,29 @@ public class Cutscene implements Runnable {
 
             if (UI.SCENE == 3){
                 gp.repaint();
-                Thread.sleep(5000);
+                Thread.sleep(6000);
                 ui.showImage = false;
                 gp.gameState = MOVING;
                 ui.showText = false;
             }
 
             if (UI.SCENE == 4){
+                if (ui.showDialog){
+                    Thread.sleep( 5000);
+                    ui.showDialog = false;
+                }
+                else {
+                    gp.repaint();
+                    Thread.sleep(5000);
 
-                gp.repaint();
-                Thread.sleep(5000);
+                    ui.imageDelay = 80;
+                    gp.repaint();
+                    Thread.sleep(5000);
 
-                ui.imageDelay = 80;
-                gp.repaint();
-                Thread.sleep(5000);
-
-                ui.showImage = false;
-                gp.gameState = MOVING;
-                ui.showText = false;
+                    ui.showImage = false;
+                    gp.gameState = MOVING;
+                    ui.showText = false;
+                }
             }
 
         } catch (InterruptedException ex) {
