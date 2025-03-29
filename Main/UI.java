@@ -40,7 +40,9 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound music, cutsceneHiding, cutsceneFrightening, selectSound, confirmSound, slidebarSound, map1soundtrack;
+    public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening;
+    public Sound map1soundtrack, map2soundtrack, map3soundtrack;
+    public Sound selectSound, confirmSound, slidebarSound;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -105,7 +107,10 @@ public class UI {
         selectSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-select.wav");
         confirmSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-confirm.wav");
         slidebarSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-slidebar.wav");
-        music = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
+        mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
+        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map1soundtrack.wav");
+        map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map2soundtrack.wav");
+        map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map3soundtrack.wav");
     }
 
     public void loadFont(){
@@ -125,10 +130,10 @@ public class UI {
         if(gp.gameState == MAIN_MENU){
             drawTitle();
             drawPointer();
-            music.loop();
+            mainMenuMusic.loop();
         }
         if(gp.gameState == TXT_CUTSCENE){
-            music.stop();
+            mainMenuMusic.stop();
             drawText();
         }
         if(gp.gameState == MOVING){
@@ -145,7 +150,18 @@ public class UI {
                 devmode(g);
             }
 
+            if (gp.currentTileMap == gp.tileMap1) {
+                map1soundtrack.loop();
+            }
+
+            if (gp.currentTileMap == gp.tileMap2) {
+                map1soundtrack.stop();
+                map2soundtrack.loop();
+            }
+
             if(gp.currentTileMap == gp.tileMap3){
+                map2soundtrack.stop();
+                map3soundtrack.loop();
                 if (showMiniGame){
                     drawMiniGameMap();
                 }else {
@@ -156,8 +172,9 @@ public class UI {
             }
 
             if (gp.currentTileMap == gp.tileMap4){
+                map3soundtrack.stop();
                 drawDialog();
-                if (showMiniGame){
+                if (showMiniGame) {
                     drawMiniGameMap();
                 }
                 else {

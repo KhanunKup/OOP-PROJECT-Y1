@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap2;
+        currentTileMap = tileMap1;
 
         this.addKeyListener(keyH);
 

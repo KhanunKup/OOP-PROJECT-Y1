@@ -12,6 +12,6 @@ public class VolumeChange implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         ui.volumeLevel = ui.volumeSlider.getValue();
-        ui.music.setVolume(ui.volumeLevel / 100.0f);
+        ui.mainMenuMusic.setVolume(ui.volumeLevel / 100.0f);
     }
 }
