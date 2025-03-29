@@ -10,7 +10,7 @@ public class UI {
 
     Player player;
 
-    public String text, text_2,text_3,minigame;
+    public String text, text_2,text_3,text_4,minigame;
     public int textX, textY, textWidth, textHeight,imageWidth,imageHeight;
     public FontMetrics fm;
     public Font customFont;
@@ -30,7 +30,7 @@ public class UI {
     private double alpha = 0.0;
     private int alphaText = 0;
     public double alphaSpeed = 0.02,timer = 0.0;
-    public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false;
+    public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false , showDialog = false;
     public boolean flashScreen = true;
     public boolean Fading = false;
     public boolean mapChanged = false;
@@ -135,9 +135,6 @@ public class UI {
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
-            //System.out.println(showObjText);
-            //System.out.println("TextDelay :" + textDelay);
-            //System.out.println("Alpha Text :"+getAlphaText());
             drawObjectiveText();
             drawBackScreen(g);
             if(showFPS){
@@ -159,6 +156,7 @@ public class UI {
             }
 
             if (gp.currentTileMap == gp.tileMap4){
+                drawDialog();
                 if (showMiniGame){
                     drawMiniGameMap();
                 }
@@ -283,6 +281,34 @@ public class UI {
             textWidth = fm.stringWidth(text_3);
             g.drawString(text_3, (gp.getWidth() - textWidth) / 2, textY);
         }
+
+        if (showObjText && SCENE == 4){
+            if (showDialog){
+                new Thread(new Cutscene(gp, this)).start();
+            }
+            else {
+                textDelay += 1;
+
+                if (textDelay > 200){
+                    setAlphaText(getAlphaText()-1);
+                }
+
+                if (getAlphaText() < 0){
+                    showObjText = false;
+                    setAlphaText(0);
+                    textDelay = 0;
+                }
+
+                g.drawString(text, textX, textY);
+
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+                fm = g.getFontMetrics();
+                text_4 = "Find Exit.";
+                textY += textHeight + 5;
+                textWidth = fm.stringWidth(text_4);
+                g.drawString(text_4, (gp.getWidth() - textWidth) / 2, textY);
+            }
+        }
     }
 
     public void startFade() {
@@ -337,6 +363,7 @@ public class UI {
                     callBG();
 
                 } else {
+                    showDialog = true;
                     if (getAlpha() > 0) {
                         setAlpha(getAlpha() - 10);
                         System.out.println("Fading out - Alpha: " + getAlpha());
@@ -486,9 +513,23 @@ public class UI {
 
             if (imageDelay == 60 && showImage){
                 g.drawImage(imageManager.getImage("cutscene7"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 22));
+                g.setColor(new Color(255, 255, 255, 255));
+
+                fm = g.getFontMetrics();
+                text = "Hansel: Oh hey look at that! ,Is that a candy?!";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
+                g.drawString(text, textX, textY);
+
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
+                text_2 = "// hanzel and gratel carefully examine the suspicious candy on the desk //";
+                g.drawString(text_2, textX-50, textY+30);
             }
 
-            //System.out.println(getAlpha());
 
         }
 
@@ -496,6 +537,21 @@ public class UI {
 
             if (imageDelay == 70 && showImage){
                 g.drawImage(imageManager.getImage("cutscene8"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 26));
+                g.setColor(new Color(255, 255, 255, 255));
+
+                fm = g.getFontMetrics();
+                text = "eww. . . what is this!?";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
+                g.drawString(text, textX, textY);
+
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 14));
+                text_2 = "// Hanzel pick something up from the floor and it kinda looks like a human eyeball?//";
+                g.drawString(text_2, textX-170, textY+30);
             }
 
             else if (imageDelay == 80 && showImage){
@@ -524,8 +580,25 @@ public class UI {
         }
     }
 
+    public void drawDialog(){
+        if (showDialog && gp.currentTileMap == gp.tileMap4){
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
+            g.setColor(new Color(255, 255, 255, getAlphaText()));
+
+            fm = g.getFontMetrics();
+            text = "Hansel: Oh no, something is wrong , I need to get out of here now!";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
+            g.drawString(text, textX, textY);
+        }
+    }
+
     public void drawMiniGameKey(){
         g.setColor(Color.white);
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
         fm = g.getFontMetrics();
 
         if (gp.currentTileMap == gp.tileMap3){
@@ -537,7 +610,7 @@ public class UI {
             g.drawString(minigame, textX, textY);
         }
         else if ((gp.currentTileMap == gp.tileMap4) && checkJailBreak){
-            minigame = "Press [ E ] to jail break.";
+            minigame = "Press [ E ] to break out.";
             textWidth = fm.stringWidth(minigame);
             textHeight = fm.getHeight();
             textX = (gp.getWidth() - textWidth) / 2;
@@ -547,12 +620,12 @@ public class UI {
     }
 
     public void drawMiniGameMap(){
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
         if (gp.currentTileMap == gp.tileMap3){
             imageWidth = gp.tileSize * 10;
             imageHeight = gp.tileSize * 2;
 
             //System.out.println(((gp.getWidth() - imageWidth) / 2));
-
             g.setColor(Color.white);
             fm = g.getFontMetrics();
             minigame = "Press [ Space ] to eat candy.";

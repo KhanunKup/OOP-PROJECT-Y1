@@ -75,7 +75,7 @@ public class CellerMap extends TileManager{
 
     @Override
     public void loadSolidTiles() {
-        solidTiles.add(1);
+        //solidTiles.add(1);
         solidTiles.add(2);
         solidTiles.add(3);
         solidTiles.add(4);
