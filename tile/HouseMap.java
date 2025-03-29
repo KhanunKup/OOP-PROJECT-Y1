@@ -10,8 +10,6 @@ import java.util.HashSet;
 public class HouseMap extends TileManager{
     public HouseMap(String filePath){
         super(filePath, 36);
-        solidTiles = new HashSet<Integer>();
-        loadSolidTiles();
     }
 
     @Override

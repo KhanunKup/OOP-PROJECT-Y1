@@ -10,6 +10,11 @@ public class Sound {
     File soundFile;
     AudioInputStream audioStream;
     Clip clip;
+
+    public Sound(float level, String path) {
+        playSound(path);
+        setVolume(level);
+    }
     public void playSound(String filePath){
         try{
             soundFile = new File(filePath);
@@ -38,10 +43,14 @@ public class Sound {
     }
 
     public void setVolume(float level) {
-        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float range = gainControl.getMaximum() - gainControl.getMinimum();
-        float gain = (range * level) + gainControl.getMinimum();
-        gainControl.setValue(gain);
+        if (clip != null) {
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float range = gainControl.getMaximum() - gainControl.getMinimum();
+            float gain = (range * level) + gainControl.getMinimum();
+            gainControl.setValue(gain);
+        } else {
+            System.out.println("Error: Clip is null, cannot set volume.");
+        }
     }
 
 }

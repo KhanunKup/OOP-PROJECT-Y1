@@ -1,28 +1,32 @@
 package Main;
 
+import tile.CellerMap;
+import tile.ForestMap;
+import tile.HouseMap;
 import tile.TileManager;
 
 public class CollisionChecker {
     GamePanel gp;
-    public int leftCol, rightCol, topRow, bottomRow;
+    Player player;
+    int leftX, rightX, topY, bottomY, leftCol, rightCol, topRow, bottomRow;
 
-    public CollisionChecker(GamePanel gp) {
+    public CollisionChecker(GamePanel gp, Player player) {
         this.gp = gp;
+        this.player = player;
+        //x, y 4 sides
     }
 
-    public boolean isBlockWalkable(String direction, Player player) {
-        //x, y 4 sides
-        int leftX = player.worldX + player.hitbox.x;
-        int rightX = player.worldX + player.hitbox.x + player.hitbox.width;
-        int topY = player.worldY + player.hitbox.y;
-        int bottomY = player.worldY + player.hitbox.y + player.hitbox.height;
+    public boolean isBlockWalkable(String direction) {
+        leftX = player.worldX + player.hitbox.x;
+        rightX = player.worldX + player.hitbox.x + player.hitbox.width;
+        topY = player.worldY + player.hitbox.y;
+        bottomY = player.worldY + player.hitbox.y + player.hitbox.height;
 
         //หาว่าอยู่ใน row, col ที่เท่าไหร่ เพื่อไปหา block ต่อ
-        int leftCol = (leftX - player.speed) / gp.xTileSize;
-        int rightCol = (rightX + player.speed) / gp.xTileSize;
-        int topRow = (topY - player.speed) / gp.yTileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
-        int bottomRow = (bottomY + player.speed) / gp.yTileSize;
-
+        leftCol = (leftX - player.speed) / gp.tileSize;
+        rightCol = (rightX + player.speed) / gp.tileSize;
+        topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
+        bottomRow = (bottomY + player.speed) / gp.tileSize;
         if (leftCol <= 0) { //ทำให้อยู่ใน 100x100 map (สร้าง boundary)
                 player.worldX += player.speed;
             }
@@ -79,6 +83,30 @@ public class CollisionChecker {
 
             default:
                 return true; //ถือว่าเดินได้ไปก่อน
+        }
+    }
+
+    public String footstepChecker() {
+        //used for checking if tile is dirt/grass
+        int centerX = player.worldX + (player.playerSize / 2);
+        int centerY = player.worldY + (player.playerSize / 2);
+        int centerRow = centerY / gp.tileSize;
+        int centerCol = centerX / gp.tileSize;
+        int tileNum = gp.currentTileMap.getMap()[centerRow][centerCol];
+        if (gp.currentTileMap instanceof ForestMap) {
+            if (((ForestMap) gp.currentTileMap).grassTiles.contains(tileNum)) {
+                return "grass";
+            } else if (((ForestMap) gp.currentTileMap).dirtTiles.contains(tileNum)) {
+                return "dirt";
+            } else {
+                return "";
+            }
+        } else if (gp.currentTileMap instanceof  HouseMap) {
+            return "";
+        } else if (gp.currentTileMap instanceof CellerMap) {
+            return "";
+        } else {
+            return "";
         }
     }
 
