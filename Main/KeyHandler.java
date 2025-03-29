@@ -10,7 +10,7 @@ public class KeyHandler implements KeyListener {
     private int previousState;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
-                    shiftPressed,ePressed;
+                    shiftPressed,spacePressed = true;
 
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
@@ -133,7 +133,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
         }
-        if(gp.gameState == UI.MOVING){
+        if(gp.gameState == UI.MOVING) {
             if (code == KeyEvent.VK_W) upPressed = true;
             if (code == KeyEvent.VK_S) downPressed = true;
             if (code == KeyEvent.VK_A) leftPressed = true;
@@ -146,31 +146,28 @@ public class KeyHandler implements KeyListener {
                 gp.gameState = UI.OPTION;
             }
 
-            if(code == KeyEvent.VK_X){
+            if (code == KeyEvent.VK_X) {
                 ui.devmode = !ui.devmode;
             }
 
-            if (gp.currentTileMap == gp.tileMap3){
+            if (gp.currentTileMap == gp.tileMap3) {
                 int candyNum;
-                if ((Player.worldX <= 1085 && Player.worldX >= 815) && (Player.worldY >= 1120)){
+                if ((Player.worldX <= 1085 && Player.worldX >= 815) && (Player.worldY >= 1120)) {
                     candyNum = 0;
-                }
-                else if ((Player.worldX >= 1300 && Player.worldX <= 1520) && Player.worldY >= 1120){
+                } else if ((Player.worldX >= 1300 && Player.worldX <= 1520) && Player.worldY >= 1120) {
                     candyNum = 2;
-                }
-                else {
+                } else {
                     candyNum = 1;
                 }
 
 
-                if ((((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) && ui.checkCandy1) || (((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) && ui.checkCandy3) || (((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880)) && ui.checkCandy2)){
-                    if (code == KeyEvent.VK_E){
+                if ((((Player.worldX <= 1070 && Player.worldX >= 870) && (Player.worldY <= 1300 && Player.worldY >= 1160)) && ui.checkCandy1) || (((Player.worldX <= 1540 && Player.worldX >= 1400) && (Player.worldY <= 1260 && Player.worldY >= 1120)) && ui.checkCandy3) || (((Player.worldX <= 1300 && Player.worldX >= 1180) && (Player.worldY <= 1015 && Player.worldY >= 880)) && ui.checkCandy2)) {
+                    if (code == KeyEvent.VK_E) {
                         ui.greenBarPosition = 280;
                         ui.showMiniGame = true;
                         ui.spaceAble = true;
-                    }
-                    else if (ui.spaceAble){
-                        if ((code == KeyEvent.VK_SPACE) && (ui.greenBarPosition >= 370 && ui.greenBarPosition <= 440)){
+                    } else if (ui.spaceAble) {
+                        if ((code == KeyEvent.VK_SPACE) && (ui.greenBarPosition >= 370 && ui.greenBarPosition <= 440)) {
                             ui.showMiniGame = false;
 
                             int[] targetPosition = {985, 1240};
@@ -197,11 +194,45 @@ public class KeyHandler implements KeyListener {
                                     break;
                                 }
                             }
+
+                            ui.candyCount += 1;
+
+                            if (ui.candyCount == 3) {
+                                UI.SCENE = 4;
+                                ui.spaceAble = false;
+                                gp.ui.showText = false;
+                                gp.ui.imageDelay = 70;
+                                gp.ui.showImage = true;
+                                gp.ui.startFade();
+                                keyBoolRelease();
+                            }
+                        }
+                    }
+                } else {
+                    ui.showMiniGame = false;
+                }
+
+            } else if (gp.currentTileMap == gp.tileMap4 && ui.checkJailBreak) {
+                if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250))) {
+                    if (code == KeyEvent.VK_E) {
+                        ui.showMiniGame = true;
+                        ui.spaceAble = true;
+                        ui.imageWidth = gp.xTileSize * 10;
+                        ui.imageHeight = gp.yTileSize * 2;
+
+                    } else if (ui.spaceAble) {
+                        if ((code == KeyEvent.VK_SPACE && ui.showMiniGame)) {
+                            if (spacePressed){
+                                ui.imageWidth += 150;
+                            }
+                            spacePressed = false;
                         }
                     }
                 }
                 else {
                     ui.showMiniGame = false;
+                    ui.spaceAble = false;
+                    ui.timer = 0.0;
                 }
             }
         }
@@ -232,6 +263,7 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_D) rightPressed = false;
             if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
             if (code == KeyEvent.VK_ENTER) enterPressed = false;
+            if (code == KeyEvent.VK_SPACE) spacePressed = true;
         }
         if (gp.isQTEActive) {
             char pressedKey = Character.toLowerCase((char) code);
