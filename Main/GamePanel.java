@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap4;
+        currentTileMap = tileMap3;
 
         collChecker = new CollisionChecker(this);
 
