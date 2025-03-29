@@ -9,6 +9,8 @@ public class KeyHandler implements KeyListener {
 
     private int previousState;
 
+    Sound candySound;
+
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
                     shiftPressed,spacePressed = true;
 
@@ -16,6 +18,7 @@ public class KeyHandler implements KeyListener {
         this.gp = gp;
         this.ui = ui;
         this.previousState = gp.gameState;
+        candySound = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/candy.wav");
     }
 
     @Override
@@ -198,6 +201,7 @@ public class KeyHandler implements KeyListener {
                             for (int i = 0; i < MapManager.candyPosition.size(); i++) {
                                 int[] pos = MapManager.candyPosition.get(i);
                                 if (pos[0] == targetPosition[0] && pos[1] == targetPosition[1]) {
+                                    candySound.play();
                                     MapManager.candyPosition.remove(i);
                                     break;
                                 }

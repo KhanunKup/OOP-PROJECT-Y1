@@ -1,6 +1,5 @@
 package Main;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -11,6 +10,7 @@ public class MapManager {
     ImageManager imageManager;
     //static int[][] candyPosition = {{985,1240},{1255,935},{1485,1210}};
     static ArrayList<int[]> candyPosition = new ArrayList<>();
+    String overlay;
 
     public MapManager(GamePanel gp, Player player, ImageManager imageManager) {
         this.gp = gp;
@@ -22,7 +22,9 @@ public class MapManager {
 
         imageManager.setImage("gratel","res/Character/Gratel/Gratel_Idle/gratel_idle1.png");
 
-        imageManager.setImage("visible","res/VisibilityL.png");
+        imageManager.setImage("VisibleDark", "res/VisibilityLayerDark.png");
+
+        imageManager.setImage("VisibleLight", "res/VisibilityLayerLight.png");
 
         imageManager.setImage("house","res/bg/House.png");
 
@@ -83,6 +85,8 @@ public class MapManager {
             int fixedX = 25;
             int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
 
+            overlay = "VisibleDark";
+
             screenIdleX = fixedX - player.worldX + player.screenX;
             screenIdleY = fixedY - player.worldY + player.screenY;
 
@@ -96,6 +100,8 @@ public class MapManager {
             screenIdleX = 1225 - player.worldX + player.screenX;
             screenIdleY = 160 - player.worldY + player.screenY;
 
+            overlay = "VisibleDark";
+
             //System.out.println("X :" + screenIdleX);
             //System.out.println("Y :" + screenIdleY);
 
@@ -105,6 +111,8 @@ public class MapManager {
         if (gp.currentTileMap == gp.tileMap3){
             screenIdleX = 985 - player.worldX + player.screenX;
             screenIdleY = 1470 - player.worldY + player.screenY;
+
+            overlay = "VisibleDark";
 
             g.drawImage(imageManager.getImage("carpet"), screenIdleX-145, screenIdleY-590, 700, 700, null);
 
@@ -142,6 +150,8 @@ public class MapManager {
             screenIdleX = 1240 - Player.worldX + player.screenX;
             screenIdleY = 1240 - Player.worldY + player.screenY;
 
+            overlay = "VisibleLight";
+
             g.drawImage(imageManager.getImage("body"), screenIdleX-1240, screenIdleY-1240, 2400, 2400, null);
 
             screenIdleX = 820 - Player.worldX + player.screenX;
@@ -175,6 +185,6 @@ public class MapManager {
             g.drawImage(imageManager.getImage("SpiderWeb2"), screenIdleX, screenIdleY, (gp.tileSize*2)-10, gp.tileSize, null);
         }
 
-        g.drawImage(imageManager.getImage("visible"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+        g.drawImage(imageManager.getImage(overlay), 0, 0, gp.getWidth(), gp.getHeight(), null);
     }
 }

@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class CellerMap extends TileManager{
+    public HashSet<Integer> brickTiles;
+
     public CellerMap(String filePath){
         super(filePath, 24);
-        solidTiles = new HashSet<Integer>();
-        loadSolidTiles();
+        brickTiles = new HashSet<>();
     }
 
     @Override
