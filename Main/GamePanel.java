@@ -1,9 +1,6 @@
 package Main;
 
-import tile.CellerMap;
-import tile.ForestMap;
-import tile.HouseMap;
-import tile.TileManager;
+import tile.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int gameState = UI.MOVING; // 0 = title , 1 = play
 
-    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4;
+    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4,tileMap5;
     public int[][] map;
 
     public Player player;
@@ -50,7 +47,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap2;
+        tileMap5 = new MinigameMap("res/map/Blank.txt");
+        currentTileMap = tileMap5;
 
         this.addKeyListener(keyH);
 
@@ -77,6 +75,8 @@ public class GamePanel extends JPanel implements Runnable {
             updateMap(tileMap3);
         }else if (currentTileMap == tileMap3){
             updateMap(tileMap4);
+        } else if (currentTileMap == tileMap4) {
+            updateMap(tileMap5);
         }
     }
 
