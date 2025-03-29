@@ -9,8 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
-    public final int xTileSize = 24;
-    public final int yTileSize = 24;
+    public final int tileSize = 24;
     public static int mapX = 800; //Camera size
     public static int mapY = 475;
     public final int maxRow = 100; //How many tile of row
@@ -24,8 +23,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4;
     public int[][] map;
-
-    public CollisionChecker collChecker;
 
     public Player player;
     public KeyHandler keyH;
@@ -53,9 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap2 = new ForestMap("res/map/Map2-Final.txt");
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
-        currentTileMap = tileMap3;
-
-        collChecker = new CollisionChecker(this);
+        currentTileMap = tileMap1;
 
         this.addKeyListener(keyH);
 
@@ -69,8 +64,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void updateMap(TileManager newMap){
         currentTileMap = newMap;
         map = currentTileMap.getMap();
-        player.worldX = Math.min(player.worldX, maxCol * xTileSize - xTileSize);
-        player.worldY = Math.min(player.worldY, maxRow * yTileSize - yTileSize);
+        player.worldX = Math.min(player.worldX, maxCol * tileSize - tileSize);
+        player.worldY = Math.min(player.worldY, maxRow * tileSize - tileSize);
     }
 
     public void switchMap() {
@@ -113,7 +108,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void checkQTETrigger(){
         if (!isQTEActive){
             int fixedX = 25;
-            int fixedY = gp.maxRow * gp.yTileSize - gp.yTileSize;
+            int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
 
             int screenIdleX = fixedX - player.worldX + player.screenX;
             int screenIdleY = fixedY - player.worldY + player.screenY;
