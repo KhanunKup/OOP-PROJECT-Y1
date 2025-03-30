@@ -29,6 +29,11 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+
+        if (ui.total < ui.key.length()){
+            ui.total++;
+            gp.repaint();
+        }
         if (gp.isQTEActive){
             gp.checkQTE(e.getKeyChar());
             return;

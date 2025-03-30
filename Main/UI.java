@@ -15,6 +15,9 @@ public class UI {
     public int textX, textY, textWidth, textHeight,imageWidth,imageHeight;
     public FontMetrics fm;
     public Font customFont;
+    public String key = "Icantdoit";
+    public int total = 0;
+    public boolean check = false;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
     public  int basementCount = 0;
@@ -44,6 +47,12 @@ public class UI {
     public static int TXT_CUTSCENE = 1,SCENE = 1;
     public static final int MOVING = 2;
     public static final int OPTION = 3;
+
+    public boolean isQTEActive = false;
+    private int qteTimeLeft = 3;
+    public String qteSequence = "escapefromherethisnotsafe";
+    public int KeyIndex = 0;
+    private long lastQTETime;
 
     public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy, cutsceneEye;
     public Sound map1soundtrack, map2soundtrack, map3soundtrack, map4soundtrack;
@@ -225,9 +234,18 @@ public class UI {
                     }
                 }
             }
+            if (gp.isQTEActive){
+                drawminiqte();
+            }
         }
         if(gp.gameState == OPTION){
             drawOption();
+        }
+        if (((player.worldX<= 720 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)) && gp.currentTileMap == gp.tileMap5){
+            gp.startQTE();
+            //drawminiqte();
+            //startQTE();
+            //System.out.println("start");
         }
     }
     public void drawPointer(){
@@ -872,6 +890,85 @@ public class UI {
     public void saveConfig() {
         config.save(volumeLevel, showFPS);
     }
+    public void startQTE(){
+        qteTimeLeft = 3;
+        KeyIndex = 0;
+        isQTEActive = true;
+        lastQTETime = System.currentTimeMillis();
 
+        player.state = "idle";
+        player.keyH.upPressed = false;
+        player.keyH.downPressed = false;
+        player.keyH.leftPressed = false;
+        player.keyH.rightPressed = false;
+
+        gp.repaint();
+    }
+    public void checkQTETrigger(){
+        if (!isQTEActive){
+            int fixedX = 25;
+            int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
+
+            int screenIdleX = fixedX - player.worldX + player.screenX;
+            int screenIdleY = fixedY - player.worldY + player.screenY;
+
+
+            // สำหรับแก้ใน map 5 ถ้าเอามาลงแล้ว
+            if (((player.worldX<= 1000 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)) && gp.currentTileMap == gp.tileMap5){
+//                gp.startQTE();
+//                System.out.println("start");
+
+            }
+        }
+    }
+    public void drawminiqte(){
+        //System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
+        String message = "Press " + gp.qteSequence.charAt(gp.KeyIndex) + " to escape";
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", Font.PLAIN, 30));
+        g.drawString(message, 450, 300);
+    }
+//    public void checkQTE(char pressedKey) {
+//        if (isQTEActive) {
+//            System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
+//
+//
+//            if (pressedKey == qteSequence.charAt(KeyIndex)) {
+//                System.out.println("Correct!");
+//                player.worldX += 50;
+//            } else {
+//                System.out.println("Wrong Key!");
+//                player.worldX -= 50;
+//            }
+//
+//            lastQTETime = System.currentTimeMillis();
+//            qteTimeLeft = 3;
+//
+//            // ไปยังตัวอักษรถัดไปเสมอ
+//            KeyIndex++;
+//
+//            // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
+//            if (KeyIndex >= qteSequence.length()) {
+//                isQTEActive = false;
+//                System.out.println("QTE Completed!");
+//            }
+//
+//            gp.repaint();
+//        }
+//    }
+//    public void updateQTE() {
+//        if (isQTEActive) {
+//            long currentTime = System.currentTimeMillis();
+//            long elapsedTime = (currentTime - lastQTETime) / 1000;
+//            qteTimeLeft = 3 - (int) elapsedTime;
+//
+//            if (qteTimeLeft <= 0) {
+//                isQTEActive = false;
+//                System.out.println("Time's up!");
+//                gp.repaint();
+//            }
+//        }
+   // }
 }
+
 

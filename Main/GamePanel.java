@@ -14,7 +14,6 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxRow = 100; //How many tile of row
     public final int maxCol = 100;
     GamePanel gp;
-    Player py;
     Witch witch;
     Gratel gratel;
 
@@ -33,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public boolean isQTEActive = false;
     private int qteTimeLeft = 3;
-    public String qteSequence = "escapefromherethisnotsafe";
+    public String qteSequence = "escape";
     public int KeyIndex = 0;
     private long lastQTETime;
 
@@ -118,17 +117,20 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void checkQTETrigger(){
-        if (!isQTEActive){
+        System.out.println("checkQTETrigger() called");
+        if (!isQTEActive) {
             int fixedX = 25;
             int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
 
             int screenIdleX = fixedX - player.worldX + player.screenX;
             int screenIdleY = fixedY - player.worldY + player.screenY;
 
-
+            {
             // สำหรับแก้ใน map 5 ถ้าเอามาลงแล้ว
-            if (((py.worldX<= 1100 && py.worldX >=1085) && (py.worldY<= 957 && py.worldY >= 922)) && gp.currentTileMap == gp.tileMap1){
-                startQTE();
+//            if (((py.worldX<= 1000 && py.worldX >=700) && (py.worldY<= 2000 && py.worldY >= 780)) && currentTileMap == tileMap5){
+//                startQTE();
+//                u.drawminiqte();
+//                System.out.println("start gp");
             }
         }
     }
@@ -144,19 +146,27 @@ public class GamePanel extends JPanel implements Runnable {
         player.keyH.leftPressed = false;
         player.keyH.rightPressed = false;
 
+        revalidate();
         repaint();
     }
+//    public void drawqte();{
+//        String message = "Press " + qteSequence.charAt(KeyIndex) + " to escape";
+//        ui.setColor(Color.white);
+//        setFont(new Font("Arial", Font.PLAIN, 30));
+//        ui.drawqteSequence(message, 450, 300);
+//    }
     public void checkQTE(char pressedKey) {
         if (isQTEActive) {
+            ui.drawminiqte();
             System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
 
 
             if (pressedKey == qteSequence.charAt(KeyIndex)) {
                 System.out.println("Correct!");
-                player.worldX += 50;
+                player.worldX += 20;
             } else {
                 System.out.println("Wrong Key!");
-                player.worldX -= 50;
+                player.worldX -= 20;
             }
 
             lastQTETime = System.currentTimeMillis();
@@ -168,9 +178,9 @@ public class GamePanel extends JPanel implements Runnable {
             // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
             if (KeyIndex >= qteSequence.length()) {
                 isQTEActive = false;
-                System.out.println("QTE Completed!");
+                //System.out.println("QTE Completed!");
             }
-
+            revalidate();
             repaint();
         }
     }
@@ -183,6 +193,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (qteTimeLeft <= 0) {
                 isQTEActive = false;
                 System.out.println("Time's up!");
+                revalidate();
                 repaint();
             }
         }
