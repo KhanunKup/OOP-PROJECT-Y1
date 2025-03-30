@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap5 = new MinigameMap("res/map/Blank.txt");
         this.gratel = new Gratel(this, imageManager);
         this.witch = new Witch(this);
-        currentTileMap = tileMap1;
+        currentTileMap = tileMap5;
 
         this.addKeyListener(keyH);
 
