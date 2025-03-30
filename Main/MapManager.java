@@ -57,6 +57,8 @@ public class MapManager {
         imageManager.setImage("obj_interstines","res/object/obj_interstines.png");
 
         imageManager.setImage("bgImage","res/tiles/forest/Leaf5.png");
+
+        imageManager.setImage("minigamebg","res/map/MiniGameTile.png");
     }
 
     public void drawMap(Graphics g) {
@@ -183,6 +185,18 @@ public class MapManager {
             screenIdleY = 1113 - Player.worldY + player.screenY;
 
             g.drawImage(imageManager.getImage("SpiderWeb2"), screenIdleX, screenIdleY, (gp.tileSize*2)-10, gp.tileSize, null);
+        }
+
+        if(gp.currentTileMap == gp.tileMap5){
+            int screenWidth = gp.getWidth();
+            int screenHeight = gp.getHeight();
+            int imageWidth = 4800;
+            int imageHeight = 475;
+
+            int sourceX = player.worldX - player.screenX;
+            sourceX = Math.max(0, Math.min(sourceX, imageWidth - 800));
+
+            g.drawImage(imageManager.getImage("minigamebg"), 0, 0, screenWidth, screenHeight, sourceX, 0, sourceX + 300, imageHeight-300, null);
         }
 
         g.drawImage(imageManager.getImage(overlay), 0, 0, gp.getWidth(), gp.getHeight(), null);
