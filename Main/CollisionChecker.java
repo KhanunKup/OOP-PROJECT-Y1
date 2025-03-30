@@ -4,6 +4,7 @@ import tile.CellerMap;
 import tile.ForestMap;
 import tile.HouseMap;
 import tile.TileManager;
+import Character.*;
 
 public class CollisionChecker {
     GamePanel gp;

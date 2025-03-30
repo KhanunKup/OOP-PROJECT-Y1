@@ -2,11 +2,12 @@ package Main;
 
 import java.awt.*;
 import java.util.ArrayList;
+import Character.*;
 
 public class MapManager {
     GamePanel gp;
     Player player;
-    int screenIdleX,screenIdleY;
+    public int screenIdleX,screenIdleY;
     ImageManager imageManager;
     //static int[][] candyPosition = {{985,1240},{1255,935},{1485,1210}};
     static ArrayList<int[]> candyPosition = new ArrayList<>();
@@ -195,16 +196,18 @@ public class MapManager {
             int imageWidth = 4800;
             int imageHeight = 475;
 
+            overlay = "VisibleLight";
+
             int sourceX = player.worldX - player.screenX;
             sourceX = Math.max(0, Math.min(sourceX, imageWidth - 800));
             player.screenY += 60;
 
             g.drawImage(imageManager.getImage("minigamebg"), 0, 0, screenWidth, screenHeight, sourceX, 0, sourceX + 300, imageHeight-300, null);
-            g.drawImage(imageManager.getImage("witch"), player.screenX-230, player.screenY, player.playerSize, player.playerSize, null);
+            gp.witch.draw(g,player.screenX-230, player.screenY-90);
             //เก็บรายละเอียดเเหว่ง
-            g.drawImage(imageManager.getImage("visible"), 0, -355, gp.getWidth(), gp.getHeight(), null);
+            g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
         }
         
-        g.drawImage(imageManager.getImage(overlay), 0, 0, gp.getWidth(), gp.getHeight(), null);
+        g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
     }
 }

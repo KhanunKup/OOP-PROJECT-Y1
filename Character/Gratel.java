@@ -1,26 +1,15 @@
-package Main;
+package Character;
+
+import Main.GamePanel;
+import Main.ImageManager;
 
 import java.awt.*;
 
 public class Gratel extends Human {
-    GamePanel gp;
-    final int walkAnimDelay = 7;
-    int currentFrame = 0;
-    int currentIdleFrame = 0;
-    int playerSize;
-    String direction, animDirection, state;
-    public boolean isCollisionOn = true;
-    ImageManager imageManager;
-
     int screenX;
     int screenY;
 
     public static int worldX, worldY, speed, speedDiag;
-    Image gratelImg[];
-    String[] idleAnimLeft;
-    String[] idleAnimRight;
-    String[] walkingAnimLeft;
-    String[] walkingAnimRight;
 
     public Gratel(GamePanel gp, ImageManager imageManager) {
         this.gp = gp;
@@ -69,9 +58,9 @@ public class Gratel extends Human {
                 currentIdleFrame = 0;
             }
             if (animDirection.equals("left")) {
-                gratelImg = imageManager.getImages("gratelIdleAnimLeft");
+                animImg = imageManager.getImages("gratelIdleAnimLeft");
             } else if (animDirection.equals("right")) {
-                gratelImg = imageManager.getImages("gratelIdleAnimRight");
+                animImg = imageManager.getImages("gratelIdleAnimRight");
             }
 
         } else if (state.equals("walking")) {
@@ -79,9 +68,9 @@ public class Gratel extends Human {
                 currentIdleFrame = 0;
             }
             if (animDirection.equals("left")) {
-                gratelImg = imageManager.getImages("gratelWalkingAnimLeft");
+                animImg = imageManager.getImages("gratelWalkingAnimLeft");
             } else if (animDirection.equals("right")) {
-                gratelImg = imageManager.getImages("gratelWalkingAnimRight");
+                animImg = imageManager.getImages("gratelWalkingAnimRight");
             }
         }
     }
@@ -91,7 +80,7 @@ public class Gratel extends Human {
     }
 
     public void draw(Graphics g, int x, int y) {
-        g.drawImage(gratelImg[currentIdleFrame], x, y, playerSize, playerSize, null);
+        g.drawImage(animImg[currentIdleFrame], x, y, playerSize, playerSize, null);
     }
 
 }

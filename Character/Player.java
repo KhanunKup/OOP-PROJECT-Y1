@@ -1,31 +1,25 @@
-    package Main;
+    package Character;
 
+    import Main.*;
     import java.awt.*;
 
-    public class Player extends Human implements Walkable{
+    public class Player extends Human implements Walkable {
         final int walkAnimDelay = 7;
         int currentFrame = 0;
         int currentIdleFrame = 0;
-        int playerSize;
-        String direction, animDirection, state;
+
+
         int footstepTimer = 0;
         int footstepDelay = 25;
-        Sound dirtFootstep, grassFootstep, brickFootstep;
-        public boolean isCollisionOn = true;
+        public Sound dirtFootstep, grassFootstep, brickFootstep;
 
 
-        int screenX;
-        int screenY;
+
+        public int screenX;
+        public int screenY;
 
         public static int worldX, worldY, speed, speedDiag;
-        KeyHandler keyH;
-        GamePanel gp;
-        Image[] hanselImg;
-        String[] idleAnimLeft;
-        String[] idleAnimRight;
-        String[] walkingAnimLeft;
-        String[] walkingAnimRight;
-
+        public KeyHandler keyH;
         UI ui;
 
         CollisionChecker collisionChecker;
@@ -105,18 +99,18 @@
                     currentIdleFrame = 0;
                 }
                 if (animDirection.equals("left")) {
-                    hanselImg = imageManager.getImages("idleAnimLeft");
+                    animImg = imageManager.getImages("idleAnimLeft");
                 } else if (animDirection.equals("right")) {
-                    hanselImg = imageManager.getImages("idleAnimRight");
+                    animImg = imageManager.getImages("idleAnimRight");
                 }
             } else if (state.equals("walking")) {
                 if (currentIdleFrame > walkingAnimLeft.length-1) {
                     currentIdleFrame = 0;
                 }
                 if (animDirection.equals("left")) {
-                    hanselImg = imageManager.getImages("walkingAnimLeft");
+                    animImg = imageManager.getImages("walkingAnimLeft");
                 } else if (animDirection.equals("right")) {
-                    hanselImg = imageManager.getImages("walkingAnimRight");
+                    animImg = imageManager.getImages("walkingAnimRight");
                 }
             }
         }
@@ -309,8 +303,8 @@
 
         public void draw(Graphics g) {
     //        g.fillRect(x, y, gp.xTile, gp.yTile);
-            if (hanselImg != null && hanselImg.length > 0) {
-                g.drawImage(hanselImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
+            if (animImg != null && animImg.length > 0) {
+                g.drawImage(animImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
                 g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
             }
         }

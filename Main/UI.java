@@ -3,6 +3,7 @@ package Main;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import Character.*;
 
 public class UI {
     GamePanel gp;
@@ -35,7 +36,7 @@ public class UI {
     public boolean Fading = false;
     public boolean mapChanged = false;
 
-    boolean chalkPlayed = false;
+    public boolean chalkPlayed = false;
 
     public static final int MAIN_MENU = 0;
     public static int TXT_CUTSCENE = 1,SCENE = 1;

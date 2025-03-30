@@ -1,10 +1,30 @@
-package Main;
+package Character;
+
+import Main.GamePanel;
+import Main.ImageManager;
 
 import java.awt.*;
 
-public class Human{
+public class Human {
+    protected GamePanel gp;
     protected int worldX, worldY, speed, speedDiag;
-    protected Rectangle hitbox;
+    public Rectangle hitbox;
+    public int playerSize;
+
+    public String direction, animDirection, state;
+    public boolean isCollisionOn = true;
+
+    protected ImageManager imageManager;
+
+    protected final int walkAnimDelay = 7;
+    protected int currentFrame = 0;
+    protected int currentIdleFrame = 0;
+
+    protected String[] idleAnimLeft;
+    protected String[] idleAnimRight;
+    protected String[] walkingAnimLeft;
+    protected String[] walkingAnimRight;
+    protected Image[] animImg;
 
     public void setSpeed(int speed) {
         this.speed = speed;

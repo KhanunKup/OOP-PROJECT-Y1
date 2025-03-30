@@ -4,6 +4,8 @@ import tile.*;
 
 import javax.swing.*;
 import java.awt.*;
+import Character.*;
+
 
 public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = 24;
@@ -51,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
         this.gratel = new Gratel(this, imageManager);
-        this.witch = new Witch(this);
+        this.witch = new Witch(this, imageManager);
         currentTileMap = tileMap5;
 
         this.addKeyListener(keyH);
@@ -101,6 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
             while (true){
                 player.update(imageManager);
                 gratel.update(imageManager);
+                witch.update(imageManager);
                 //System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();
