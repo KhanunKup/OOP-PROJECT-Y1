@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxCol = 100;
     GamePanel gp;
     Player py;
+    UI u;
 
     public Thread gameThread;
 
@@ -29,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public boolean isQTEActive = false;
     private int qteTimeLeft = 3;
-    public String qteSequence = "escapefromherethisnotsafe";
+    public String qteSequence = "go";
     public int KeyIndex = 0;
     private long lastQTETime;
 
@@ -48,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
-        currentTileMap = tileMap1;
+        currentTileMap = tileMap5;
 
         this.addKeyListener(keyH);
 
@@ -106,17 +107,20 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void checkQTETrigger(){
-        if (!isQTEActive){
+        System.out.println("checkQTETrigger() called");
+        if (!isQTEActive) {
             int fixedX = 25;
             int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
 
             int screenIdleX = fixedX - player.worldX + player.screenX;
             int screenIdleY = fixedY - player.worldY + player.screenY;
 
-
+            {
             // สำหรับแก้ใน map 5 ถ้าเอามาลงแล้ว
-            if (((py.worldX<= 1100 && py.worldX >=1085) && (py.worldY<= 957 && py.worldY >= 922)) && gp.currentTileMap == gp.tileMap1){
-                startQTE();
+//            if (((py.worldX<= 1000 && py.worldX >=700) && (py.worldY<= 2000 && py.worldY >= 780)) && currentTileMap == tileMap5){
+//                startQTE();
+//                u.drawminiqte();
+//                System.out.println("start gp");
             }
         }
     }
@@ -132,6 +136,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.keyH.leftPressed = false;
         player.keyH.rightPressed = false;
 
+        revalidate();
         repaint();
     }
     public void checkQTE(char pressedKey) {
@@ -158,7 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
                 isQTEActive = false;
                 System.out.println("QTE Completed!");
             }
-
+            revalidate();
             repaint();
         }
     }
@@ -171,6 +176,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (qteTimeLeft <= 0) {
                 isQTEActive = false;
                 System.out.println("Time's up!");
+                revalidate();
                 repaint();
             }
         }
