@@ -4,6 +4,8 @@ import tile.*;
 
 import javax.swing.*;
 import java.awt.*;
+import Character.*;
+
 
 public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = 24;
@@ -13,6 +15,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxCol = 100;
     GamePanel gp;
     Player py;
+    Witch witch;
+    Gratel gratel;
 
     public Thread gameThread;
 
@@ -51,6 +55,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap6 = new HouseAfterMap("res/map/Witch-Hut-After.txt");
 
         currentTileMap = tileMap3;
+        this.gratel = new Gratel(this, imageManager);
+        this.witch = new Witch(this, imageManager);
 
         this.addKeyListener(keyH);
 
@@ -100,6 +106,8 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             while (true){
                 player.update(imageManager);
+                gratel.update(imageManager);
+                witch.update(imageManager);
                 //System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();

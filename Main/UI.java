@@ -3,6 +3,7 @@ package Main;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import Character.*;
 
 public class UI {
     GamePanel gp;
@@ -37,14 +38,17 @@ public class UI {
     public boolean Fading = false;
     public boolean mapChanged = false;
 
+    public boolean chalkPlayed = false;
+
     public static final int MAIN_MENU = 0;
     public static int TXT_CUTSCENE = 1,SCENE = 1;
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening;
-    public Sound map1soundtrack, map2soundtrack, map3soundtrack;
+    public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy;
+    public Sound map1soundtrack, map2soundtrack, map3soundtrack, map4soundtrack;
     public Sound selectSound, confirmSound, slidebarSound;
+    public Sound bookOpening, bookPage, chalk;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -108,16 +112,22 @@ public class UI {
     }
 
     public void loadSound() {
-        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/Cutscene-1and2-Boy-Girl-Hiding.wav");
-        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/Cutscene3-4-5.wav");
-        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/death-note-soundtrack-slow-pitchdown.wav");
+        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-hiding.wav");
+        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-girl-running.wav");
+        cutsceneCandy = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-candy.wav");
+
         selectSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-select.wav");
         confirmSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-confirm.wav");
         slidebarSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-slidebar.wav");
+        bookOpening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/book-opening.wav");
+        bookPage = new Sound(volumeLevel / 100f, "res/sound/soundtrack/book-page.wav");
+        chalk = new Sound(volumeLevel / 100f, "res/sound/soundtrack/chalkSound.wav");
+
         mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
         map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map1soundtrack.wav");
         map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map2soundtrack.wav");
         map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map3soundtrack.wav");
+        map4soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map4soundtrack.wav");
     }
 
     public void loadFont(){
@@ -180,6 +190,7 @@ public class UI {
 
             if (gp.currentTileMap == gp.tileMap4){
                 map3soundtrack.stop();
+                map4soundtrack.loop();
                 drawDialog();
                 if (showMiniGame) {
                     drawMiniGameMap();
@@ -297,6 +308,7 @@ public class UI {
 
     public void drawObjectiveText() {
 
+
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
         g.setColor(new Color(255, 255, 255, getAlphaText()));
 
@@ -320,6 +332,10 @@ public class UI {
             if (textDelay > 200){
                 //alpha -= alphaSpeed;
                 setAlpha(getAlpha()-alphaSpeed);
+                if (!chalkPlayed) {
+                    chalk.play();
+                    chalkPlayed = true;
+                }
             }
 
             if (getAlphaText() < 0){
@@ -620,7 +636,7 @@ public class UI {
                 g.setColor(new Color(255, 255, 255, 255));
 
                 fm = g.getFontMetrics();
-                text = "Hansel: Oh hey look at that! ,Is that a candy?!";
+                text = "Hansel: Oh hey look at that! Is that a candy?!";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
 
@@ -629,7 +645,7 @@ public class UI {
                 g.drawString(text, textX, textY);
 
                 g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
-                text_2 = "// hanzel and gratel carefully examine the suspicious candy on the desk //";
+                text_2 = "// Hanzel and Gratel carefully examine the suspicious candy on the desk //";
                 g.drawString(text_2, textX-50, textY+30);
             }
 
@@ -820,6 +836,7 @@ public class UI {
     public void devmode(Graphics g){
         g.setColor(Color.GREEN);
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+        g.drawString("Collision: " + (player.isCollisionOn ? "on" : "off"), 20, gp.getHeight() - 230);
         g.drawString("X: "+ Player.worldX, 20, gp.getHeight() - 200);
         g.drawString("Y: "+ Player.worldY, 20, gp.getHeight() - 170);
         g.drawString("Speed: "+ Player.speed, 20, gp.getHeight() - 140);

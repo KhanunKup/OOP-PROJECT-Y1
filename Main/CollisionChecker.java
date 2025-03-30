@@ -4,6 +4,7 @@ import tile.CellerMap;
 import tile.ForestMap;
 import tile.HouseMap;
 import tile.TileManager;
+import Character.*;
 
 public class CollisionChecker {
     GamePanel gp;
@@ -17,6 +18,9 @@ public class CollisionChecker {
     }
 
     public boolean isBlockWalkable(String direction) {
+        if (player.isCollisionOn == false) {
+            return true;
+        }
         leftX = player.worldX + player.hitbox.x;
         rightX = player.worldX + player.hitbox.x + player.hitbox.width;
         topY = player.worldY + player.hitbox.y;
@@ -101,10 +105,14 @@ public class CollisionChecker {
             } else {
                 return "";
             }
-        } else if (gp.currentTileMap instanceof  HouseMap) {
+        } else if (gp.currentTileMap instanceof HouseMap) {
             return "";
         } else if (gp.currentTileMap instanceof CellerMap) {
-            return "";
+            if (gp.currentTileMap.solidTiles.contains(tileNum)) {
+                return "";
+            } else {
+                return "brick";
+            }
         } else {
             return "";
         }

@@ -13,6 +13,7 @@ public class CellerMap extends TileManager{
     public CellerMap(String filePath){
         super(filePath, 24);
         brickTiles = new HashSet<>();
+        loadBrickTiles();
     }
 
     @Override
@@ -92,6 +93,17 @@ public class CellerMap extends TileManager{
         solidTiles.add(33);
         solidTiles.add(34);
         solidTiles.add(41);
+    }
+
+    public void loadBrickTiles() {
+        brickTiles.add(5);
+        brickTiles.add(6);
+        brickTiles.add(7);
+        brickTiles.add(8);
+        brickTiles.add(9);
+        brickTiles.add(10);
+        brickTiles.add(11);
+        brickTiles.add(12);
     }
 }
 

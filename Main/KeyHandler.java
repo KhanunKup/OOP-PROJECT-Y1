@@ -2,6 +2,7 @@ package Main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import Character.*;
 
 public class KeyHandler implements KeyListener {
     public GamePanel gp;
@@ -12,7 +13,7 @@ public class KeyHandler implements KeyListener {
     Sound candySound;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
-                    shiftPressed,spacePressed = true,checkMove = true;
+                    shiftPressed,spacePressed, isPlayerCollisionOn = false,checkMove = true; //change from true boolean;
 
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
@@ -65,20 +66,22 @@ public class KeyHandler implements KeyListener {
                 }
             }
             if(code == KeyEvent.VK_ENTER && !enterPressed) {
-                ui.confirmSound.play();
                 enterPressed = true;
                 switch (ui.selectedIndex) {
                     case 0:
+                        ui.bookOpening.play();
                         gp.gameState = UI.TXT_CUTSCENE;
                         gp.repaint();
                         new Thread(new Cutscene(gp, ui)).start();
                         break;
 
                     case 1:
+                        ui.confirmSound.play();
                         gp.gameState = UI.OPTION;
                         break;
 
                     case 2:
+                        ui.confirmSound.play();
                         System.exit(0);
                         break;
                 }
@@ -158,6 +161,7 @@ public class KeyHandler implements KeyListener {
             }
 
             if (code == KeyEvent.VK_X) {
+                isPlayerCollisionOn = !isPlayerCollisionOn;
                 ui.devmode = !ui.devmode;
             }
 
@@ -209,9 +213,11 @@ public class KeyHandler implements KeyListener {
 
                             ui.candyCount += 1;
 
+                            //เจอลูกอมครบ
                             if (ui.candyCount == 3) {
                                 UI.SCENE = 4;
                                 ui.spaceAble = false;
+                                ui.chalkPlayed = false;
                                 gp.ui.showText = false;
                                 gp.ui.imageDelay = 70;
                                 gp.ui.showImage = true;
@@ -307,5 +313,6 @@ public class KeyHandler implements KeyListener {
         rightPressed = false;
         enterPressed = false;
         shiftPressed = false;
+        isPlayerCollisionOn = false;
     }
 }
