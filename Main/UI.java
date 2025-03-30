@@ -722,6 +722,7 @@ public class UI {
     public void devmode(Graphics g){
         g.setColor(Color.GREEN);
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+        g.drawString("Collision: " + (player.isCollisionOn ? "on" : "off"), 20, gp.getHeight() - 230);
         g.drawString("X: "+ Player.worldX, 20, gp.getHeight() - 200);
         g.drawString("Y: "+ Player.worldY, 20, gp.getHeight() - 170);
         g.drawString("Speed: "+ Player.speed, 20, gp.getHeight() - 140);

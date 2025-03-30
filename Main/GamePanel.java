@@ -48,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
-        currentTileMap = tileMap1;
+        currentTileMap = tileMap4;
 
         this.addKeyListener(keyH);
 

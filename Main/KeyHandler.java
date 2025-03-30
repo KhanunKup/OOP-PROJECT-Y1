@@ -12,7 +12,7 @@ public class KeyHandler implements KeyListener {
     Sound candySound;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
-                    shiftPressed,spacePressed = true;
+                    shiftPressed,spacePressed, isPlayerCollisionOn = false; //change from true boolean;
 
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
@@ -158,6 +158,7 @@ public class KeyHandler implements KeyListener {
             }
 
             if (code == KeyEvent.VK_X) {
+                isPlayerCollisionOn = !isPlayerCollisionOn;
                 ui.devmode = !ui.devmode;
             }
 
@@ -295,5 +296,6 @@ public class KeyHandler implements KeyListener {
         rightPressed = false;
         enterPressed = false;
         shiftPressed = false;
+        isPlayerCollisionOn = false;
     }
 }

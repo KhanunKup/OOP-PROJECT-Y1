@@ -11,6 +11,7 @@
         int footstepTimer = 0;
         int footstepDelay = 25;
         Sound dirtFootstep, grassFootstep;
+        public boolean isCollisionOn = true;
 
 
         int screenX;
@@ -271,6 +272,8 @@
                 }
                 speedDiag = (int) (speed/Math.sqrt(2));
 
+                isCollisionOn = !keyH.isPlayerCollisionOn;
+                
                 moveCharacter(this);
                 soundHandler();
                 animationHandler(imageManager);

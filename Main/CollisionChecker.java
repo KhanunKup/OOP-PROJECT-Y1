@@ -17,6 +17,9 @@ public class CollisionChecker {
     }
 
     public boolean isBlockWalkable(String direction) {
+        if (player.isCollisionOn == false) {
+            return true;
+        }
         leftX = player.worldX + player.hitbox.x;
         rightX = player.worldX + player.hitbox.x + player.hitbox.width;
         topY = player.worldY + player.hitbox.y;
