@@ -146,10 +146,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (pressedKey == qteSequence.charAt(KeyIndex)) {
                 System.out.println("Correct!");
-                player.worldX += 50;
+                player.worldX += 20;
             } else {
                 System.out.println("Wrong Key!");
-                player.worldX -= 50;
+                player.worldX -= 20;
             }
 
             lastQTETime = System.currentTimeMillis();
