@@ -225,6 +225,7 @@ public class KeyHandler implements KeyListener {
                                 if (pos[0] == targetPosition[0] && pos[1] == targetPosition[1]) {
                                     candySound.play();
                                     MapManager.candyPosition.remove(i);
+                                    ui.spaceAble = false;
                                     break;
                                 }
                             }

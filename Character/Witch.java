@@ -24,7 +24,7 @@ public class Witch extends Human {
 
     public void playerLoading(ImageManager imageManager) {
         idleAnimRight = new String[20]; //-> v1
-        walkingAnimRight = new String[8];
+        walkingAnimRight = new String[6];
         v2WalkingAnimRight = new String[8];
 
         for (int i = 0; i < 20; i++) {
@@ -32,7 +32,7 @@ public class Witch extends Human {
         }
         imageManager.setImage("witchIdleAnimRight", idleAnimRight);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 6; i++) {
             walkingAnimRight[i] = "res/Character/Witch/WitchV1Walk/Walk/witchv1_walking_right"+(i+1)+".png";
         }
         imageManager.setImage("witchWalkingAnimRight", walkingAnimRight);
