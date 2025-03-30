@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
 
-    public int gameState = UI.MOVING; // 0 = title , 1 = play
+    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
 
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4,tileMap5;
     public int[][] map;
@@ -48,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
-        currentTileMap = tileMap4;
+        currentTileMap = tileMap1;
 
         this.addKeyListener(keyH);
 

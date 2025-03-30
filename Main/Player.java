@@ -10,7 +10,7 @@
         String direction, animDirection, state;
         int footstepTimer = 0;
         int footstepDelay = 25;
-        Sound dirtFootstep, grassFootstep;
+        Sound dirtFootstep, grassFootstep, brickFootstep;
         public boolean isCollisionOn = true;
 
 
@@ -68,6 +68,7 @@
         public void loadSound() {
             dirtFootstep= new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/dirt-footstep.wav");
             grassFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/grass-footstep.wav");
+            brickFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/brick-footstep.wav");
         }
 
         public void playerLoading(ImageManager imageManager) {
@@ -184,16 +185,28 @@
 
         public void soundHandler() {
             if (state.equals("walking")) {
-                if (footstepTimer >= footstepDelay) {
-                    if (collisionChecker.footstepChecker().equals("dirt")) {
-                        dirtFootstep.play();
-                    } else if (collisionChecker.footstepChecker().equals("grass")) {
-                        grassFootstep.play();
+                if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
+                    if (footstepTimer >= footstepDelay) {
+                        if (collisionChecker.footstepChecker().equals("dirt")) {
+                            dirtFootstep.play();
+                        } else if (collisionChecker.footstepChecker().equals("grass")) {
+                            grassFootstep.play();
+                        }
+                        footstepTimer = 0;
+                    } else {
+                        footstepTimer++;
                     }
-                    footstepTimer = 0; // Reset timer
-                } else {
-                    footstepTimer++; // Increment timer
+                } else if (gp.currentTileMap == gp.tileMap4) {
+                    if (footstepTimer >= footstepDelay) {
+                        if (collisionChecker.footstepChecker().equals("brick")) {
+                            brickFootstep.play();
+                        }
+                        footstepTimer = 0;
+                    } else {
+                        footstepTimer++;
+                    }
                 }
+
             }
         }
 
@@ -248,14 +261,19 @@
 
                 //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
                 if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
+                        ui.bookPage.play();
                         UI.SCENE = 2;
+                        ui.chalkPlayed = false;
                         gp.ui.showText = false;
                         gp.ui.startFade();
                         keyH.keyBoolRelease();
                 }
 
+                //เจอบ้าน
                 if (((gp.mapM.screenIdleX <= -30 && gp.mapM.screenIdleY >= -280) && (gp.mapM.screenIdleY >= -100)) && gp.currentTileMap == gp.tileMap2){
                     UI.SCENE = 3;
+                    ui.chalkPlayed = false;
+                    ui.cutsceneCandy.play();
                     gp.ui.showText = false;
                     gp.ui.showImage = true;
                     gp.ui.imageDelay = 60;
@@ -265,15 +283,24 @@
 
                 if (keyH.shiftPressed) {
                     speed = this.getSpeed()+6;
-                    footstepDelay = 18;
+                    if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
+                        footstepDelay = 18;
+                    } else if (gp.currentTileMap == gp.tileMap4) {
+                        footstepDelay = 28;
+                    }
                 }else {
                     speed = this.getSpeed();
-                    footstepDelay = 25;
+                    if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
+                        footstepDelay = 25;
+                    } else if (gp.currentTileMap == gp.tileMap4) {
+                        footstepDelay = 35;
+                    }
+
                 }
                 speedDiag = (int) (speed/Math.sqrt(2));
 
                 isCollisionOn = !keyH.isPlayerCollisionOn;
-                
+
                 moveCharacter(this);
                 soundHandler();
                 animationHandler(imageManager);
