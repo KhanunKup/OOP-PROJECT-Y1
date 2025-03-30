@@ -96,8 +96,8 @@ public class MapManager {
 
             //System.out.println("X :" + screenIdleX);
             //System.out.println("Y :" + screenIdleY);
-
-            g.drawImage(imageManager.getImage("gratel"), screenIdleX+600, screenIdleY-250, gp.tileSize *2, gp.tileSize *2, null);
+            gp.gratel.draw(g, screenIdleX+600, screenIdleY-250);
+//            g.drawImage(imageManager.getImage("gratel"), screenIdleX+600, screenIdleY-250, gp.tileSize *2, gp.tileSize *2, null);
         }
 
         if (gp.currentTileMap == gp.tileMap2){

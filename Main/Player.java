@@ -20,7 +20,7 @@
         public static int worldX, worldY, speed, speedDiag;
         KeyHandler keyH;
         GamePanel gp;
-        Image[] hansel;
+        Image[] hanselImg;
         String[] idleAnimLeft;
         String[] idleAnimRight;
         String[] walkingAnimLeft;
@@ -105,18 +105,18 @@
                     currentIdleFrame = 0;
                 }
                 if (animDirection.equals("left")) {
-                    hansel = imageManager.getImages("idleAnimLeft");
+                    hanselImg = imageManager.getImages("idleAnimLeft");
                 } else if (animDirection.equals("right")) {
-                    hansel = imageManager.getImages("idleAnimRight");
+                    hanselImg = imageManager.getImages("idleAnimRight");
                 }
             } else if (state.equals("walking")) {
                 if (currentIdleFrame > walkingAnimLeft.length-1) {
                     currentIdleFrame = 0;
                 }
                 if (animDirection.equals("left")) {
-                    hansel = imageManager.getImages("walkingAnimLeft");
+                    hanselImg = imageManager.getImages("walkingAnimLeft");
                 } else if (animDirection.equals("right")) {
-                    hansel = imageManager.getImages("walkingAnimRight");
+                    hanselImg = imageManager.getImages("walkingAnimRight");
                 }
             }
         }
@@ -309,8 +309,8 @@
 
         public void draw(Graphics g) {
     //        g.fillRect(x, y, gp.xTile, gp.yTile);
-            if (hansel != null && hansel.length > 0) {
-                g.drawImage(hansel[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
+            if (hanselImg != null && hanselImg.length > 0) {
+                g.drawImage(hanselImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
                 g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
             }
         }

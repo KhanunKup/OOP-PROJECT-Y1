@@ -13,10 +13,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxCol = 100;
     GamePanel gp;
     Player py;
+    Witch witch;
+    Gratel gratel;
 
     public Thread gameThread;
 
-    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
+    public int gameState = UI.MOVING; // 0 = title , 1 = play
 
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4,tileMap5;
     public int[][] map;
@@ -48,6 +50,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
+        this.gratel = new Gratel(this, imageManager);
+        this.witch = new Witch(this);
         currentTileMap = tileMap1;
 
         this.addKeyListener(keyH);
@@ -96,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
         try {
             while (true){
                 player.update(imageManager);
+                gratel.update(imageManager);
                 //System.out.println(player.worldX+", "+player.worldY);
                 ui.updateFade();
                 repaint();
