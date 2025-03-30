@@ -7,7 +7,7 @@ import Character.*;
 public class MapManager {
     GamePanel gp;
     Player player;
-    public int screenIdleX,screenIdleY;
+    public int screenIdleX,screenIdleY,xPlus = 230;
     ImageManager imageManager;
     //static int[][] candyPosition = {{985,1240},{1255,935},{1485,1210}};
     static ArrayList<int[]> candyPosition = new ArrayList<>();
@@ -17,6 +17,7 @@ public class MapManager {
         this.gp = gp;
         this.player = player;
         this.imageManager = imageManager;
+        xPlus = player.screenX-230;
         candyPosition.add(new int[]{985, 1240});
         candyPosition.add(new int[]{1255, 935});
         candyPosition.add(new int[]{1485, 1210});
@@ -202,12 +203,18 @@ public class MapManager {
             sourceX = Math.max(0, Math.min(sourceX, imageWidth - 800));
             player.screenY += 60;
 
+            gp.keyH.rightPressed = true;
+            gp.keyH.leftPressed = false;
+            gp.keyH.upPressed = false;
+            gp.keyH.downPressed = false;
             g.drawImage(imageManager.getImage("minigamebg"), 0, 0, screenWidth, screenHeight, sourceX, 0, sourceX + 300, imageHeight-300, null);
             gp.witch.draw(g,player.screenX-230, player.screenY-90);
             //เก็บรายละเอียดเเหว่ง
             g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
+            g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
+            xPlus += 1;
         }
         
-        g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
+        //g.drawImage(imageManager.getImage(overlay), 0, 0, gp.getWidth(), gp.getHeight(), null); // 120
     }
 }

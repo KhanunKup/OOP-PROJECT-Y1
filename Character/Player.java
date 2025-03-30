@@ -276,7 +276,7 @@
                 }
 
                 if (keyH.shiftPressed) {
-                    speed = this.getSpeed()+6;
+                    speed = this.getSpeed()+1;
                     if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
                         footstepDelay = 18;
                     } else if (gp.currentTileMap == gp.tileMap4) {

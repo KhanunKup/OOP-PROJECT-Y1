@@ -447,6 +447,7 @@ public class UI {
                     System.out.println("Fading to black - Alpha: " + getAlpha());
                 } else {
                     if (!showText) {
+                        gp.keyH.keyBoolRelease();
                         gp.switchMap();
                         mapChanged = true;
                         showText = true;
