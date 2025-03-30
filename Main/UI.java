@@ -196,7 +196,7 @@ public class UI {
         if(gp.gameState == OPTION){
             drawOption();
         }
-        if (((player.worldX<= 1000 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)) && gp.currentTileMap == gp.tileMap5){
+        if (((player.worldX<= 720 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)) && gp.currentTileMap == gp.tileMap5){
             gp.startQTE();
             //drawminiqte();
             //startQTE();
