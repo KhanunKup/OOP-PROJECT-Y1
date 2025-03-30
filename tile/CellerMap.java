@@ -83,6 +83,8 @@ public class CellerMap extends TileManager{
         solidTiles.add(4);
         solidTiles.add(5);
         solidTiles.add(17);
+        solidTiles.add(18);
+        solidTiles.add(19);
         solidTiles.add(20);
         solidTiles.add(21);
         solidTiles.add(22);
