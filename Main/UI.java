@@ -167,6 +167,7 @@ public class UI {
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
+            System.out.println(gp.keyH.checkMove);
             drawObjectiveText();
             drawBackScreen(g);
             if(showFPS){
@@ -236,18 +237,23 @@ public class UI {
                     }
                 }
             }
-            if (gp.isQTEActive){
-                drawminiqte();
+            if (gp.currentTileMap == gp.tileMap5){
+                if (gp.isQTEActive){
+                    drawminiqte();
+                }
+                else {
+                    gp.keyH.rightPressed = true;
+                }
+                if ((player.worldX<= 720 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)){
+                    gp.startQTE();
+                    //drawminiqte();
+                    //startQTE();
+                    //System.out.println("start");
+                }
             }
         }
         if(gp.gameState == OPTION){
             drawOption();
-        }
-        if (((player.worldX<= 720 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)) && gp.currentTileMap == gp.tileMap5){
-            gp.startQTE();
-            //drawminiqte();
-            //startQTE();
-            //System.out.println("start");
         }
     }
     public void drawPointer(){
@@ -925,10 +931,10 @@ public class UI {
     }
     public void drawminiqte(){
         //System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
-        String message = "Press " + gp.qteSequence.charAt(gp.KeyIndex) + " to escape";
-        g.setColor(Color.white);
-        g.setFont(new Font("Arial", Font.PLAIN, 30));
-        g.drawString(message, 450, 300);
+        String message = "Press [ " + gp.qteSequence.charAt(gp.KeyIndex) + " ] to escape";
+        g.setColor(new Color(255, 255, 255, 255));
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 30));
+        g.drawString(message, 246, 100);
     }
 //    public void checkQTE(char pressedKey) {
 //        if (isQTEActive) {

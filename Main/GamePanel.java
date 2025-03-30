@@ -53,7 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap5 = new MinigameMap("res/map/Blank.txt");
         tileMap6 = new HouseAfterMap("res/map/Witch-Hut-After.txt");
 
-        currentTileMap = tileMap3;
+        currentTileMap = tileMap5;
         this.gratel = new Gratel(this, imageManager);
         this.witch = new Witch(this, imageManager);
 
@@ -135,19 +135,13 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void startQTE(){
+        keyH.rightPressed = false;
         qteTimeLeft = 3;
         KeyIndex = 0;
         isQTEActive = true;
         lastQTETime = System.currentTimeMillis();
 
         player.state = "idle";
-        player.keyH.upPressed = false;
-        player.keyH.downPressed = false;
-        player.keyH.leftPressed = false;
-        player.keyH.rightPressed = false;
-
-        revalidate();
-        repaint();
     }
 //    public void drawqte();{
 //        String message = "Press " + qteSequence.charAt(KeyIndex) + " to escape";
@@ -163,9 +157,13 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (pressedKey == qteSequence.charAt(KeyIndex)) {
                 System.out.println("Correct!");
+                keyH.keyBoolRelease();
+                mapM.witchPositionX -= 10;
                 player.worldX += 20;
             } else {
                 System.out.println("Wrong Key!");
+                keyH.keyBoolRelease();
+                mapM.witchPositionX += 20;
                 player.worldX -= 20;
             }
 
@@ -177,11 +175,11 @@ public class GamePanel extends JPanel implements Runnable {
 
             // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
             if (KeyIndex >= qteSequence.length()) {
+                keyH.checkMove = true;
+                keyH.rightPressed = true;
                 isQTEActive = false;
                 //System.out.println("QTE Completed!");
             }
-            revalidate();
-            repaint();
         }
     }
     public void updateQTE() {
@@ -193,8 +191,6 @@ public class GamePanel extends JPanel implements Runnable {
             if (qteTimeLeft <= 0) {
                 isQTEActive = false;
                 System.out.println("Time's up!");
-                revalidate();
-                repaint();
             }
         }
     }
