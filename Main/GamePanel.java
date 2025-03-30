@@ -139,8 +139,15 @@ public class GamePanel extends JPanel implements Runnable {
         revalidate();
         repaint();
     }
+//    public void drawqte();{
+//        String message = "Press " + qteSequence.charAt(KeyIndex) + " to escape";
+//        ui.setColor(Color.white);
+//        setFont(new Font("Arial", Font.PLAIN, 30));
+//        ui.drawqteSequence(message, 450, 300);
+//    }
     public void checkQTE(char pressedKey) {
         if (isQTEActive) {
+            ui.drawminiqte();
             System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
 
 
@@ -161,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
             // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
             if (KeyIndex >= qteSequence.length()) {
                 isQTEActive = false;
-                System.out.println("QTE Completed!");
+                //System.out.println("QTE Completed!");
             }
             revalidate();
             repaint();

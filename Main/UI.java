@@ -192,6 +192,9 @@ public class UI {
                     }
                 }
             }
+            if (gp.isQTEActive){
+                drawminiqte();
+            }
         }
         if(gp.gameState == OPTION){
             drawOption();
@@ -802,11 +805,8 @@ public class UI {
         }
     }
     public void drawminiqte(){
-        if (check == false);{
-            check = true;
-            total = 0;
-        }
-        String message = "Press " + key.substring(0,total) + " to escape";
+        //System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
+        String message = "Press " + gp.qteSequence.charAt(gp.KeyIndex) + " to escape";
         g.setColor(Color.white);
         g.setFont(new Font("Arial", Font.PLAIN, 30));
         g.drawString(message, 450, 300);
