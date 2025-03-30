@@ -12,7 +12,7 @@ public class KeyHandler implements KeyListener {
     Sound candySound;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
-                    shiftPressed,spacePressed = true;
+                    shiftPressed,spacePressed = true,checkMove = true;
 
     public KeyHandler(GamePanel gp, UI ui) {
         this.gp = gp;
@@ -144,7 +144,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
         }
-        if(gp.gameState == UI.MOVING) {
+        if(gp.gameState == UI.MOVING && checkMove) {
             if (code == KeyEvent.VK_W) upPressed = true;
             if (code == KeyEvent.VK_S) downPressed = true;
             if (code == KeyEvent.VK_A) leftPressed = true;
@@ -224,27 +224,39 @@ public class KeyHandler implements KeyListener {
                     ui.showMiniGame = false;
                 }
 
-            } else if (gp.currentTileMap == gp.tileMap4 && ui.checkJailBreak) {
-                if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250))) {
-                    if (code == KeyEvent.VK_E) {
-                        ui.showMiniGame = true;
-                        ui.spaceAble = true;
-                        ui.imageWidth = gp.tileSize * 10;
-                        ui.imageHeight = gp.tileSize * 2;
+            } else if (gp.currentTileMap == gp.tileMap4) {
+                if (ui.checkJailBreak){
+                    if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250))) {
+                        if (code == KeyEvent.VK_E) {
+                            ui.showMiniGame = true;
+                            ui.spaceAble = true;
+                            ui.imageWidth = gp.tileSize * 10;
+                            ui.imageHeight = gp.tileSize * 2;
 
-                    } else if (ui.spaceAble) {
-                        if ((code == KeyEvent.VK_SPACE && ui.showMiniGame)) {
-                            if (spacePressed){
-                                ui.imageWidth += 150;
+                        } else if (ui.spaceAble) {
+                            if ((code == KeyEvent.VK_SPACE && ui.showMiniGame)) {
+                                if (spacePressed){
+                                    ui.imageWidth += 150;
+                                }
+                                spacePressed = false;
                             }
-                            spacePressed = false;
                         }
+                    }
+                    else {
+                        ui.showMiniGame = false;
+                        ui.spaceAble = false;
+                        ui.timer = 10.0;
                     }
                 }
                 else {
-                    ui.showMiniGame = false;
-                    ui.spaceAble = false;
-                    ui.timer = 0.0;
+                    if (ui.basementIndex == 1 || ui.basementIndex == 2 || ui.basementIndex == 3){
+                        if (code == KeyEvent.VK_E){
+                            ui.basementText = false;
+                            ui.checkBasement = true;
+                            new Thread(new Cutscene(gp, ui)).start();
+                        }
+
+                    }
                 }
             }
         }

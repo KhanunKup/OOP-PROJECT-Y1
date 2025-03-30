@@ -163,10 +163,10 @@ public class MapManager {
 
             g.drawImage(imageManager.getImage("blood"), screenIdleX-820, screenIdleY-1220, 2400, 2400, null);
 
-            screenIdleX = 865 - Player.worldX + player.screenX;
+            screenIdleX = 1080 - Player.worldX + player.screenX;
             screenIdleY = 1225 - Player.worldY + player.screenY;
 
-            g.drawImage(imageManager.getImage("obj_head"), screenIdleX-865, screenIdleY-1225, 2400, 2400, null);
+            g.drawImage(imageManager.getImage("obj_head"), screenIdleX-885, screenIdleY-1200, 2400, 2400, null);
 
             //screenIdleX = 895 - Player.worldX + player.screenX;
             //screenIdleY = 1110 - Player.worldY + player.screenY;
