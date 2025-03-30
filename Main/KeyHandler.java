@@ -252,6 +252,8 @@ public class KeyHandler implements KeyListener {
                     }
                 } else {
                     ui.showMiniGame = false;
+                    ui.spaceAble = false;
+                    ui.greenBarPosition = 280;
                 }
 
             } else if (gp.currentTileMap == gp.tileMap4) {

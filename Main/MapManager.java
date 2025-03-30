@@ -220,7 +220,8 @@ public class MapManager {
             g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
             xPlus += 1;
         }
-        
-        g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
+        if (gp.currentTileMap != gp.tileMap5){
+            g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
+        }
     }
 }

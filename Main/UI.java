@@ -31,7 +31,7 @@ public class UI {
     public boolean showFPS;
 
     public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true,checkJailBreak = false,checkBasement = false,
-            head = true,hand = true,intestines = true, basementText = true , skull = true;
+            head = true,hand = true,intestines = true, basementText = true , skull = false;
     public double textDelay,imageDelay;
     private double alpha = 0.0;
     private int alphaText = 0;
@@ -199,6 +199,8 @@ public class UI {
             }
 
             if (gp.currentTileMap == gp.tileMap4){
+                System.out.println(basementIndex);
+                System.out.println(skull);
                 map3soundtrack.stop();
                 map4soundtrack.loop();
                 drawDialog();
