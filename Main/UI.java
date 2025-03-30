@@ -45,7 +45,7 @@ public class UI {
     public static final int MOVING = 2;
     public static final int OPTION = 3;
 
-    public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy;
+    public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy, cutsceneEye;
     public Sound map1soundtrack, map2soundtrack, map3soundtrack, map4soundtrack;
     public Sound selectSound, confirmSound, slidebarSound;
     public Sound bookOpening, bookPage, chalk;
@@ -115,13 +115,14 @@ public class UI {
         cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-hiding.wav");
         cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-girl-running.wav");
         cutsceneCandy = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-candy.wav");
+        cutsceneEye = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-eye.wav");
 
         selectSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-select.wav");
         confirmSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-confirm.wav");
         slidebarSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-slidebar.wav");
-        bookOpening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/book-opening.wav");
-        bookPage = new Sound(volumeLevel / 100f, "res/sound/soundtrack/book-page.wav");
-        chalk = new Sound(volumeLevel / 100f, "res/sound/soundtrack/chalkSound.wav");
+        bookOpening = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-opening.wav");
+        bookPage = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-page.wav");
+        chalk = new Sound(volumeLevel / 100f, "res/sound/soundEffect/chalkSound.wav");
 
         mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
         map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map1soundtrack.wav");

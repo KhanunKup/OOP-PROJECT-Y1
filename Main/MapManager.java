@@ -12,6 +12,7 @@ public class MapManager {
     //static int[][] candyPosition = {{985,1240},{1255,935},{1485,1210}};
     static ArrayList<int[]> candyPosition = new ArrayList<>();
     String overlay;
+    int yOverlay;
 
     public MapManager(GamePanel gp, Player player, ImageManager imageManager) {
         this.gp = gp;
@@ -90,6 +91,7 @@ public class MapManager {
             int fixedX = 25;
             int fixedY = gp.maxRow * gp.tileSize - gp.tileSize;
 
+            yOverlay = 0;
             overlay = "VisibleDark";
 
             screenIdleX = fixedX - player.worldX + player.screenX;
@@ -105,6 +107,7 @@ public class MapManager {
             screenIdleX = 1225 - player.worldX + player.screenX;
             screenIdleY = 160 - player.worldY + player.screenY;
 
+            yOverlay = 0;
             overlay = "VisibleDark";
 
             //System.out.println("X :" + screenIdleX);
@@ -117,6 +120,7 @@ public class MapManager {
             screenIdleX = 985 - player.worldX + player.screenX;
             screenIdleY = 1470 - player.worldY + player.screenY;
 
+            yOverlay = 0;
             overlay = "VisibleDark";
 
             g.drawImage(imageManager.getImage("carpet"), screenIdleX-145, screenIdleY-590, 700, 700, null);
@@ -155,6 +159,7 @@ public class MapManager {
             screenIdleX = 1240 - Player.worldX + player.screenX;
             screenIdleY = 1240 - Player.worldY + player.screenY;
 
+            yOverlay = 0;
             overlay = "VisibleLight";
 
             g.drawImage(imageManager.getImage("body"), screenIdleX-1240, screenIdleY-1240, 2400, 2400, null);
@@ -196,6 +201,7 @@ public class MapManager {
             int imageWidth = 4800;
             int imageHeight = 475;
 
+            yOverlay = 120;
             overlay = "VisibleLight";
 
             int sourceX = player.worldX - player.screenX;
@@ -208,6 +214,6 @@ public class MapManager {
             g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
         }
         
-        g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
+        g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
     }
 }

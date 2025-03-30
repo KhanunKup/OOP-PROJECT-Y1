@@ -112,6 +112,7 @@ public class Cutscene implements Runnable {
                         }
                     }
                     else {
+                        ui.cutsceneEye.play();
                         gp.repaint();
                         Thread.sleep(5000);
 
