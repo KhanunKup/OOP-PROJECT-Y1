@@ -86,16 +86,43 @@ public class Cutscene implements Runnable {
                     ui.showDialog = false;
                 }
                 else {
-                    gp.repaint();
-                    Thread.sleep(5000);
+                    if (ui.basementIndex == 1 || ui.basementIndex == 2 || ui.basementIndex == 3){
+                        Thread.sleep( 2000);
+                        ui.checkBasement = false;
+                        ui.basementText = true;
+                        if (ui.basementIndex == 1){
+                            ui.head = false;
+                        }
+                        if (ui.basementIndex == 2){
+                            ui.hand = false;
+                        }
+                        if (ui.basementIndex == 3){
+                            ui.intestines = false;
+                        }
+                        gp.keyH.checkMove = true;
+                        ui.basementCount += 1;
 
-                    ui.imageDelay = 80;
-                    gp.repaint();
-                    Thread.sleep(5000);
+                        if (ui.basementCount == 3){
+                            ui.checkJailBreak = true;
+                            ui.skull = true;
+                            ui.basementIndex = 4;
+                            Thread.sleep( 4000);
+                            System.out.println(ui.basementIndex);
+                            ui.skull = false;
+                        }
+                    }
+                    else {
+                        gp.repaint();
+                        Thread.sleep(5000);
 
-                    ui.showImage = false;
-                    gp.gameState = MOVING;
-                    ui.showText = false;
+                        ui.imageDelay = 80;
+                        gp.repaint();
+                        Thread.sleep(5000);
+
+                        ui.showImage = false;
+                        gp.gameState = MOVING;
+                        ui.showText = false;
+                    }
                 }
             }
 

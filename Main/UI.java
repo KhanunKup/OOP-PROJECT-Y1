@@ -16,16 +16,18 @@ public class UI {
     public Font customFont;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
+    public  int basementCount = 0;
     //public int[] whiteBarPosition = {370,450,400};
-    public int greenBarPosition = 280 , candyCount = 0,spaceBarCount = 0;
+    public int greenBarPosition = 280 , candyCount = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
-    public int selectedIndex = 0;
+    public int selectedIndex = 0, basementIndex = 0;
 
     public String[] optionMenu = {"Volume","Display FPS","Back"};
     public int optionIndex = 0,pointerIndex = 0;
     public boolean showFPS;
 
-    public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true,checkJailBreak = true;
+    public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true,checkJailBreak = false,checkBasement = false,
+            head = true,hand = true,intestines = true, basementText = true , skull = true;
     public double textDelay,imageDelay;
     private double alpha = 0.0;
     private int alphaText = 0;
@@ -72,9 +74,14 @@ public class UI {
         imageManager.setImage("cutscene6","res/cutscene/6.JPG");
         imageManager.setImage("cutscene7","res/cutscene/7.JPG");
         imageManager.setImage("cutscene8","res/cutscene/8.JPG");
+        imageManager.setImage("cutscene9","res/cutscene/9.JPG");
         imageManager.setImage("blackbar","res/minigame/bar-black-export.png");
         imageManager.setImage("whitebar","res/minigame/bar-white-export.png");
         imageManager.setImage("greenbar","res/minigame/bar-green-export.png");
+        imageManager.setImage("hand","res/object/hand.png");
+        imageManager.setImage("head","res/object/head.png");
+        imageManager.setImage("intestines","res/object/intestines.png");
+        imageManager.setImage("skull","res/object/skull.png");
 
 
         config = new Config("config.txt");
@@ -178,8 +185,31 @@ public class UI {
                     drawMiniGameMap();
                 }
                 else {
+                    drawAchivement();
                     if ((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250)){
                         drawMiniGameKey();
+                    }
+                    else if (((Player.worldX >= 1050 && Player.worldX <= 1100) && (Player.worldY <= 1175 && Player.worldY >= 1120)) && head){
+                        basementIndex = 1;
+                        drawMiniGameKey();
+                        drawObjectiveImage();
+                    }
+                    else if (((Player.worldX >= 800 && Player.worldX <= 900) && (Player.worldY <= 1285 && Player.worldY >= 1230)) && hand){
+                        basementIndex = 2;
+                        drawMiniGameKey();
+                        drawObjectiveImage();
+                    }
+                    else if (((Player.worldX >= 800 && Player.worldX <= 860) && (Player.worldY <= 1165 && Player.worldY >= 1130)) && intestines){
+                        basementIndex = 3;
+                        drawMiniGameKey();
+                        drawObjectiveImage();
+                    }
+                    else {
+                        if (!skull){
+                            basementIndex = 0;
+                        }
+                        checkBasement = false;
+                        drawObjectiveImage();
                     }
                 }
             }
@@ -207,6 +237,61 @@ public class UI {
                 g.setColor(Color.WHITE);
             }
             g.drawString(menuOptions[i], optionX, optionY);
+        }
+    }
+
+    public void drawObjectiveImage(){
+        g.setColor(new Color(255, 255, 255, 255));
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+
+        if (checkBasement){
+            gp.keyH.checkMove = false;
+            if (basementIndex == 1){
+                fm = g.getFontMetrics();
+                text = "You got a head.";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 400;
+                g.drawString(text, textX, textY);
+                g.drawImage(imageManager.getImage("head"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
+            }
+            else if (basementIndex == 2){
+                fm = g.getFontMetrics();
+                text = "You got a hand.";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 400;
+                g.drawString(text, textX, textY);
+                g.drawImage(imageManager.getImage("hand"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
+            }
+            else if (basementIndex == 3){
+                fm = g.getFontMetrics();
+                text = "You got a intestines.";
+                textWidth = fm.stringWidth(text);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 400;
+                g.drawString(text, textX, textY);
+                g.drawImage(imageManager.getImage("intestines"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
+            }
+        }
+    }
+
+    public void drawAchivement(){
+        g.setColor(new Color(255, 255, 255, 255));
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+
+        if (basementIndex == 4){
+            fm = g.getFontMetrics();
+            text = "You got a Skull. (try to break out with this)";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 400;
+            g.drawString(text, textX, textY);
+            g.drawImage(imageManager.getImage("skull"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
         }
     }
 
@@ -304,10 +389,11 @@ public class UI {
                 new Thread(new Cutscene(gp, this)).start();
             }
             else {
+                gp.keyH.checkMove = true;
                 textDelay += 1;
 
-                if (textDelay > 200){
-                    setAlphaText(getAlphaText()-1);
+                if (textDelay > 100){
+                    setAlphaText(getAlphaText()-10);
                 }
 
                 if (getAlphaText() < 0){
@@ -572,7 +658,7 @@ public class UI {
             }
 
             else if (imageDelay == 80 && showImage){
-                g.drawImage(imageManager.getImage("cutscene7"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+                g.drawImage(imageManager.getImage("cutscene9"), 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
         }
     }
@@ -599,6 +685,7 @@ public class UI {
 
     public void drawDialog(){
         if (showDialog && gp.currentTileMap == gp.tileMap4){
+            gp.keyH.checkMove = false;
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
             g.setColor(new Color(255, 255, 255, getAlphaText()));
 
@@ -626,13 +713,24 @@ public class UI {
             textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
             g.drawString(minigame, textX, textY);
         }
-        else if ((gp.currentTileMap == gp.tileMap4) && checkJailBreak){
-            minigame = "Press [ E ] to break out.";
-            textWidth = fm.stringWidth(minigame);
-            textHeight = fm.getHeight();
-            textX = (gp.getWidth() - textWidth) / 2;
-            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
-            g.drawString(minigame, textX, textY);
+        else if (gp.currentTileMap == gp.tileMap4){
+            if (((basementIndex == 1 && head|| basementIndex == 2 && hand|| basementIndex == 3 && intestines)) && basementText){
+                String minigame_text = "Press [ E ] to investigate.";
+                textWidth = fm.stringWidth(minigame_text);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent();
+                g.drawString(minigame_text, textX, textY);
+            }
+
+            if (checkJailBreak){
+                minigame = "Press [ E ] to break out.";
+                textWidth = fm.stringWidth(minigame);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+                g.drawString(minigame, textX, textY);
+            }
         }
     }
 
@@ -682,7 +780,7 @@ public class UI {
 
             //ท้ายหลอด x = 460
             //ต้นหลอก x = (gp.getWidth() - imageWidth) / 2 || 280
-            imageWidth -= 5;
+            imageWidth -= 7;
 
             if (imageWidth < 1) {
                 imageWidth = 1;
@@ -690,10 +788,10 @@ public class UI {
             g.drawImage(imageManager.getImage("blackbar"), (gp.getWidth() - (gp.tileSize * 10)) / 2, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), gp.tileSize * 10, gp.tileSize * 2, null);
             g.drawImage(imageManager.getImage("whitebar"), 280, ((gp.getHeight() / 2) + (gp.getHeight() / 4) + 40), imageWidth/20, imageHeight, null);
 
-            if (timer >= 10){
+            if (timer <= 0){
                 showMiniGame = false;
                 spaceAble = false;
-                timer = 0.0;
+                timer = 10.0;
             }
 
             if (imageWidth/20 >= 240){
@@ -706,7 +804,7 @@ public class UI {
                 player.direction = "left";
             }
 
-            timer += 0.02;
+            timer -= 0.02;
             System.out.println(timer);
 
         }
