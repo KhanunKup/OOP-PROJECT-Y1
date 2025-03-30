@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 public class HouseAfterMap extends TileManager{
     public HouseAfterMap(String filePath){
-        super(filePath, 42);
+        super(filePath, 43);
         solidTiles = new HashSet<Integer>();
         loadSolidTiles();
     }
@@ -81,6 +81,7 @@ public class HouseAfterMap extends TileManager{
             tileTextures[39] = ImageIO.read(new File("res/tiles/houseafter/Witch-Hut-After39.png"));
             tileTextures[40] = ImageIO.read(new File("res/tiles/houseafter/Witch-Hut-After40.png"));
             tileTextures[41] = ImageIO.read(new File("res/tiles/houseafter/Witch-Hut-After41.png"));
+            tileTextures[42] = ImageIO.read(new File("res/tiles/celler/Celler-Room-Final1.png"));
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int gameState = UI.MOVING; // 0 = title , 1 = play
 
-    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4,tileMap5;
+    public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4,tileMap5,tileMap6;
     public int[][] map;
 
     public Player player;
@@ -48,7 +48,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap3 = new HouseMap("res/map/Witch-Hut.txt");
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
-        currentTileMap = tileMap1;
+        tileMap6 = new HouseAfterMap("res/map/Witch-Hut-After.txt");
+        currentTileMap = tileMap6;
 
         this.addKeyListener(keyH);
 
@@ -76,6 +77,8 @@ public class GamePanel extends JPanel implements Runnable {
         }else if (currentTileMap == tileMap3){
             updateMap(tileMap4);
         } else if (currentTileMap == tileMap4) {
+            updateMap(tileMap6);
+        } else if (currentTileMap == tileMap6) {
             updateMap(tileMap5);
         }
     }

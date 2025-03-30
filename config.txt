@@ -1,2 +1,2 @@
-volumeLevel=70
+volumeLevel=100
 showFPS=true
