@@ -180,13 +180,13 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-        if(gp.gameState == UI.MOVING && checkMove) {
-            if (code == KeyEvent.VK_W) upPressed = true;
-            if (code == KeyEvent.VK_S) downPressed = true;
-            if (code == KeyEvent.VK_A) leftPressed = true;
-            if (code == KeyEvent.VK_D) rightPressed = true;
-            if (code == KeyEvent.VK_SHIFT) shiftPressed = true;
-            if (code == KeyEvent.VK_ENTER) enterPressed = true;
+        if(gp.gameState == UI.MOVING) {
+            if (code == KeyEvent.VK_W && checkMove) upPressed = true;
+            if (code == KeyEvent.VK_S && checkMove) downPressed = true;
+            if (code == KeyEvent.VK_A && checkMove) leftPressed = true;
+            if (code == KeyEvent.VK_D && checkMove) rightPressed = true;
+            if (code == KeyEvent.VK_SHIFT && checkMove) shiftPressed = true;
+            if (code == KeyEvent.VK_ENTER ) enterPressed = true;
 
             if (code == KeyEvent.VK_ESCAPE) {
                 previousState = gp.gameState;
@@ -241,6 +241,7 @@ public class KeyHandler implements KeyListener {
                             }
 
                             ui.candyCount += 1;
+                            ui.greenBarSpeed += 2;
 
                             //เจอลูกอมครบ
                             if (ui.candyCount == 3) {
@@ -302,7 +303,7 @@ public class KeyHandler implements KeyListener {
                     if (code == KeyEvent.VK_Y){
                         System.out.println("Enter");
                         if (ui.questionIndex == 0){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 1;
                         }
                         else if (ui.questionIndex == 1){
@@ -319,21 +320,20 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                     else if (code == KeyEvent.VK_N){
-                        System.out.println("Entewr");
                         if (ui.questionIndex == 0){
                             gp.mapM.witchPositionX -= 10;
                             ui.questionIndex = 1;
                         }
                         else if (ui.questionIndex == 1){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 2;
                         }
                         else if (ui.questionIndex == 2){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 3;
                         }
                         else if (ui.questionIndex == 3){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 4;
                         }
                     }
