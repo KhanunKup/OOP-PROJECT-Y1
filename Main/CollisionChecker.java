@@ -106,7 +106,11 @@ public class CollisionChecker {
                 return "";
             }
         } else if (gp.currentTileMap instanceof HouseMap) {
-            return "";
+            if (gp.currentTileMap.solidTiles.contains(tileNum)) {
+                return "";
+            } else {
+                return "wood";
+            }
         } else if (gp.currentTileMap instanceof CellerMap) {
             if (gp.currentTileMap.solidTiles.contains(tileNum)) {
                 return "";

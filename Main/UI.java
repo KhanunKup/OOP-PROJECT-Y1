@@ -121,10 +121,10 @@ public class UI {
     }
 
     public void loadSound() {
-        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-hiding.wav");
-        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-girl-running.wav");
-        cutsceneCandy = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-candy.wav");
-        cutsceneEye = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-eye.wav");
+        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-hiding.wav");
+        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-girl-running.wav");
+        cutsceneCandy = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-candy.wav");
+        cutsceneEye = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-eye.wav");
 
         selectSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-select.wav");
         confirmSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-confirm.wav");
@@ -133,11 +133,11 @@ public class UI {
         bookPage = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-page.wav");
         chalk = new Sound(volumeLevel / 100f, "res/sound/soundEffect/chalkSound.wav");
 
-        mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
-        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map1soundtrack.wav");
-        map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map2soundtrack.wav");
-        map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map3soundtrack.wav");
-        map4soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map4soundtrack.wav");
+        mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/SweetTombMainMenu.wav");
+        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map1soundtrack.wav");
+        map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map2soundtrack.wav");
+        map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map3soundtrack.wav");
+        map4soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map4soundtrack.wav");
     }
 
     public void loadFont(){
@@ -334,8 +334,6 @@ public class UI {
     }
 
     public void drawObjectiveText() {
-        System.out.println("Draw Obj Txt Calling..");
-        System.out.println(chalkPlayed);
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
         g.setColor(new Color(255, 255, 255, getAlphaText()));
 
