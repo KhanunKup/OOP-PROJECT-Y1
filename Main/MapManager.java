@@ -62,6 +62,8 @@ public class MapManager {
 
         imageManager.setImage("bgImage","res/tiles/forest/Leaf5.png");
 
+        imageManager.setImage("bgImage2","res/tiles/celler/Celler-Room-Final1.png");
+
         imageManager.setImage("minigamebg","res/map/MiniGameTile.png");
 
         imageManager.setImage("witch","res/Character/Gratel/Gratel_Idle/gratel_idle1.png");
@@ -73,7 +75,11 @@ public class MapManager {
         int screenX;
         int screenY;
 
-        g.drawImage(imageManager.getImage("bgImage"), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
+        if(gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2){
+            g.drawImage(imageManager.getImage("bgImage"), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
+        }else {
+            g.drawImage(imageManager.getImage("bgImage2"), 0, 0, GamePanel.mapX, GamePanel.mapY, null); //creating default bg
+        }
 
         for (int row = 0; row < gp.maxRow; row++) {
             for (int col = 0; col < gp.maxCol; col++) {

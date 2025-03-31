@@ -95,5 +95,34 @@ public class HouseAfterMap extends TileManager{
 
     @Override
     public void loadSolidTiles() {
+        solidTiles.add(1);
+        solidTiles.add(2);
+        solidTiles.add(3);
+        solidTiles.add(4);
+        solidTiles.add(5);
+        solidTiles.add(9);
+        solidTiles.add(6);
+        solidTiles.add(7);
+        solidTiles.add(8);
+        solidTiles.add(10);
+        solidTiles.add(11);
+        solidTiles.add(12);
+        solidTiles.add(13);
+        solidTiles.add(14);
+        solidTiles.add(15);
+        solidTiles.add(16);
+        solidTiles.add(17);
+        solidTiles.add(18);
+        solidTiles.add(19);
+        solidTiles.add(20);
+        solidTiles.add(24);
+        solidTiles.add(27);
+        solidTiles.add(31);
+        solidTiles.add(32);
+        solidTiles.add(35);
+        solidTiles.add(37);
+        solidTiles.add(38);
+        solidTiles.add(39);
+        solidTiles.add(41);
     }
 }

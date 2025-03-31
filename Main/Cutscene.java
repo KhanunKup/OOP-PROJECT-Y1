@@ -81,7 +81,6 @@ public class Cutscene implements Runnable {
             }
 
             if (UI.SCENE == 4){
-                ui.map3soundtrack.stop();
                 if (ui.showDialog){
                     Thread.sleep( 5000);
                     ui.showDialog = false;
@@ -113,6 +112,7 @@ public class Cutscene implements Runnable {
                         }
                     }
                     else {
+                        ui.map3soundtrack.stop();
                         ui.cutsceneEye.loop();
                         gp.repaint();
                         Thread.sleep(5000);

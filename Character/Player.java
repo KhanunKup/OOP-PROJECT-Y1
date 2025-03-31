@@ -211,48 +211,6 @@
             if (gp.gameState == UI.MOVING) {
                 setScreenPosition();
 
-                //เสายาวซ้าย
-                collisionChecker.setCollisionPlusX(860,829,1508,850, gp.tileMap3);
-                //
-                collisionChecker.setCollisionPlusY(1163,858,1150,1134,gp.tileMap3);
-                //
-                collisionChecker.setCollisionMinusY(1163,860,1000,990,gp.tileMap3);
-                //
-                collisionChecker.setCollisionMinusX(1100,1088,1366,1150,gp.tileMap3);
-                //
-                collisionChecker.setCollisionPlusX(1165,1120,1360,1145,gp.tileMap3);
-                //ขอบขนบรรได
-                collisionChecker.setCollisionPlusY(1100,859,920,910, gp.tileMap3);
-                //ขอบขวาเสาซ้าย
-                collisionChecker.setCollisionPlusX(1180,1150,1129,1025,gp.tileMap3);
-                //ขอบเสาซ้ายเล็กๆ
-                collisionChecker.setCollisionPlusY(1135,1100,1390,1376, gp.tileMap3);
-                //ขอบล่าง
-                collisionChecker.setCollisionMinusY(1500,850,1513,1505,gp.tileMap3);
-                //ขอบขวา
-                collisionChecker.setCollisionMinusX(1500,1491,1503,918,gp.tileMap3);
-                //ขอบประตูขวา
-                collisionChecker.setCollisionPlusY(1500,1470,1410,1400, gp.tileMap3);
-                //ขอบประตูขวา ขวา
-                collisionChecker.setCollisionMinusX(1500,1449,1384,1290,gp.tileMap3);
-                //ขอบขวา ซ้าย
-                collisionChecker.setCollisionPlusY(1405,1245,1405,1400, gp.tileMap3);
-                //ขอบขวา ขวา
-                collisionChecker.setCollisionMinusX(1235,1226,1389,1028,gp.tileMap3);
-                //ขอบขวา ซ้าย
-                collisionChecker.setCollisionPlusX(1440,1429,1389,1293,gp.tileMap3);
-                //ขวาซ้าย บน
-                collisionChecker.setCollisionMinusY(1400,1286,1273,1268,gp.tileMap3);
-                //ขวาซ้าย ซ้าย
-                collisionChecker.setCollisionPlusX(1300,1289,1266,1133,gp.tileMap3);
-                //ขอบบนห้องนอนเล็ก
-                collisionChecker.setCollisionPlusY(1490,1280,1150,1148, gp.tileMap3);
-                //ขอบล่าง
-                //ขอบบน
-                collisionChecker.setCollisionPlusY(1490,1260,1020,1011, gp.tileMap3);
-                //
-                collisionChecker.setCollisionMinusX(1100,1085,957,922,gp.tileMap3);
-
                 //code สำหรับ map 1 เมื่อเดินเข้าใกล้ระยะน้อง จะเปลี่ยนเเมพ
                 if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
                         ui.bookPage.play();

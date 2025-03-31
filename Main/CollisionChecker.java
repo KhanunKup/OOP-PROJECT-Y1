@@ -117,28 +117,4 @@ public class CollisionChecker {
             return "";
         }
     }
-
-    public void setCollisionPlusX(int worldX1 , int worldX2, int worldY1, int worldY2, TileManager tilemap){
-        if (((Player.worldX <= worldX1 && Player.worldX >= worldX2) && (Player.worldY <= worldY1 && Player.worldY >= worldY2)) && gp.currentTileMap == tilemap) {
-            Player.worldX += 3;
-        }
-    }
-
-    public void setCollisionMinusX(int worldX1 , int worldX2, int worldY1, int worldY2, TileManager tilemap){
-        if (((Player.worldX <= worldX1 && Player.worldX >= worldX2) && (Player.worldY <= worldY1 && Player.worldY >= worldY2)) && gp.currentTileMap == tilemap) {
-            Player.worldX -= 3;
-        }
-    }
-
-    public void setCollisionPlusY(int worldX1 , int worldX2, int worldY1, int worldY2, TileManager tilemap){
-        if (((Player.worldX <= worldX1 && Player.worldX >= worldX2) && (Player.worldY<= worldY1 && Player.worldY >= worldY2)) && gp.currentTileMap == tilemap){
-            Player.worldY +=3;
-        }
-    }
-
-    public void setCollisionMinusY(int worldX1 , int worldX2, int worldY1, int worldY2, TileManager tilemap){
-        if (((Player.worldX <= worldX1 && Player.worldX >= worldX2) && (Player.worldY<= worldY1 && Player.worldY >= worldY2)) && gp.currentTileMap == tilemap){
-            Player.worldY -= 3;
-        }
-    }
 }
