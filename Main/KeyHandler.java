@@ -327,12 +327,10 @@ public class KeyHandler implements KeyListener {
         }
         if (gp.isQTEActive) {
             char pressedKey = Character.toLowerCase((char) code);
-            System.out.println("Pressed Key: " + pressedKey); // พิมพ์ปุ่มที่กด
+            System.out.println("Pressed Key: " + pressedKey);
 
-            // ตรวจสอบว่าปุ่มที่กดตรงกับลำดับใน qteSequence หรือไม่
-            System.out.println("Expected Key: " + gp.qteSequence.charAt(gp.KeyIndex)); // พิมพ์ตัวอักษรที่คาดหวัง
-            // แปลง KeyCode เป็นตัวอักษร
-            gp.checkQTE(pressedKey); // เช็คว่าผู้เล่นกดปุ่มถูกต้องใน QTE หรือไม่
+            System.out.println("Expected Key: " + gp.qteSequence.charAt(gp.KeyIndex));
+            gp.checkQTE(pressedKey);
         }
     }
 
