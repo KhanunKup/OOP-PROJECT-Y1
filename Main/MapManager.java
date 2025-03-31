@@ -7,7 +7,7 @@ import Character.*;
 public class MapManager {
     GamePanel gp;
     Player player;
-    public int screenIdleX,screenIdleY,witchPositionX,witchPositionY;
+    public int screenIdleX,screenIdleY,witchPositionX,witchPositionY,gratelPositionX,gratelPositionY;
     ImageManager imageManager;
     //static int[][] candyPosition = {{985,1240},{1255,935},{1485,1210}};
     static ArrayList<int[]> candyPosition = new ArrayList<>();
@@ -20,6 +20,8 @@ public class MapManager {
         this.imageManager = imageManager;
         witchPositionX = player.screenX-230;
         witchPositionY = 260;
+        gratelPositionX = player.screenX-50;
+        gratelPositionY = player.screenY;
         candyPosition.add(new int[]{985, 1240});
         candyPosition.add(new int[]{1255, 935});
         candyPosition.add(new int[]{1485, 1210});
@@ -66,7 +68,20 @@ public class MapManager {
 
         imageManager.setImage("minigamebg","res/map/MiniGameTile.png");
 
-        imageManager.setImage("witch","res/Character/Gratel/Gratel_Idle/gratel_idle1.png");
+        imageManager.setImage("tree-atfer","res/object/tree-atfer.png");
+
+        imageManager.setImage("top-after","res/object/top-after.png");
+
+        imageManager.setImage("cellerWayAfter","res/object/cellerWayAfter.png");
+
+        imageManager.setImage("table-after","res/object/table-after.png");
+
+        imageManager.setImage("carpetAfter","res/object/carpetAfter.png");
+
+        imageManager.setImage("bedRoomZoneAfter","res/object/bedRoomZoneAfter.png");
+
+        imageManager.setImage("bedRoomAfter","res/object/bedRoomAfter.png");
+
     }
 
     public void drawMap(Graphics g) {
@@ -122,6 +137,7 @@ public class MapManager {
             //System.out.println("Y :" + screenIdleY);
 
             g.drawImage(imageManager.getImage("house"), screenIdleX+400, screenIdleY, 320, 320, null);
+            gp.gratel.draw(g, player.screenX-50,player.screenY);
         }
 
         if (gp.currentTileMap == gp.tileMap3){
@@ -160,6 +176,11 @@ public class MapManager {
 
                 g.drawImage(imageManager.getImage("candy"), screenIdleX, screenIdleY, gp.tileSize, gp.tileSize, null);
             }
+
+            screenIdleX = 950 - Player.worldX + player.screenX;
+            screenIdleY = 1470 - Player.worldY + player.screenY;
+
+            gp.gratel.draw(g, screenIdleX, screenIdleY);
 
         }
 
@@ -201,6 +222,23 @@ public class MapManager {
             screenIdleY = 1113 - Player.worldY + player.screenY;
 
             g.drawImage(imageManager.getImage("SpiderWeb2"), screenIdleX, screenIdleY, (gp.tileSize*2)-10, gp.tileSize, null);
+
+            if (!gp.ui.helpGratel){
+                screenIdleX = 1648 - Player.worldX + player.screenX;
+                screenIdleY = 1225 - Player.worldY + player.screenY;
+
+                gp.gratel.draw(g, screenIdleX, screenIdleY);
+            }
+            else {
+                gp.gratel.draw(g, gratelPositionX, gratelPositionY);
+            }
+
+            if (Player.worldX >= 2300 && Player.worldY >= 1345){
+                UI.SCENE = 5;
+                gp.ui.showText = false;
+                gp.ui.startFade();
+                gp.keyH.keyBoolRelease();
+            }
         }
 
         if(gp.currentTileMap == gp.tileMap5){
@@ -224,8 +262,49 @@ public class MapManager {
             g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
             //g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
         }
-        //if (gp.currentTileMap != gp.tileMap5){
-            g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
-        //}
+
+        if (gp.currentTileMap == gp.tileMap6){
+            screenIdleX = 985 - player.worldX + player.screenX;
+            screenIdleY = 1470 - player.worldY + player.screenY;
+
+            yOverlay = 0;
+            overlay = "VisibleDark";
+
+            g.drawImage(imageManager.getImage("carpetAfter"), screenIdleX-985, screenIdleY-1470, 2400, 2400, null);
+
+            screenIdleX = 1415 - player.worldX + player.screenX;
+            screenIdleY = 1117 - player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("bedRoomAfter"), screenIdleX-1410, screenIdleY-1140, 2400, 2400, null);
+
+            g.drawImage(imageManager.getImage("bedRoomZoneAfter"), screenIdleX-1415, screenIdleY-1117, 2400, 2400, null);
+
+            screenIdleX = 1460 - player.worldX + player.screenX;
+            screenIdleY = 1200 - player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("top-after"), screenIdleX-610, screenIdleY-350, 700, 700, null);
+
+            screenIdleX = 907 - player.worldX + player.screenX;
+            screenIdleY = 962 - player.worldY + player.screenY;
+
+            g.drawImage(imageManager.getImage("cellerWayAfter"), screenIdleX-930, screenIdleY-918, 2400, 2300, null);
+
+            screenIdleX = 970 - player.worldX + player.screenX;
+            screenIdleY = 1260 - player.worldY + player.screenY;
+            g.drawImage(imageManager.getImage("table-after"), screenIdleX-125, screenIdleY-400, 700, 700, null);
+
+            screenIdleX = 1310 - player.worldX + player.screenX;
+            screenIdleY = 1410 - player.worldY + player.screenY;
+            g.drawImage(imageManager.getImage("tree-atfer"), screenIdleX-450, screenIdleY-530, 700, 700, null);
+
+            if ((player.worldX <= 1085 && player.worldX >= 850) && (player.worldY <= 1510 && player.worldY >= 1410)){
+                UI.SCENE = 6;
+                gp.ui.showText = false;
+                gp.ui.startFade();
+                gp.keyH.keyBoolRelease();
+            }
+        }
+
+        g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
     }
 }
