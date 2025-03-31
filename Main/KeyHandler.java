@@ -295,6 +295,48 @@ public class KeyHandler implements KeyListener {
                     }
                 }
             }
+            else if (gp.currentTileMap == gp.tileMap5){
+                if (Player.worldX >= 2500){
+                    if (code == KeyEvent.VK_Y){
+                        System.out.println("Enter");
+                        if (ui.questionIndex == 0){
+                            gp.mapM.witchPositionX += 10;
+                            ui.questionIndex = 1;
+                        }
+                        else if (ui.questionIndex == 1){
+                            gp.mapM.witchPositionX -= 10;
+                            ui.questionIndex = 2;
+                        }
+                        else if (ui.questionIndex == 2){
+                            gp.mapM.witchPositionX -= 10;
+                            ui.questionIndex = 3;
+                        }
+                        else if (ui.questionIndex == 3){
+                            gp.mapM.witchPositionX -= 10;
+                            ui.questionIndex = 4;
+                        }
+                    }
+                    else if (code == KeyEvent.VK_N){
+                        System.out.println("Entewr");
+                        if (ui.questionIndex == 0){
+                            gp.mapM.witchPositionX -= 10;
+                            ui.questionIndex = 1;
+                        }
+                        else if (ui.questionIndex == 1){
+                            gp.mapM.witchPositionX += 10;
+                            ui.questionIndex = 2;
+                        }
+                        else if (ui.questionIndex == 2){
+                            gp.mapM.witchPositionX += 10;
+                            ui.questionIndex = 3;
+                        }
+                        else if (ui.questionIndex == 3){
+                            gp.mapM.witchPositionX += 10;
+                            ui.questionIndex = 4;
+                        }
+                    }
+                }
+            }
         }
     }
 
