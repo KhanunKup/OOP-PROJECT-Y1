@@ -238,7 +238,10 @@ public class MapManager {
                 gp.gratel.draw(g, screenIdleX, screenIdleY);
             }
             else {
+                gp.player.updateToGratel();
+                gp.player.collisionChecker.boolCellMap = true;
                 gp.gratel.draw(g, gratelPositionX, gratelPositionY);
+
             }
 
             if ((Player.worldX >= 2300 && Player.worldY >= 1345) && gp.ui.helpGratel){

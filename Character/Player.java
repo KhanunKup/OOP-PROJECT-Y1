@@ -8,6 +8,9 @@
         int currentFrame = 0;
         int currentIdleFrame = 0;
 
+        Gratel gratel;
+
+        boolean collGratel = false;
 
         int footstepTimer = 0;
         int footstepDelay = 25;
@@ -22,7 +25,7 @@
         public KeyHandler keyH;
         UI ui;
 
-        CollisionChecker collisionChecker;
+        public CollisionChecker collisionChecker;
 
         public Player(GamePanel gamePanel, KeyHandler keyH, ImageManager imageManager) {
             this.setSpeed(2);
@@ -33,10 +36,12 @@
             direction = "right";
             animDirection = "right";
             state = "idle";
+
             this.setHitbox((gp.tileSize * 2 - 24) / 2 , (gp.tileSize * 2 - 24) / 2 , 24 , 24);
             this.ui = gp.ui;
             this.collisionChecker = new CollisionChecker(gp, this);
             playerSize = gp.tileSize * 2;
+            this.gratel = gp.gratel;
 
             loadSound();
 
@@ -195,7 +200,6 @@
                     if (footstepTimer >= footstepDelay) {
                         if (collisionChecker.footstepChecker().equals("wood")) {
                             woodFootstep.play();
-                            System.out.println(footstepDelay);
                         }
                         footstepTimer = 0;
                     } else {
@@ -274,7 +278,17 @@
                 moveCharacter(this);
                 soundHandler();
                 animationHandler(imageManager);
+                if (gp.currentTileMap == gp.tileMap2) {
+                    updateToGratel();
+                } else if (gp.currentTileMap == gp.tileMap4) {
+                    this.setHitbox((gp.tileSize * 2 - 18) / 2 , (gp.tileSize * 2 - 18) / 2 , 18 , 18);
+                }
+
             }
+        }
+
+        public void updateToGratel() {
+            gp.gratel.stateUpdate(state, animDirection);
         }
 
         public void draw(Graphics g) {
@@ -282,6 +296,7 @@
             if (animImg != null && animImg.length > 0) {
                 g.drawImage(animImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
                 g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
+
             }
         }
 

@@ -3,13 +3,13 @@ package Main;
 import tile.CellerMap;
 import tile.ForestMap;
 import tile.HouseMap;
-import tile.TileManager;
 import Character.*;
 
 public class CollisionChecker {
     GamePanel gp;
     Player player;
     int leftX, rightX, topY, bottomY, leftCol, rightCol, topRow, bottomRow;
+    boolean boolCellMap = false;
 
     public CollisionChecker(GamePanel gp, Player player) {
         this.gp = gp;
@@ -21,16 +21,26 @@ public class CollisionChecker {
         if (player.isCollisionOn == false) {
             return true;
         }
+
         leftX = player.worldX + player.hitbox.x;
         rightX = player.worldX + player.hitbox.x + player.hitbox.width;
         topY = player.worldY + player.hitbox.y;
         bottomY = player.worldY + player.hitbox.y + player.hitbox.height;
 
         //หาว่าอยู่ใน row, col ที่เท่าไหร่ เพื่อไปหา block ต่อ
-        leftCol = (leftX - player.speed) / gp.tileSize;
-        rightCol = (rightX + player.speed) / gp.tileSize;
-        topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
-        bottomRow = (bottomY + player.speed) / gp.tileSize;
+
+
+        if (gp.currentTileMap == gp.tileMap2 || (gp.currentTileMap == gp.tileMap4 && boolCellMap)) {
+            leftCol = (leftX - player.speed - 50) / gp.tileSize;
+            rightCol = (rightX + player.speed) / gp.tileSize;
+            topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
+            bottomRow = (bottomY + player.speed) / gp.tileSize;
+        } else {
+            leftCol = (leftX - player.speed) / gp.tileSize;
+            rightCol = (rightX + player.speed) / gp.tileSize;
+            topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
+            bottomRow = (bottomY + player.speed) / gp.tileSize;
+        }
         if (leftCol <= 0) { //ทำให้อยู่ใน 100x100 map (สร้าง boundary)
                 player.worldX += player.speed;
             }
@@ -47,7 +57,7 @@ public class CollisionChecker {
 
         int tile1, tile2; //2 tiles used for checking for collision
 
-        switch (player.direction) {
+        switch (direction) {
             case "up":
                 tile1 = gp.currentTileMap.getMap()[topRow][leftCol];
                 tile2 = gp.currentTileMap.getMap()[topRow][rightCol];

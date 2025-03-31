@@ -57,7 +57,7 @@ public class UI {
     public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy, cutsceneEye;
     public Sound map1soundtrack, map2soundtrack, map3soundtrack, map4soundtrack;
     public Sound selectSound, confirmSound, slidebarSound, looting;
-    public Sound bookOpening, bookPage, chalk;
+    public Sound bookOpening, bookPage, chalk, doorBroken;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -134,6 +134,7 @@ public class UI {
         bookPage = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-page.wav");
         chalk = new Sound(volumeLevel / 100f, "res/sound/soundEffect/chalkSound.wav");
         looting = new Sound(volumeLevel / 100f, "res/sound/soundEffect/looting.wav");
+        doorBroken = new Sound(volumeLevel / 100f, "res/sound/soundEffect/door-broken.wav");
 
         mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/SweetTombMainMenu.wav");
         map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map1soundtrack.wav");
@@ -434,8 +435,6 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
-            chalk.playOnce();
-
 
             if (textDelay > 500){
                 //alpha -= alphaSpeed;
@@ -443,6 +442,7 @@ public class UI {
             }
 
             if (textDelay > 200){
+                chalk.playOnce();
                 //alpha -= alphaSpeed;
                 setAlpha(getAlpha()-alphaSpeed);
             }
@@ -987,6 +987,8 @@ public class UI {
             }
 
             if (imageWidth/20 >= 240){
+                doorBroken.play();
+
                 spaceAble = false;
                 showMiniGame = false;
 
