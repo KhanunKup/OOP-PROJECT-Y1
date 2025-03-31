@@ -10,6 +10,7 @@ public class Sound {
     File soundFile;
     AudioInputStream audioStream;
     Clip clip;
+    private boolean playedOnce = false;
 
     public Sound(float level, String path) {
         playSound(path);
@@ -40,6 +41,18 @@ public class Sound {
         if (clip != null && clip.isRunning()) {
             clip.stop();
         }
+    }
+
+
+    public void playOnce() {
+        if (!playedOnce) {
+            play();
+            playedOnce = true;
+        }
+    }
+
+    public void resetPlayOnce() {
+        playedOnce = false;
     }
 
     public void setVolume(float level) {

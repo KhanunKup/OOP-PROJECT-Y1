@@ -257,7 +257,6 @@
                 if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
                         ui.bookPage.play();
                         UI.SCENE = 2;
-                        ui.chalkPlayed = false;
                         gp.ui.showText = false;
                         gp.ui.startFade();
                         keyH.keyBoolRelease();

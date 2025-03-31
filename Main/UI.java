@@ -167,7 +167,7 @@ public class UI {
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
-            System.out.println(gp.keyH.checkMove);
+//            System.out.println("CheckMove" + gp.keyH.checkMove);
             drawObjectiveText();
             drawBackScreen(g);
             if(showFPS){
@@ -334,8 +334,8 @@ public class UI {
     }
 
     public void drawObjectiveText() {
-
-
+        System.out.println("Draw Obj Txt Calling..");
+        System.out.println(chalkPlayed);
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
         g.setColor(new Color(255, 255, 255, getAlphaText()));
 
@@ -349,6 +349,7 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
+            chalk.playOnce();
 
 
             if (textDelay > 500){
@@ -359,16 +360,13 @@ public class UI {
             if (textDelay > 200){
                 //alpha -= alphaSpeed;
                 setAlpha(getAlpha()-alphaSpeed);
-                if (!chalkPlayed) {
-                    chalk.play();
-                    chalkPlayed = true;
-                }
             }
 
             if (getAlphaText() < 0){
                 showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
+                chalk.resetPlayOnce();
             }
 
             g.drawString(text, textX, textY);
@@ -383,6 +381,7 @@ public class UI {
 
         if (showObjText && SCENE == 2){
             textDelay += 1;
+            chalk.playOnce();
 
             if (textDelay > 200){
                 setAlphaText(getAlphaText()-1);
@@ -392,6 +391,7 @@ public class UI {
                 showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
+                chalk.resetPlayOnce();
             }
 
             g.drawString(text, textX, textY);
@@ -406,6 +406,7 @@ public class UI {
 
         if (showObjText && SCENE == 3){
             textDelay += 1;
+            chalk.playOnce();
 
             if (textDelay > 200){
                 setAlphaText(getAlphaText()-1);
@@ -415,6 +416,7 @@ public class UI {
                 showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
+                chalk.resetPlayOnce();
             }
 
             g.drawString(text, textX, textY);
@@ -434,6 +436,7 @@ public class UI {
             else {
                 gp.keyH.checkMove = true;
                 textDelay += 1;
+                chalk.playOnce();
 
                 if (textDelay > 100){
                     setAlphaText(getAlphaText()-10);
@@ -443,6 +446,7 @@ public class UI {
                     showObjText = false;
                     setAlphaText(0);
                     textDelay = 0;
+                    chalk.resetPlayOnce();
                 }
 
                 g.drawString(text, textX, textY);

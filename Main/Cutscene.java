@@ -113,7 +113,7 @@ public class Cutscene implements Runnable {
                         }
                     }
                     else {
-                        ui.cutsceneEye.loop();
+                        ui.cutsceneEye.playOnce();
                         gp.repaint();
                         Thread.sleep(5000);
 
@@ -124,7 +124,6 @@ public class Cutscene implements Runnable {
                         ui.showImage = false;
                         gp.gameState = MOVING;
                         ui.showText = false;
-                        ui.cutsceneEye.stop();
                     }
                 }
             }
