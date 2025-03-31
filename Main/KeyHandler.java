@@ -258,7 +258,7 @@ public class KeyHandler implements KeyListener {
 
             } else if (gp.currentTileMap == gp.tileMap4) {
                 if (ui.checkJailBreak){
-                    if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250))) {
+                    if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250)) ||((Player.worldX >= 1615 && Player.worldX <= 1720) && (Player.worldY <= 1370 && Player.worldY >= 1270))) {
                         if (code == KeyEvent.VK_E) {
                             ui.showMiniGame = true;
                             ui.spaceAble = true;

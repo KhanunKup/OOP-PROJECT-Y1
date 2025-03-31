@@ -17,7 +17,7 @@ public class UI {
     public Font customFont;
     public String key = "Icantdoit";
     public int total = 0;
-    public boolean check = false;
+    public boolean helpGratel = false;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
     public  int basementCount = 0;
@@ -167,7 +167,6 @@ public class UI {
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
-            System.out.println(gp.keyH.checkMove);
             drawObjectiveText();
             drawBackScreen(g);
             if(showFPS){
@@ -200,8 +199,6 @@ public class UI {
             }
 
             if (gp.currentTileMap == gp.tileMap4){
-                System.out.println(basementIndex);
-                System.out.println(skull);
                 map3soundtrack.stop();
                 map4soundtrack.loop();
                 drawDialog();
@@ -210,7 +207,7 @@ public class UI {
                 }
                 else {
                     drawAchivement();
-                    if ((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250)){
+                    if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250)) || ((Player.worldX >= 1615 && Player.worldX <= 1720) && (Player.worldY <= 1370 && Player.worldY >= 1270))){
                         drawMiniGameKey();
                     }
                     else if (((Player.worldX >= 1050 && Player.worldX <= 1100) && (Player.worldY <= 1175 && Player.worldY >= 1120)) && head){
@@ -489,8 +486,8 @@ public class UI {
                         }
 
                         else if (gp.currentTileMap == gp.tileMap3){
-                            player.worldX = 985;
-                            player.worldY = 1500;
+                            player.worldX = 1013;
+                            player.worldY = 1470;
                             player.direction = "right";
                         }
 
@@ -499,14 +496,21 @@ public class UI {
                             player.worldY = 1248;
                             player.direction = "right";
                         }
+                        else if (gp.currentTileMap == gp.tileMap5){
+                            player.worldX = 420;
+                            player.direction = "right";
+                        }
+                        else if (gp.currentTileMap == gp.tileMap6){
+                            player.worldX = 992;
+                            player.worldY = 957;
+                            player.direction = "right";
+                        }
                     }
                 }
             } else {
                 // Fade out after map change
-                if (showText) {
-                    if (SCENE == 3 || SCENE == 4){
-                        new Thread(new Cutscene(gp, this)).start();
-                    }
+                if (showText && (SCENE == 3 || SCENE == 4)) {
+                    new Thread(new Cutscene(gp, this)).start();
                     callBG();
 
                 } else {
@@ -520,6 +524,7 @@ public class UI {
                         setAlphaText(255);
                         Fading = false;
                         System.out.println("Fade complete");
+                        System.out.println("Scene :"+UI.SCENE);
 
                     }
                 }
@@ -767,8 +772,18 @@ public class UI {
                 g.drawString(minigame_text, textX, textY);
             }
 
-            if (checkJailBreak){
+            else if (checkJailBreak){
                 minigame = "Press [ E ] to break out.";
+                textWidth = fm.stringWidth(minigame);
+                textHeight = fm.getHeight();
+                textX = (gp.getWidth() - textWidth) / 2;
+                textY = (gp.getHeight() - textHeight) + fm.getAscent() - 100;
+                g.drawString(minigame, textX, textY);
+            }
+            if ((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250) && !checkJailBreak){
+                g.setColor(Color.white);
+                fm = g.getFontMetrics();
+                minigame = "The door is locked.";
                 textWidth = fm.stringWidth(minigame);
                 textHeight = fm.getHeight();
                 textX = (gp.getWidth() - textWidth) / 2;
@@ -834,18 +849,26 @@ public class UI {
 
             if (timer <= 0){
                 showMiniGame = false;
+                helpGratel = false;
                 spaceAble = false;
                 timer = 10.0;
             }
 
             if (imageWidth/20 >= 240){
                 spaceAble = false;
-                checkJailBreak = false;
                 showMiniGame = false;
 
-                player.worldX = 1050;
-                player.worldY = 1390;
-                player.direction = "left";
+                if (((Player.worldX >= 1615 && Player.worldX <= 1720) && (Player.worldY <= 1370 && Player.worldY >= 1270))){
+                    checkJailBreak = false;
+                    helpGratel = true;
+                    gp.repaint();
+
+                }
+                else {
+                    player.worldX = 1050;
+                    player.worldY = 1390;
+                    player.direction = "left";
+                }
             }
 
             timer -= 0.02;
