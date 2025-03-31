@@ -200,6 +200,29 @@ public class UI {
                     }
                 }
             }
+            if ((Player.worldX >= 900 && Player.worldX <= 1020) &&
+                    (Player.worldY >= 1537 && Player.worldY <= 1540) &&
+                    (gp.currentTileMap == gp.tileMap3)) {
+
+                if (Player.speed == 2) {
+                    Player.worldY -= 2;
+                } else if (Player.speed == 3) {
+                    Player.worldY -= 3;
+                }
+            }
+
+            if ((Player.worldX >= 900 && Player.worldX <= 1020) &&
+                    (Player.worldY >= 1537 && Player.worldY <= 1540) &&
+                    (gp.currentTileMap == gp.tileMap6)) {
+
+                if (Player.speed == 2) {
+                    Player.worldY -= 2;
+                } else if (Player.speed == 3) {
+                    Player.worldY -= 3;
+                }
+            }
+
+
 
             if (gp.currentTileMap == gp.tileMap4){
                 map3soundtrack.stop();
