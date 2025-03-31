@@ -345,15 +345,14 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
-            chalk.playOnce();
-
-
+            
             if (textDelay > 500){
                 //alpha -= alphaSpeed;
                 setAlphaText(getAlphaText()-1);
             }
 
             if (textDelay > 200){
+                chalk.playOnce();
                 //alpha -= alphaSpeed;
                 setAlpha(getAlpha()-alphaSpeed);
             }

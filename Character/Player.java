@@ -195,7 +195,6 @@
                     if (footstepTimer >= footstepDelay) {
                         if (collisionChecker.footstepChecker().equals("wood")) {
                             woodFootstep.play();
-                            System.out.println(footstepDelay);
                         }
                         footstepTimer = 0;
                     } else {
@@ -219,7 +218,6 @@
         public void update(ImageManager imageManager) {
     //        System.out.println("X :" + worldX);
     //        System.out.println("Y :" + worldY);
-            System.out.println(footstepDelay);
             if (gp.gameState == UI.MOVING) {
                 setScreenPosition();
 
