@@ -157,9 +157,11 @@ public class GamePanel extends JPanel implements Runnable {
             } else {
                 System.out.println("Wrong Key!");
                 keyH.keyBoolRelease();
-                mapM.witchPositionX += 20;
+                mapM.witchPositionX += 80;
                 player.worldX -= 20;
             }
+            System.out.println(mapM.witchPositionX+"witch");
+            System.out.println(player.screenX+"player");
 
             lastQTETime = System.currentTimeMillis();
             qteTimeLeft = 3;
