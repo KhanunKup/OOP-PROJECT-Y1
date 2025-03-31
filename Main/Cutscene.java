@@ -127,6 +127,12 @@ public class Cutscene implements Runnable {
                     }
                 }
             }
+            if (UI.SCENE == 5){
+                if (ui.showDialog){
+                    Thread.sleep( 3000);
+                    ui.showDialog = false;
+                }
+            }
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();

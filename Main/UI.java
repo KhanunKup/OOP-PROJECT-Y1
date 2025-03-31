@@ -31,7 +31,7 @@ public class UI {
     public boolean showFPS;
 
     public boolean checkAlphaText = false , checkCandy1 = true , checkCandy2 = true , checkCandy3 = true,checkJailBreak = false,checkBasement = false,
-            head = true,hand = true,intestines = true, basementText = true , skull = false;
+            head = true,hand = true,intestines = true, basementText = true , skull = false , checkEscape = true;
     public double textDelay,imageDelay;
     private double alpha = 0.0;
     private int alphaText = 0;
@@ -249,6 +249,12 @@ public class UI {
                     //System.out.println("start");
                 }
             }
+            if (gp.currentTileMap == gp.tileMap6){
+                drawDialog();
+                if (!showDialog && !showObjText){
+                    drawMiniGameMap();
+                }
+            }
         }
         if(gp.gameState == OPTION){
             drawOption();
@@ -450,6 +456,36 @@ public class UI {
                 g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
                 fm = g.getFontMetrics();
                 text_4 = "Find Exit.";
+                textY += textHeight + 5;
+                textWidth = fm.stringWidth(text_4);
+                g.drawString(text_4, (gp.getWidth() - textWidth) / 2, textY);
+            }
+        }
+        if (showObjText && SCENE == 5){
+            if (showDialog){
+                new Thread(new Cutscene(gp, this)).start();
+            }
+            else {
+                gp.keyH.checkMove = true;
+                textDelay += 1;
+                chalk.playOnce();
+
+                if (textDelay > 100){
+                    setAlphaText(getAlphaText()-10);
+                }
+
+                if (getAlphaText() < 0){
+                    showObjText = false;
+                    setAlphaText(0);
+                    textDelay = 0;
+                    chalk.resetPlayOnce();
+                }
+
+                g.drawString(text, textX, textY);
+
+                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+                fm = g.getFontMetrics();
+                text_4 = "Escape.";
                 textY += textHeight + 5;
                 textWidth = fm.stringWidth(text_4);
                 g.drawString(text_4, (gp.getWidth() - textWidth) / 2, textY);
@@ -736,7 +772,7 @@ public class UI {
     }
 
     public void drawDialog(){
-        if (showDialog && gp.currentTileMap == gp.tileMap4){
+        if (showDialog && (gp.currentTileMap == gp.tileMap4)){
             gp.keyH.checkMove = false;
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
             g.setColor(new Color(255, 255, 255, getAlphaText()));
@@ -749,6 +785,21 @@ public class UI {
             textX = (gp.getWidth() - textWidth) / 2;
             textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
             g.drawString(text, textX, textY);
+        }
+        else if (showDialog && (gp.currentTileMap == gp.tileMap6)){
+            gp.keyH.checkMove = false;
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
+            g.setColor(new Color(255, 255, 255, getAlphaText()));
+
+            fm = g.getFontMetrics();
+            text = "Hansel: We need to leave!";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
+            g.drawString(text, textX, textY);
+
         }
     }
 
@@ -878,6 +929,27 @@ public class UI {
             System.out.println(timer);
 
         }
+        else if (gp.currentTileMap == gp.tileMap6){
+
+            g.setColor(Color.white);
+            fm = g.getFontMetrics();
+            String timer_clock = String.format("%.1f", timer);
+            textX = (gp.getWidth() - textWidth);
+            textY = (gp.getHeight() - textHeight) + fm.getAscent();
+            g.drawString(timer_clock, textX-120, textY);
+            if (timer <= 0){
+                if (checkEscape){
+                    timer = 20.0;
+                    checkEscape = false;
+                }
+                else{
+                    System.exit(0);
+                }
+            }
+            timer -= 0.02;
+            System.out.println(timer);
+
+        }
     }
 
     public void drawFPS(Graphics g,FPSCounter fpsCounter){
@@ -962,47 +1034,6 @@ public class UI {
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 30));
         g.drawString(message, 246, 100);
     }
-//    public void checkQTE(char pressedKey) {
-//        if (isQTEActive) {
-//            System.out.println("Pressed: " + pressedKey + " | Expected: " + qteSequence.charAt(KeyIndex));
-//
-//
-//            if (pressedKey == qteSequence.charAt(KeyIndex)) {
-//                System.out.println("Correct!");
-//                player.worldX += 50;
-//            } else {
-//                System.out.println("Wrong Key!");
-//                player.worldX -= 50;
-//            }
-//
-//            lastQTETime = System.currentTimeMillis();
-//            qteTimeLeft = 3;
-//
-//            // ไปยังตัวอักษรถัดไปเสมอ
-//            KeyIndex++;
-//
-//            // ถ้าไปถึงตัวสุดท้ายแล้วให้ปิด QTE
-//            if (KeyIndex >= qteSequence.length()) {
-//                isQTEActive = false;
-//                System.out.println("QTE Completed!");
-//            }
-//
-//            gp.repaint();
-//        }
-//    }
-//    public void updateQTE() {
-//        if (isQTEActive) {
-//            long currentTime = System.currentTimeMillis();
-//            long elapsedTime = (currentTime - lastQTETime) / 1000;
-//            qteTimeLeft = 3 - (int) elapsedTime;
-//
-//            if (qteTimeLeft <= 0) {
-//                isQTEActive = false;
-//                System.out.println("Time's up!");
-//                gp.repaint();
-//            }
-//        }
-   // }
 }
 
 
