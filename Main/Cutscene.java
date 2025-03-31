@@ -14,7 +14,6 @@ public class Cutscene implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("Current Scene: " + UI.SCENE);
 
             if (UI.SCENE == 1){
                 gp.repaint();
@@ -109,8 +108,7 @@ public class Cutscene implements Runnable {
                             ui.checkJailBreak = true;
                             ui.skull = true;
                             ui.basementIndex = 4;
-                            Thread.sleep( 4000);
-                            System.out.println(ui.basementIndex);
+                            Thread.sleep( 3000);
                             ui.skull = false;
                         }
                     }
@@ -127,11 +125,18 @@ public class Cutscene implements Runnable {
                     }
                 }
             }
-            if (UI.SCENE == 5){
+
+            if (UI.SCENE == 6){
                 if (ui.showDialog){
                     Thread.sleep( 3000);
                     ui.showDialog = false;
+                    ui.showText = false;
                 }
+            }
+
+            if (UI.SCENE == 7){ //ending
+                Thread.sleep( 5000);
+                ui.showText = false;
             }
 
         } catch (InterruptedException ex) {

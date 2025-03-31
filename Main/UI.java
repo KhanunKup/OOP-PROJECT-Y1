@@ -20,11 +20,11 @@ public class UI {
     public boolean helpGratel = false;
 
     public int[][] pointerPosition = {{280,185},{255,235},{280,285}};
-    public  int basementCount = 0;
+    public  int basementCount = 0 ;
     //public int[] whiteBarPosition = {370,450,400};
     public int greenBarPosition = 280 , candyCount = 0;
     public String[] menuOptions = {"Play", "Option", "Exit"};
-    public int selectedIndex = 0, basementIndex = 0;
+    public int selectedIndex = 0, basementIndex = 0 , questionIndex = 0;
 
     public String[] optionMenu = {"Volume","Display FPS","Back"};
     public int optionIndex = 0,pointerIndex = 0;
@@ -39,7 +39,7 @@ public class UI {
     public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false , showDialog = false;
     public boolean flashScreen = true;
     public boolean Fading = false;
-    public boolean mapChanged = false;
+    public boolean mapChanged = false, ending = false;
 
     public boolean chalkPlayed = false;
 
@@ -88,6 +88,7 @@ public class UI {
         imageManager.setImage("cutscene7","res/cutscene/7.JPG");
         imageManager.setImage("cutscene8","res/cutscene/8.JPG");
         imageManager.setImage("cutscene9","res/cutscene/9.JPG");
+        imageManager.setImage("cutscene10","res/cutscene/10.JPG");
         imageManager.setImage("blackbar","res/minigame/bar-black-export.png");
         imageManager.setImage("whitebar","res/minigame/bar-white-export.png");
         imageManager.setImage("greenbar","res/minigame/bar-green-export.png");
@@ -207,7 +208,6 @@ public class UI {
                     drawMiniGameMap();
                 }
                 else {
-                    drawAchivement();
                     if (((Player.worldX >= 1000 && Player.worldX <= 1120) && (Player.worldY <= 1320 && Player.worldY >= 1250)) || ((Player.worldX >= 1615 && Player.worldX <= 1720) && (Player.worldY <= 1370 && Player.worldY >= 1270))){
                         drawMiniGameKey();
                     }
@@ -233,14 +233,22 @@ public class UI {
                         checkBasement = false;
                         drawObjectiveImage();
                     }
+                    drawAchivement();
                 }
             }
             if (gp.currentTileMap == gp.tileMap5){
+                drawDialog();
                 if (gp.isQTEActive){
                     drawminiqte();
                 }
                 else {
-                    gp.keyH.rightPressed = true;
+                    if (player.worldX <= 2500){
+                        gp.keyH.rightPressed = true;
+                    }
+                    else {
+                        gp.keyH.rightPressed = false;
+                        drawObjectiveImage();
+                    }
                 }
                 if ((player.worldX<= 720 && player.worldX >=700) && (player.worldY<= 2000 && player.worldY >= 780)){
                     gp.startQTE();
@@ -249,12 +257,7 @@ public class UI {
                     //System.out.println("start");
                 }
             }
-            if (gp.currentTileMap == gp.tileMap6){
-                drawDialog();
-                if (!showDialog && !showObjText){
-                    drawMiniGameMap();
-                }
-            }
+
         }
         if(gp.gameState == OPTION){
             drawOption();
@@ -287,9 +290,9 @@ public class UI {
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
 
         if (checkBasement){
+            fm = g.getFontMetrics();
             gp.keyH.checkMove = false;
             if (basementIndex == 1){
-                fm = g.getFontMetrics();
                 text = "You got a head.";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
@@ -299,7 +302,6 @@ public class UI {
                 g.drawImage(imageManager.getImage("head"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
             }
             else if (basementIndex == 2){
-                fm = g.getFontMetrics();
                 text = "You got a hand.";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
@@ -309,7 +311,6 @@ public class UI {
                 g.drawImage(imageManager.getImage("hand"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
             }
             else if (basementIndex == 3){
-                fm = g.getFontMetrics();
                 text = "You got a intestines.";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
@@ -317,6 +318,88 @@ public class UI {
                 textY = (gp.getHeight() - textHeight) + fm.getAscent() - 400;
                 g.drawString(text, textX, textY);
                 g.drawImage(imageManager.getImage("intestines"), 370, (gp.getHeight() / 2)-160, imageWidth/4, imageHeight, null);
+            }
+        }
+        else {
+            if (gp.currentTileMap == gp.tileMap5){
+                if (questionIndex == 0){
+                    g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 22));
+                    text = "Does Java support multiple";
+                    textWidth = fm.stringWidth(text);
+                    textHeight = fm.getHeight();
+                    textX = (gp.getWidth() - textWidth) / 2;
+                    textY = (gp.getHeight() - textHeight) + fm.getAscent() - 200;
+                    g.drawString(text, textX-35, textY-155);
+
+                    text = "inheritance of classes?";
+                    g.drawString(text, textX-15, textY- 120);
+
+                    text = "[ Y ]";
+                    g.drawString(text, 675, textY- 180);
+
+                    text = "[ N ]";
+                    g.drawString(text, 87, textY- 180);
+                }
+                else if (questionIndex == 1){
+                    g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 22));
+                    text = "Can a Java interface have";
+                    textWidth = fm.stringWidth(text);
+                    textHeight = fm.getHeight();
+                    textX = (gp.getWidth() - textWidth) / 2;
+                    textY = (gp.getHeight() - textHeight) + fm.getAscent() - 200;
+                    g.drawString(text, textX-40, textY-155);
+
+                    text = "private methods?";
+                    g.drawString(text, textX-5, textY- 120);
+
+                    text = "[ Y ]";
+                    g.drawString(text, 675, textY- 180);
+
+                    text = "[ N ]";
+                    g.drawString(text, 87, textY- 180);
+                }
+                else if (questionIndex == 2){
+                    g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 22));
+                    text = "Can an abstract class";
+                    textWidth = fm.stringWidth(text);
+                    textHeight = fm.getHeight();
+                    textX = (gp.getWidth() - textWidth) / 2;
+                    textY = (gp.getHeight() - textHeight) + fm.getAscent() - 200;
+                    g.drawString(text, textX-40, textY-155);
+
+                    text = "have a constructor?";
+                    g.drawString(text, textX-25, textY- 120);
+
+                    text = "[ Y ]";
+                    g.drawString(text, 675, textY- 180);
+
+                    text = "[ N ]";
+                    g.drawString(text, 87, textY- 180);
+                }
+                else if (questionIndex == 3){
+                    g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 22));
+                    text = "Is method overloading an";
+                    textWidth = fm.stringWidth(text);
+                    textHeight = fm.getHeight();
+                    textX = (gp.getWidth() - textWidth) / 2;
+                    textY = (gp.getHeight() - textHeight) + fm.getAscent() - 200;
+                    g.drawString(text, textX-30, textY-155);
+
+                    text = "example of polymorphism?";
+                    g.drawString(text, textX-35, textY- 120);
+
+                    text = "[ Y ]";
+                    g.drawString(text, 675, textY- 180);
+
+                    text = "[ N ]";
+                    g.drawString(text, 87, textY- 180);
+                }
+                else if(questionIndex == 4){
+                    SCENE = 7;
+                    showDialog = false;
+                    ending = true;
+                    startFade();
+                }
             }
         }
     }
@@ -461,34 +544,10 @@ public class UI {
                 g.drawString(text_4, (gp.getWidth() - textWidth) / 2, textY);
             }
         }
-        if (showObjText && SCENE == 5){
-            if (showDialog){
+
+        if (showObjText && SCENE == 6) {
+            if (showDialog) {
                 new Thread(new Cutscene(gp, this)).start();
-            }
-            else {
-                gp.keyH.checkMove = true;
-                textDelay += 1;
-                chalk.playOnce();
-
-                if (textDelay > 100){
-                    setAlphaText(getAlphaText()-10);
-                }
-
-                if (getAlphaText() < 0){
-                    showObjText = false;
-                    setAlphaText(0);
-                    textDelay = 0;
-                    chalk.resetPlayOnce();
-                }
-
-                g.drawString(text, textX, textY);
-
-                g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
-                fm = g.getFontMetrics();
-                text_4 = "Escape.";
-                textY += textHeight + 5;
-                textWidth = fm.stringWidth(text_4);
-                g.drawString(text_4, (gp.getWidth() - textWidth) / 2, textY);
             }
         }
     }
@@ -511,15 +570,19 @@ public class UI {
                 } else {
                     if (!showText) {
                         gp.keyH.keyBoolRelease();
-                        gp.switchMap();
+
+                        if (gp.currentTileMap != gp.tileMap5){
+                            gp.switchMap();
+                            System.out.println("Map switched");
+                        }
+
                         mapChanged = true;
                         showText = true;
                         checkAlphaText = false;
                         textDelay = 0;
-                        System.out.println("Map switched");
 
                         if (gp.currentTileMap == gp.tileMap2){
-                            player.worldX = 42;
+                            player.worldX = 125;
                             player.worldY = 1730;
                             player.direction = "right";
                         }
@@ -548,7 +611,7 @@ public class UI {
                 }
             } else {
                 // Fade out after map change
-                if (showText && (SCENE == 3 || SCENE == 4)) {
+                if (showText && (SCENE == 3 || SCENE == 4 || SCENE == 7)) {
                     new Thread(new Cutscene(gp, this)).start();
                     callBG();
 
@@ -558,13 +621,16 @@ public class UI {
                         setAlpha(getAlpha() - 10);
                         System.out.println("Fading out - Alpha: " + getAlpha());
                     } else {
-                        showObjText = true;
-                        gp.gameState = MOVING;
-                        setAlphaText(255);
+                        if (ending){
+                            gp.gameState = MAIN_MENU;
+                        }
+                        else {
+                            showObjText = true;
+                            gp.gameState = MOVING;
+                            setAlphaText(255);
+                        }
                         Fading = false;
                         System.out.println("Fade complete");
-                        System.out.println("Scene :"+UI.SCENE);
-
                     }
                 }
             }
@@ -629,7 +695,6 @@ public class UI {
 
             if (showImage) {
                 textDelay = 0;
-                System.out.println(imageDelay);
                 if (flashScreen && (imageDelay == 0 || (imageDelay == 10 || imageDelay == 20 || imageDelay == 30 || imageDelay == 40 || imageDelay == 50))) {
                     g.setColor(Color.WHITE);
                     g.fillRect(0, 0, gp.getWidth(), gp.getHeight());
@@ -749,6 +814,22 @@ public class UI {
                 g.drawImage(imageManager.getImage("cutscene9"), 0, 0, gp.getWidth(), gp.getHeight(), null);
             }
         }
+
+        if (SCENE == 7){
+            System.out.println("Ending");
+            g.drawImage(imageManager.getImage("cutscene10"), 0, 0, gp.getWidth(), gp.getHeight(), null);
+
+            g.setColor(new Color(255, 0, 0, 255));
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
+
+            fm = g.getFontMetrics();
+            text = "THE END.";
+            textWidth = fm.stringWidth(text);
+            textHeight = fm.getHeight();
+            textX = (gp.getWidth() - textWidth) / 2;
+            textY = (gp.getHeight() - textHeight) / 2 + fm.getAscent();
+            g.drawString(text, textX, textY);
+        }
     }
 
     public void drawOption() {
@@ -772,12 +853,13 @@ public class UI {
     }
 
     public void drawDialog(){
-        if (showDialog && (gp.currentTileMap == gp.tileMap4)){
-            gp.keyH.checkMove = false;
-            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
-            g.setColor(new Color(255, 255, 255, getAlphaText()));
+        g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
+        g.setColor(new Color(255, 255, 255, getAlphaText()));
 
-            fm = g.getFontMetrics();
+        fm = g.getFontMetrics();
+        if (showDialog && gp.currentTileMap == gp.tileMap4){
+            gp.keyH.checkMove = false;
+
             text = "Hansel: Oh no, something is wrong , I need to get out of here now!";
             textWidth = fm.stringWidth(text);
             textHeight = fm.getHeight();
@@ -786,20 +868,16 @@ public class UI {
             textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
             g.drawString(text, textX, textY);
         }
-        else if (showDialog && (gp.currentTileMap == gp.tileMap6)){
-            gp.keyH.checkMove = false;
-            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
-            g.setColor(new Color(255, 255, 255, getAlphaText()));
-
-            fm = g.getFontMetrics();
-            text = "Hansel: We need to leave!";
+        else if (showDialog && gp.currentTileMap == gp.tileMap5){
+            g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 20));
+            text = "Hansel: Gratel run!.";
             textWidth = fm.stringWidth(text);
             textHeight = fm.getHeight();
 
             textX = (gp.getWidth() - textWidth) / 2;
             textY = (gp.getHeight() - textHeight) + fm.getAscent() - 50;
-            g.drawString(text, textX, textY);
 
+            g.drawString(text, textX-20, textY+20);
         }
     }
 
@@ -915,7 +993,6 @@ public class UI {
                 if (((Player.worldX >= 1615 && Player.worldX <= 1720) && (Player.worldY <= 1370 && Player.worldY >= 1270))){
                     checkJailBreak = false;
                     helpGratel = true;
-                    gp.repaint();
 
                 }
                 else {
@@ -926,7 +1003,6 @@ public class UI {
             }
 
             timer -= 0.02;
-            System.out.println(timer);
 
         }
         else if (gp.currentTileMap == gp.tileMap6){
