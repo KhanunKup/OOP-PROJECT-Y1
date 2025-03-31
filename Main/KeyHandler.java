@@ -339,6 +339,5 @@ public class KeyHandler implements KeyListener {
         rightPressed = false;
         enterPressed = false;
         shiftPressed = false;
-        isPlayerCollisionOn = false;
     }
 }
