@@ -126,6 +126,13 @@ public class Cutscene implements Runnable {
                 }
             }
 
+            if (UI.SCENE == 5){
+                if (ui.showDialog){
+                    Thread.sleep( 3000);
+                    ui.showDialog = false;
+                }
+            }
+
             if (UI.SCENE == 6){
                 if (ui.showDialog){
                     Thread.sleep( 3000);
