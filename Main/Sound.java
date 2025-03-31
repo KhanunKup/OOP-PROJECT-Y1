@@ -55,6 +55,12 @@ public class Sound {
         playedOnce = false;
     }
 
+    public void playIfFinished() {
+        if (clip != null && !clip.isRunning()) {
+            play();
+        }
+    }
+
     public void setVolume(float level) {
         if (clip != null) {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);

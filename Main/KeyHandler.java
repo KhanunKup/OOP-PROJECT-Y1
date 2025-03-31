@@ -10,7 +10,7 @@ public class KeyHandler implements KeyListener {
 
     private int previousState;
 
-    Sound candySound;
+    Sound candySound, doorBreaking;
 
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed,
                     shiftPressed,spacePressed, isPlayerCollisionOn = false,checkMove = true; //change from true boolean;
@@ -20,6 +20,7 @@ public class KeyHandler implements KeyListener {
         this.ui = ui;
         this.previousState = gp.gameState;
         candySound = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/candy.wav");
+        doorBreaking = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/door-breaking.wav");
     }
 
     @Override
@@ -273,6 +274,7 @@ public class KeyHandler implements KeyListener {
                             if ((code == KeyEvent.VK_SPACE && ui.showMiniGame)) {
                                 if (spacePressed){
                                     ui.imageWidth += 150;
+                                    doorBreaking.playIfFinished();
                                 }
                                 spacePressed = false;
                             }

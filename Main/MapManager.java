@@ -230,7 +230,9 @@ public class MapManager {
                 gp.gratel.draw(g, screenIdleX, screenIdleY);
             }
             else {
+                gp.player.updateToGratel();
                 gp.gratel.draw(g, gratelPositionX, gratelPositionY);
+
             }
 
             if (Player.worldX >= 2300 && Player.worldY >= 1345){

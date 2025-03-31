@@ -273,7 +273,17 @@
                 moveCharacter(this);
                 soundHandler();
                 animationHandler(imageManager);
+                if (gp.currentTileMap == gp.tileMap2) {
+                    updateToGratel();
+                } else if (gp.currentTileMap == gp.tileMap4) {
+                    this.setHitbox((gp.tileSize * 2 - 18) / 2 , (gp.tileSize * 2 - 18) / 2 , 18 , 18);
+                }
+
             }
+        }
+
+        public void updateToGratel() {
+            gp.gratel.stateUpdate(state, animDirection);
         }
 
         public void draw(Graphics g) {

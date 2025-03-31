@@ -3,6 +3,7 @@ package Character;
 import Main.GamePanel;
 import Main.ImageManager;
 
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 public class Gratel extends Human {
@@ -18,6 +19,7 @@ public class Gratel extends Human {
         state = "idle";
         animDirection = "right";
         playerLoading(imageManager);
+        this.setHitbox((gp.tileSize * 2 - 24) / 2 , (gp.tileSize * 2 - 24) / 2 , 24 , 24);
     }
 
     public void playerLoading(ImageManager imageManager) {
@@ -81,6 +83,12 @@ public class Gratel extends Human {
 
     public void draw(Graphics g, int x, int y) {
         g.drawImage(animImg[currentIdleFrame], x, y, playerSize, playerSize, null);
+        g.drawRect(x + hitbox.x, y + hitbox.y, hitbox.width, hitbox.height);
+    }
+
+    public void stateUpdate(String state, String animDirection) {
+        this.state = state;
+        this.animDirection = animDirection;
     }
 
 }

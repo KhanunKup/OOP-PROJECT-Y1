@@ -3,7 +3,6 @@ package Main;
 import tile.CellerMap;
 import tile.ForestMap;
 import tile.HouseMap;
-import tile.TileManager;
 import Character.*;
 
 public class CollisionChecker {
@@ -21,6 +20,7 @@ public class CollisionChecker {
         if (player.isCollisionOn == false) {
             return true;
         }
+
         leftX = player.worldX + player.hitbox.x;
         rightX = player.worldX + player.hitbox.x + player.hitbox.width;
         topY = player.worldY + player.hitbox.y;
@@ -47,7 +47,7 @@ public class CollisionChecker {
 
         int tile1, tile2; //2 tiles used for checking for collision
 
-        switch (player.direction) {
+        switch (direction) {
             case "up":
                 tile1 = gp.currentTileMap.getMap()[topRow][leftCol];
                 tile2 = gp.currentTileMap.getMap()[topRow][rightCol];
