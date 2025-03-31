@@ -481,7 +481,7 @@ public class UI {
 
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 24));
             fm = g.getFontMetrics();
-            text_2 = "Find Gratel.";
+            text_2 = "Find Gretel.";
             textY += textHeight + 5;
             textWidth = fm.stringWidth(text_2);
             g.drawString(text_2, (gp.getWidth() - textWidth) / 2, textY);
@@ -703,7 +703,7 @@ public class UI {
                 g.setColor(new Color(255, 255, 255, (int)getAlpha()));
 
                 fm = g.getFontMetrics();
-                text = "Hansel and Gratel giggle as they play in the dense forest,";
+                text = "Hansel and Gretel giggle as they play in the dense forest,";
                 textWidth = fm.stringWidth(text);
                 textHeight = fm.getHeight();
                 textX = (gp.getWidth() - textWidth) / 2;
@@ -805,7 +805,7 @@ public class UI {
                 g.drawString(text, textX, textY);
 
                 g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 16));
-                text_2 = "// Hanzel and Gratel carefully examine the suspicious candy on the desk //";
+                text_2 = "// Hansel and Gretel carefully examine the suspicious candy on the desk //";
                 g.drawString(text_2, textX-50, textY+30);
             }
 
@@ -829,7 +829,7 @@ public class UI {
                 g.drawString(text, textX, textY);
 
                 g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 14));
-                text_2 = "// Hanzel pick something up from the floor and it kinda looks like a human eyeball?//";
+                text_2 = "// Hansel pick something up from the floor and it kinda looks like a human eyeball?//";
                 g.drawString(text_2, textX-170, textY+30);
             }
 
@@ -893,7 +893,7 @@ public class UI {
         }
         else if (showDialog && gp.currentTileMap == gp.tileMap5){
             g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 20));
-            text = "Hansel: Gratel run!.";
+            text = "Hansel: Gretel run!.";
             textWidth = fm.stringWidth(text);
             textHeight = fm.getHeight();
 
