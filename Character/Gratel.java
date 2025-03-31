@@ -1,5 +1,6 @@
 package Character;
 
+import Main.CollisionChecker;
 import Main.GamePanel;
 import Main.ImageManager;
 
@@ -9,6 +10,8 @@ import java.awt.*;
 public class Gratel extends Human {
     int screenX;
     int screenY;
+
+    CollisionChecker collisionChecker;
 
     public static int worldX, worldY, speed, speedDiag;
 

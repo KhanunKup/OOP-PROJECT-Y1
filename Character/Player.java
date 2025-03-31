@@ -8,6 +8,9 @@
         int currentFrame = 0;
         int currentIdleFrame = 0;
 
+        Gratel gratel;
+
+        boolean collGratel = false;
 
         int footstepTimer = 0;
         int footstepDelay = 25;
@@ -22,7 +25,7 @@
         public KeyHandler keyH;
         UI ui;
 
-        CollisionChecker collisionChecker;
+        public CollisionChecker collisionChecker;
 
         public Player(GamePanel gamePanel, KeyHandler keyH, ImageManager imageManager) {
             this.setSpeed(2);
@@ -33,10 +36,12 @@
             direction = "right";
             animDirection = "right";
             state = "idle";
+
             this.setHitbox((gp.tileSize * 2 - 24) / 2 , (gp.tileSize * 2 - 24) / 2 , 24 , 24);
             this.ui = gp.ui;
             this.collisionChecker = new CollisionChecker(gp, this);
             playerSize = gp.tileSize * 2;
+            this.gratel = gp.gratel;
 
             loadSound();
 
@@ -291,6 +296,7 @@
             if (animImg != null && animImg.length > 0) {
                 g.drawImage(animImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
                 g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
+
             }
         }
 

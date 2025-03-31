@@ -231,6 +231,7 @@ public class MapManager {
             }
             else {
                 gp.player.updateToGratel();
+                gp.player.collisionChecker.boolCellMap = true;
                 gp.gratel.draw(g, gratelPositionX, gratelPositionY);
 
             }

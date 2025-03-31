@@ -9,6 +9,7 @@ public class CollisionChecker {
     GamePanel gp;
     Player player;
     int leftX, rightX, topY, bottomY, leftCol, rightCol, topRow, bottomRow;
+    boolean boolCellMap = false;
 
     public CollisionChecker(GamePanel gp, Player player) {
         this.gp = gp;
@@ -27,10 +28,19 @@ public class CollisionChecker {
         bottomY = player.worldY + player.hitbox.y + player.hitbox.height;
 
         //หาว่าอยู่ใน row, col ที่เท่าไหร่ เพื่อไปหา block ต่อ
-        leftCol = (leftX - player.speed) / gp.tileSize;
-        rightCol = (rightX + player.speed) / gp.tileSize;
-        topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
-        bottomRow = (bottomY + player.speed) / gp.tileSize;
+
+
+        if (gp.currentTileMap == gp.tileMap2 || (gp.currentTileMap == gp.tileMap4 && boolCellMap)) {
+            leftCol = (leftX - player.speed - 50) / gp.tileSize;
+            rightCol = (rightX + player.speed) / gp.tileSize;
+            topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
+            bottomRow = (bottomY + player.speed) / gp.tileSize;
+        } else {
+            leftCol = (leftX - player.speed) / gp.tileSize;
+            rightCol = (rightX + player.speed) / gp.tileSize;
+            topRow = (topY - player.speed) / gp.tileSize; //พวก speed เหมือนคำนวณล่วงหน้าไปก่อนที่จะบวก
+            bottomRow = (bottomY + player.speed) / gp.tileSize;
+        }
         if (leftCol <= 0) { //ทำให้อยู่ใน 100x100 map (สร้าง boundary)
                 player.worldX += player.speed;
             }
