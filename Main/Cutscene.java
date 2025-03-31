@@ -81,6 +81,7 @@ public class Cutscene implements Runnable {
             }
 
             if (UI.SCENE == 4){
+                ui.cutsceneEye.playOnce();
                 if (ui.showDialog){
                     Thread.sleep( 5000);
                     ui.showDialog = false;
@@ -112,9 +113,7 @@ public class Cutscene implements Runnable {
                         }
                     }
                     else {
-                        ui.cutsceneEye.playOnce();
                         gp.repaint();
-                        Thread.sleep(5000);
 
                         ui.imageDelay = 80;
                         gp.repaint();

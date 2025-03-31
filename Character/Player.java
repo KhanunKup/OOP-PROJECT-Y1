@@ -34,7 +34,7 @@
             animDirection = "right";
             state = "idle";
             this.setHitbox((gp.tileSize * 2 - 24) / 2 , (gp.tileSize * 2 - 24) / 2 , 24 , 24);
-            ui = new UI(gp,this);
+            this.ui = gp.ui;
             this.collisionChecker = new CollisionChecker(gp, this);
             playerSize = gp.tileSize * 2;
 
@@ -245,7 +245,11 @@
                 }
 
                 if (keyH.shiftPressed) {
-                    speed = this.getSpeed()+1;
+                    if(ui.devmode){
+                        speed = this.getSpeed()+8;
+                    }else {
+                        speed = this.getSpeed()+1;
+                    }
                     if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
                         footstepDelay = 18;
                     }  else if (gp.currentTileMap == gp.tileMap3) {
