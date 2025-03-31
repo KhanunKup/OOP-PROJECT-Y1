@@ -52,8 +52,8 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
         tileMap6 = new HouseAfterMap("res/map/Witch-Hut-After.txt");
-
         currentTileMap = tileMap1;
+
         this.gratel = new Gratel(this, imageManager);
         this.witch = new Witch(this, imageManager);
 

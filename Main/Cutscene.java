@@ -81,6 +81,7 @@ public class Cutscene implements Runnable {
             }
 
             if (UI.SCENE == 4){
+                ui.map3soundtrack.stop();
                 ui.cutsceneEye.playOnce();
                 if (ui.showDialog){
                     Thread.sleep( 5000);
@@ -88,6 +89,7 @@ public class Cutscene implements Runnable {
                 }
                 else {
                     if (ui.basementIndex == 1 || ui.basementIndex == 2 || ui.basementIndex == 3){
+                        ui.looting.play();
                         Thread.sleep( 2000);
                         ui.checkBasement = false;
                         ui.basementText = true;

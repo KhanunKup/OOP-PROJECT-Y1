@@ -170,6 +170,15 @@ public class KeyHandler implements KeyListener {
                 }
             }
         }
+
+        if (gp.gameState == UI.MOVING) {
+            if (code == KeyEvent.VK_X) {
+                isPlayerCollisionOn = !isPlayerCollisionOn;
+                ui.devmode = !ui.devmode;
+                System.out.println("UI Devmode" + ui.devmode);
+            }
+        }
+
         if(gp.gameState == UI.MOVING && checkMove) {
             if (code == KeyEvent.VK_W) upPressed = true;
             if (code == KeyEvent.VK_S) downPressed = true;
@@ -181,11 +190,6 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_ESCAPE) {
                 previousState = gp.gameState;
                 gp.gameState = UI.OPTION;
-            }
-
-            if (code == KeyEvent.VK_X) {
-                isPlayerCollisionOn = !isPlayerCollisionOn;
-                ui.devmode = !ui.devmode;
             }
 
             if (gp.currentTileMap == gp.tileMap3) {
