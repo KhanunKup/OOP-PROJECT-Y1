@@ -121,10 +121,10 @@ public class UI {
     }
 
     public void loadSound() {
-        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-hiding.wav");
-        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-girl-running.wav");
-        cutsceneCandy = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-candy.wav");
-        cutsceneEye = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscene-eye.wav");
+        cutsceneHiding = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-hiding.wav");
+        cutsceneFrightening = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-girl-running.wav");
+        cutsceneCandy = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-candy.wav");
+        cutsceneEye = new Sound(volumeLevel / 100f, "res/sound/soundtrack/cutscenes/cutscene-eye.wav");
 
         selectSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-select.wav");
         confirmSound = new Sound(volumeLevel / 100f, "res/sound/soundEffect/menu-confirm.wav");
@@ -133,11 +133,11 @@ public class UI {
         bookPage = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-page.wav");
         chalk = new Sound(volumeLevel / 100f, "res/sound/soundEffect/chalkSound.wav");
 
-        mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/SweetTombMainMenu.wav");
-        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map1soundtrack.wav");
-        map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map2soundtrack.wav");
-        map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map3soundtrack.wav");
-        map4soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/map4soundtrack.wav");
+        mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/SweetTombMainMenu.wav");
+        map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map1soundtrack.wav");
+        map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map2soundtrack.wav");
+        map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map3soundtrack.wav");
+        map4soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map4soundtrack.wav");
     }
 
     public void loadFont(){
@@ -167,7 +167,7 @@ public class UI {
             gp.mapM.drawMap(g);
             gp.player.draw(g);
 
-            System.out.println(gp.keyH.checkMove);
+//            System.out.println("CheckMove" + gp.keyH.checkMove);
             drawObjectiveText();
             drawBackScreen(g);
             if(showFPS){
@@ -334,8 +334,6 @@ public class UI {
     }
 
     public void drawObjectiveText() {
-
-
         g.setFont(new Font(customFont.getFontName(), Font.PLAIN, 44));
         g.setColor(new Color(255, 255, 255, getAlphaText()));
 
@@ -349,6 +347,7 @@ public class UI {
 
         if (showObjText && SCENE == 1){
             textDelay += 1;
+            chalk.playOnce();
 
 
             if (textDelay > 500){
@@ -359,16 +358,13 @@ public class UI {
             if (textDelay > 200){
                 //alpha -= alphaSpeed;
                 setAlpha(getAlpha()-alphaSpeed);
-                if (!chalkPlayed) {
-                    chalk.play();
-                    chalkPlayed = true;
-                }
             }
 
             if (getAlphaText() < 0){
                 showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
+                chalk.resetPlayOnce();
             }
 
             g.drawString(text, textX, textY);
@@ -383,6 +379,7 @@ public class UI {
 
         if (showObjText && SCENE == 2){
             textDelay += 1;
+            chalk.playOnce();
 
             if (textDelay > 200){
                 setAlphaText(getAlphaText()-1);
@@ -392,6 +389,7 @@ public class UI {
                 showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
+                chalk.resetPlayOnce();
             }
 
             g.drawString(text, textX, textY);
@@ -406,6 +404,7 @@ public class UI {
 
         if (showObjText && SCENE == 3){
             textDelay += 1;
+            chalk.playOnce();
 
             if (textDelay > 200){
                 setAlphaText(getAlphaText()-1);
@@ -415,6 +414,7 @@ public class UI {
                 showObjText = false;
                 setAlphaText(0);
                 textDelay = 0;
+                chalk.resetPlayOnce();
             }
 
             g.drawString(text, textX, textY);
@@ -434,6 +434,7 @@ public class UI {
             else {
                 gp.keyH.checkMove = true;
                 textDelay += 1;
+                chalk.playOnce();
 
                 if (textDelay > 100){
                     setAlphaText(getAlphaText()-10);
@@ -443,6 +444,7 @@ public class UI {
                     showObjText = false;
                     setAlphaText(0);
                     textDelay = 0;
+                    chalk.resetPlayOnce();
                 }
 
                 g.drawString(text, textX, textY);

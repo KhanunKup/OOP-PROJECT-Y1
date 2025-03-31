@@ -11,7 +11,7 @@
 
         int footstepTimer = 0;
         int footstepDelay = 25;
-        public Sound dirtFootstep, grassFootstep, brickFootstep;
+        public Sound dirtFootstep, grassFootstep, brickFootstep, woodFootstep;
 
 
 
@@ -60,9 +60,10 @@
         }
 
         public void loadSound() {
-            dirtFootstep= new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/dirt-footstep.wav");
-            grassFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/grass-footstep.wav");
-            brickFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/brick-footstep.wav");
+            dirtFootstep= new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/footstep/dirt-footstep.wav");
+            grassFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/footstep/grass-footstep.wav");
+            brickFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/footstep/brick-footstep.wav");
+            woodFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/footstep/wood-footstep.wav");
         }
 
         public void playerLoading(ImageManager imageManager) {
@@ -190,6 +191,16 @@
                     } else {
                         footstepTimer++;
                     }
+                } else if (gp.currentTileMap == gp.tileMap3) {
+                    if (footstepTimer >= footstepDelay) {
+                        if (collisionChecker.footstepChecker().equals("wood")) {
+                            woodFootstep.play();
+                            System.out.println(footstepDelay);
+                        }
+                        footstepTimer = 0;
+                    } else {
+                        footstepTimer++;
+                    }
                 } else if (gp.currentTileMap == gp.tileMap4) {
                     if (footstepTimer >= footstepDelay) {
                         if (collisionChecker.footstepChecker().equals("brick")) {
@@ -208,6 +219,7 @@
         public void update(ImageManager imageManager) {
     //        System.out.println("X :" + worldX);
     //        System.out.println("Y :" + worldY);
+            System.out.println(footstepDelay);
             if (gp.gameState == UI.MOVING) {
                 setScreenPosition();
 
@@ -215,7 +227,6 @@
                 if (((gp.mapM.screenIdleX <= -120 && gp.mapM.screenIdleX >= -280) && (gp.mapM.screenIdleY <= 550 && gp.mapM.screenIdleY >= 400)) && gp.currentTileMap == gp.tileMap1){
                         ui.bookPage.play();
                         UI.SCENE = 2;
-                        ui.chalkPlayed = false;
                         gp.ui.showText = false;
                         gp.ui.startFade();
                         keyH.keyBoolRelease();
@@ -237,13 +248,17 @@
                     speed = this.getSpeed()+1;
                     if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
                         footstepDelay = 18;
+                    }  else if (gp.currentTileMap == gp.tileMap3) {
+                        footstepDelay = 10;
                     } else if (gp.currentTileMap == gp.tileMap4) {
                         footstepDelay = 28;
                     }
-                }else {
+                } else {
                     speed = this.getSpeed();
                     if (gp.currentTileMap == gp.tileMap1 || gp.currentTileMap == gp.tileMap2) {
                         footstepDelay = 25;
+                    } else if (gp.currentTileMap == gp.tileMap3) {
+                        footstepDelay = 16;
                     } else if (gp.currentTileMap == gp.tileMap4) {
                         footstepDelay = 35;
                     }
