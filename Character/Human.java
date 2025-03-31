@@ -10,6 +10,7 @@ public class Human {
     protected int worldX, worldY, speed, speedDiag;
     public Rectangle hitbox;
     public int playerSize;
+    public int defaultSpeed = 2;
 
     public String direction, animDirection, state;
     public boolean isCollisionOn = true;

@@ -56,7 +56,7 @@ public class UI {
 
     public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy, cutsceneEye;
     public Sound map1soundtrack, map2soundtrack, map3soundtrack, map4soundtrack;
-    public Sound selectSound, confirmSound, slidebarSound;
+    public Sound selectSound, confirmSound, slidebarSound, looting;
     public Sound bookOpening, bookPage, chalk;
 
     public JSlider volumeSlider;
@@ -132,6 +132,7 @@ public class UI {
         bookOpening = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-opening.wav");
         bookPage = new Sound(volumeLevel / 100f, "res/sound/soundEffect/book-page.wav");
         chalk = new Sound(volumeLevel / 100f, "res/sound/soundEffect/chalkSound.wav");
+        looting = new Sound(volumeLevel / 100f, "res/sound/soundEffect/looting.wav");
 
         mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/SweetTombMainMenu.wav");
         map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map1soundtrack.wav");
