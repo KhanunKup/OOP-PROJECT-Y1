@@ -124,18 +124,38 @@ public class KeyHandler implements KeyListener {
                         ui.volumeLevel = 0;
                     }
 
-                    ui.selectSound.setVolume(ui.volumeLevel / 100.0f);
-                    ui.confirmSound.setVolume(ui.volumeLevel / 100.0f);
-                    ui.slidebarSound.setVolume(ui.volumeLevel / 100.0f);
-                    ui.volumeSlider.setValue(ui.volumeLevel);
+                    ui.mainMenuMusic.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneHiding.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneEye.setVolume(ui.volumeLevel / 100f);
+
+                    ui.map1soundtrack.setVolume(ui.volumeLevel / 100f);
+                    ui.map2soundtrack.setVolume(ui.volumeLevel / 100f);
+                    ui.map3soundtrack.setVolume(ui.volumeLevel / 100f);
+                    ui.map4soundtrack.setVolume(ui.volumeLevel / 100f);
+
+                    ui.lastSoundtrackPhase1.setVolume(ui.volumeLevel / 100f);
+                    ui.lastSoundtrackPhase2.setVolume(ui.volumeLevel / 100f);
+                    ui.lastSoundtrackTrans.setVolume(ui.volumeLevel / 100f);
+
+                    ui.selectSound.setVolume(ui.volumeLevel / 100f);
+                    ui.confirmSound.setVolume(ui.volumeLevel / 100f);
+                    ui.slidebarSound.setVolume(ui.volumeLevel / 100f);
+                    ui.looting.setVolume(ui.volumeLevel / 100f);
+
+                    ui.bookPage.setVolume(ui.volumeLevel / 100f);
+                    ui.bookOpening.setVolume(ui.volumeLevel / 100f);
+                    ui.chalk.setVolume(ui.volumeLevel / 100f);
+                    ui.doorBroken.setVolume(ui.volumeLevel / 100f);
+
+                    candySound.setVolume(ui.volumeLevel / 100f);
+                    doorBreaking.setVolume(ui.volumeLevel / 100f);
 
                     gp.player.grassFootstep.setVolume(ui.volumeLevel / 100f);
                     gp.player.dirtFootstep.setVolume(ui.volumeLevel / 100f);
+                    gp.player.brickFootstep.setVolume(ui.volumeLevel / 100f);
 
-                    ui.mainMenuMusic.setVolume(ui.volumeLevel / 100.0f);
-                    ui.map1soundtrack.setVolume(ui.volumeLevel / 100.0f);
-                    ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100.0f);
-                    ui.cutsceneHiding.setVolume(ui.volumeLevel / 100.0f);
+                    ui.volumeSlider.setValue(ui.volumeLevel);
                     ui.saveConfig();
                 }
                 else if (code == KeyEvent.VK_RIGHT) {
@@ -145,27 +165,37 @@ public class KeyHandler implements KeyListener {
                         ui.volumeLevel = 100;
                     }
                     ui.mainMenuMusic.setVolume(ui.volumeLevel / 100f);
-                    ui.cutsceneCandy.setVolume(ui.volumeLevel / 100f);
                     ui.cutsceneHiding.setVolume(ui.volumeLevel / 100f);
                     ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100f);
+                    ui.cutsceneCandy.setVolume(ui.volumeLevel / 100f);
+                    ui.cutsceneEye.setVolume(ui.volumeLevel / 100f);
 
                     ui.map1soundtrack.setVolume(ui.volumeLevel / 100f);
                     ui.map2soundtrack.setVolume(ui.volumeLevel / 100f);
                     ui.map3soundtrack.setVolume(ui.volumeLevel / 100f);
                     ui.map4soundtrack.setVolume(ui.volumeLevel / 100f);
 
-                    gp.player.grassFootstep.setVolume(ui.volumeLevel / 100f);
-                    gp.player.dirtFootstep.setVolume(ui.volumeLevel / 100f);
-                    gp.player.brickFootstep.setVolume(ui.volumeLevel / 100f);
-
-                    ui.chalk.setVolume(ui.volumeLevel / 100f);
-                    candySound.setVolume(ui.volumeLevel / 100f);
-                    ui.bookPage.setVolume(ui.volumeLevel / 100f);
-                    ui.bookOpening.setVolume(ui.volumeLevel / 100f);
+                    ui.lastSoundtrackPhase1.setVolume(ui.volumeLevel / 100f);
+                    ui.lastSoundtrackPhase2.setVolume(ui.volumeLevel / 100f);
+                    ui.lastSoundtrackTrans.setVolume(ui.volumeLevel / 100f);
 
                     ui.selectSound.setVolume(ui.volumeLevel / 100f);
                     ui.confirmSound.setVolume(ui.volumeLevel / 100f);
                     ui.slidebarSound.setVolume(ui.volumeLevel / 100f);
+                    ui.looting.setVolume(ui.volumeLevel / 100f);
+
+                    ui.bookPage.setVolume(ui.volumeLevel / 100f);
+                    ui.bookOpening.setVolume(ui.volumeLevel / 100f);
+                    ui.chalk.setVolume(ui.volumeLevel / 100f);
+                    ui.doorBroken.setVolume(ui.volumeLevel / 100f);
+
+                    candySound.setVolume(ui.volumeLevel / 100f);
+                    doorBreaking.setVolume(ui.volumeLevel / 100f);
+
+                    gp.player.grassFootstep.setVolume(ui.volumeLevel / 100f);
+                    gp.player.dirtFootstep.setVolume(ui.volumeLevel / 100f);
+                    gp.player.brickFootstep.setVolume(ui.volumeLevel / 100f);
+
                     ui.volumeSlider.setValue(ui.volumeLevel);
                     ui.saveConfig();
                 }
