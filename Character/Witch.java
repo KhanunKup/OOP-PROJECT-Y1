@@ -97,12 +97,13 @@ public class Witch extends Human {
     public void update(ImageManager imageManager) {
         if (gp.currentTileMap == gp.tileMap6) {
             state = "idle";
-        } else if (gp.player.worldX >= 1500 && !isTransformFinised) {
-            state = "transform";
-        }else if (isTransformFinised) {
-            state = "running";
-        } else {
+        } else if (gp.currentTileMap == gp.tileMap5) {
             state = "walking";
+            if (gp.player.worldX >= 1500 && !isTransformFinised) {
+                state = "transform";
+            } else if (isTransformFinised) {
+                state = "running";
+            }
         }
         animHandler(imageManager);
     }
