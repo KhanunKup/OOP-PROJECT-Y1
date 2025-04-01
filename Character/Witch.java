@@ -105,12 +105,6 @@ public class Witch extends Human {
         } else {
             state = "walking";
         }
-
-        //System.out.println(state);
-
-    }
-
-    public void transform() {
         animHandler(imageManager);
     }
 
