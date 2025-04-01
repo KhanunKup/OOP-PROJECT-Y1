@@ -9,7 +9,11 @@ public class Witch extends Human {
     int screenX;
     int screenY;
 
+    boolean resetAnimFrame = false;
+    boolean isTransformFinised = false;
+
     String v2WalkingAnimRight[];
+    String transformAnim[];
 
     public static int worldX, worldY, speed, speedDiag;
 
@@ -26,6 +30,7 @@ public class Witch extends Human {
         idleAnimRight = new String[9]; //-> v1
         walkingAnimRight = new String[6];
         v2WalkingAnimRight = new String[8];
+        transformAnim = new String[61];
 
         for (int i = 0; i < 9; i++) {
             idleAnimRight[i] = "res/Character/Witch/WitchV1Walk/Idle/witchv1_idle_right"+(i+1)+".png";
@@ -37,38 +42,55 @@ public class Witch extends Human {
         }
         imageManager.setImage("witchWalkingAnimRight", walkingAnimRight);
 
-        for (int i = 0; i < 6; i++) {
-            v2WalkingAnimRight[i] = "res/Character/Witch/WitchV1Walk/Walk/witchv1_walking_right"+(i+1)+".png";
+        for (int i = 0; i < 8; i++) {
+            v2WalkingAnimRight[i] = "res/Character/Witch/WitchV2Walk/witchv2_walking_right"+(i+1)+".png";
         }
-        imageManager.setImage("witchv2WalkingAnimRight", walkingAnimRight);
+        imageManager.setImage("witchv2WalkingAnimRight", v2WalkingAnimRight);
+
+        for (int i = 0 ; i < 61; i++) {
+            transformAnim[i] = "res/Character/Witch/WitchTransformed/witchtransform"+(i+1)+".png";
+        }
+        imageManager.setImage("transformAnim", transformAnim);
     }
 
     public void animHandler(ImageManager imageManager) {
         currentFrame++;
         if (currentFrame >= walkAnimDelay) {
             currentFrame = 0;
-            currentIdleFrame++;
+            currentAnimFrame++;
         }
 
         if (state.equals("idle")) {
-            if (currentIdleFrame > walkingAnimRight.length-1) {
-                currentIdleFrame = 0;
+            if (currentAnimFrame > walkingAnimRight.length-1) {
+                currentAnimFrame = 0;
             }
-            if (animDirection.equals("left")) {
-//                animImg = imageManager.getImages("witchIdleAnimLeft");
-            } else if (animDirection.equals("right")) {
-                animImg = imageManager.getImages("witchIdleAnimRight");
-            }
+            animImg = imageManager.getImages("witchIdleAnimRight");
 
         } else if (state.equals("walking")) {
-            if (currentIdleFrame > walkingAnimRight.length-1) {
-                currentIdleFrame = 0;
+            if (currentAnimFrame > walkingAnimRight.length-1) {
+                currentAnimFrame = 0;
             }
-            if (animDirection.equals("left")) {
-//                animImg = imageManager.getImages("witchWalkingAnimLeft");
-            } else if (animDirection.equals("right")) {
-                animImg = imageManager.getImages("witchWalkingAnimRight");
+            animImg = imageManager.getImages("witchWalkingAnimRight");
+
+        } else if (state.equals("transform")) {
+            if (!resetAnimFrame) {
+                currentAnimFrame = 0;
+                currentFrame = 0;
+                resetAnimFrame = true;
             }
+
+            if (currentAnimFrame > transformAnim.length-1) {
+                isTransformFinised = true;
+                currentFrame = 0;
+                currentAnimFrame = 0;
+            }
+            animImg = imageManager.getImages("transformAnim");
+
+        } else if (state.equals("running")) {
+            if (currentAnimFrame > v2WalkingAnimRight.length-1) {
+                currentAnimFrame = 0;
+            }
+            animImg = imageManager.getImages("witchv2WalkingAnimRight");
         }
     }
 
@@ -76,9 +98,13 @@ public class Witch extends Human {
         animHandler(imageManager);
         if (gp.currentTileMap == gp.tileMap6) {
             state = "idle";
+        } else if (isTransformFinised) {
+            state = "running";
         } else {
             state = "walking";
         }
+
+        System.out.println(state);
 
     }
 
@@ -87,7 +113,7 @@ public class Witch extends Human {
     }
 
     public void draw(Graphics g, int x, int y) {
-        g.drawImage(animImg[currentIdleFrame], x, y, playerSize, playerSize, null);
+        g.drawImage(animImg[currentAnimFrame], x, y, playerSize, playerSize, null);
     }
 
 }

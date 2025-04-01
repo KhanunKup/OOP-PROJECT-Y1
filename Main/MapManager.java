@@ -276,9 +276,12 @@ public class MapManager {
             gp.witch.draw(g,witchPositionX, witchPositionY);
             //เก็บรายละเอียดเเหว่ง
             g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
-            if (player.worldX >= 1500) {
+            if (player.worldX >= 1200) {
                 gp.ui.lastSoundtrackPhase1.stop();
                 gp.ui.lastSoundtrackTrans.playOnce();
+            }
+            if (player.worldX >= 1500) {
+                gp.witch.state = "transform";
             }
             //g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
 
