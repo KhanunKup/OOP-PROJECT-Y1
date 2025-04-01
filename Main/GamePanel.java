@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Thread gameThread;
 
-    public int gameState = UI.MAIN_MENU; // 0 = title , 1 = play
+    public int gameState = UI.MOVING; // 0 = title , 1 = play
 
     public TileManager currentTileMap,tileMap1,tileMap2,tileMap3,tileMap4,tileMap5,tileMap6;
     public int[][] map;
@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         tileMap4 = new CellerMap("res/map/CellerRoomEx.txt");
         tileMap5 = new MinigameMap("res/map/Blank.txt");
         tileMap6 = new HouseAfterMap("res/map/Witch-Hut-After.txt");
-        currentTileMap = tileMap1;
+        currentTileMap = tileMap6;
 
         this.gratel = new Gratel(this, imageManager);
         this.witch = new Witch(this, imageManager);
@@ -163,9 +163,11 @@ public class GamePanel extends JPanel implements Runnable {
             } else {
                 System.out.println("Wrong Key!");
                 keyH.keyBoolRelease();
-                mapM.witchPositionX += 20;
+                mapM.witchPositionX += 80;
                 player.worldX -= 20;
             }
+            System.out.println(mapM.witchPositionX+"witch");
+            System.out.println(player.screenX+"player");
 
             lastQTETime = System.currentTimeMillis();
             qteTimeLeft = 3;

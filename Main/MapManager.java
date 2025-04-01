@@ -246,6 +246,7 @@ public class MapManager {
 
             if ((Player.worldX >= 2300 && Player.worldY >= 1345) && gp.ui.helpGratel){
                 UI.SCENE = 5;
+                gp.ui.timer = 0;
                 gp.ui.showText = false;
                 gp.ui.startFade();
                 gp.keyH.keyBoolRelease();
@@ -253,11 +254,6 @@ public class MapManager {
         }
 
         if(gp.currentTileMap == gp.tileMap5){
-            gp.ui.lastSoundtrackPhase1.playOnce();
-            gp.keyH.downPressed = false;
-            gp.keyH.upPressed = false;
-            gp.keyH.leftPressed = false;
-
             int screenWidth = gp.getWidth();
             int screenHeight = gp.getHeight();
             int imageWidth = 4800;
@@ -276,12 +272,7 @@ public class MapManager {
             gp.witch.draw(g,witchPositionX, witchPositionY);
             //เก็บรายละเอียดเเหว่ง
             g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
-            if (player.worldX >= 1500) {
-                gp.ui.lastSoundtrackPhase1.stop();
-                gp.ui.lastSoundtrackTrans.playOnce();
-            }
             //g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
-
 
         }
 
@@ -323,17 +314,30 @@ public class MapManager {
             screenIdleY = 1150 - player.worldY + player.screenY;
             gp.witch.draw(g,screenIdleX, screenIdleY);
 
-            if ((player.worldX <= 1085 && player.worldX >= 850) && (player.worldY <= 1510 && player.worldY >= 1410)){
+            screenIdleX = 985 - player.worldX + player.screenX;
+            screenIdleY = 1450 - player.worldY + player.screenY;
+            gp.gratel.draw(g, screenIdleX,screenIdleY);
+
+            if ((player.worldX <= 1050 && player.worldX >= 850) && (player.worldY <= 1510 && player.worldY >= 1410)){
                 UI.SCENE = 6;
                 gp.ui.showText = false;
                 gp.ui.startFade();
                 gp.keyH.keyBoolRelease();
             }
+
+            if ((player.worldX <= 1500 && player.worldX >= 1400) && (player.worldY <= 1330 && player.worldY >= 1200)){
+                gp.keyH.keyBoolRelease();
+                UI.SCENE = 7;
+                gp.ui.ending = true;
+                gp.ui.showText = false;
+                gp.ui.startFade();
+            }
+
         }
 
         g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
 
-        if (player.worldX >= 3000 && gp.currentTileMap == gp.tileMap5){
+        if (player.worldX >= 2500 && gp.currentTileMap == gp.tileMap5){
             g.drawImage(imageManager.getImage("text_box"), gp.getWidth()/2-200, -20, gp.getWidth()/2, gp.getHeight()/2, null);
             g.drawImage(imageManager.getImage("YesButton"), (gp.getWidth()/2)+240, 100, gp.tileSize * 5, gp.tileSize * 2, null);
             g.drawImage(imageManager.getImage("NoButton"), (gp.getWidth()/2)-350, 100, gp.tileSize * 5, gp.tileSize * 2, null);

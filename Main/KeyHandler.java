@@ -124,38 +124,18 @@ public class KeyHandler implements KeyListener {
                         ui.volumeLevel = 0;
                     }
 
-                    ui.mainMenuMusic.setVolume(ui.volumeLevel / 100.0f);
-                    ui.cutsceneHiding.setVolume(ui.volumeLevel / 100.0f);
-                    ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100.0f);
-                    ui.cutsceneEye.setVolume(ui.volumeLevel / 100f);
-
-                    ui.map1soundtrack.setVolume(ui.volumeLevel / 100f);
-                    ui.map2soundtrack.setVolume(ui.volumeLevel / 100f);
-                    ui.map3soundtrack.setVolume(ui.volumeLevel / 100f);
-                    ui.map4soundtrack.setVolume(ui.volumeLevel / 100f);
-
-                    ui.lastSoundtrackPhase1.setVolume(ui.volumeLevel / 100f);
-                    ui.lastSoundtrackPhase2.setVolume(ui.volumeLevel / 100f);
-                    ui.lastSoundtrackTrans.setVolume(ui.volumeLevel / 100f);
-
-                    ui.selectSound.setVolume(ui.volumeLevel / 100f);
-                    ui.confirmSound.setVolume(ui.volumeLevel / 100f);
-                    ui.slidebarSound.setVolume(ui.volumeLevel / 100f);
-                    ui.looting.setVolume(ui.volumeLevel / 100f);
-
-                    ui.bookPage.setVolume(ui.volumeLevel / 100f);
-                    ui.bookOpening.setVolume(ui.volumeLevel / 100f);
-                    ui.chalk.setVolume(ui.volumeLevel / 100f);
-                    ui.doorBroken.setVolume(ui.volumeLevel / 100f);
-
-                    candySound.setVolume(ui.volumeLevel / 100f);
-                    doorBreaking.setVolume(ui.volumeLevel / 100f);
+                    ui.selectSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.confirmSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.slidebarSound.setVolume(ui.volumeLevel / 100.0f);
+                    ui.volumeSlider.setValue(ui.volumeLevel);
 
                     gp.player.grassFootstep.setVolume(ui.volumeLevel / 100f);
                     gp.player.dirtFootstep.setVolume(ui.volumeLevel / 100f);
-                    gp.player.brickFootstep.setVolume(ui.volumeLevel / 100f);
 
-                    ui.volumeSlider.setValue(ui.volumeLevel);
+                    ui.mainMenuMusic.setVolume(ui.volumeLevel / 100.0f);
+                    ui.map1soundtrack.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100.0f);
+                    ui.cutsceneHiding.setVolume(ui.volumeLevel / 100.0f);
                     ui.saveConfig();
                 }
                 else if (code == KeyEvent.VK_RIGHT) {
@@ -165,37 +145,27 @@ public class KeyHandler implements KeyListener {
                         ui.volumeLevel = 100;
                     }
                     ui.mainMenuMusic.setVolume(ui.volumeLevel / 100f);
+                    ui.cutsceneCandy.setVolume(ui.volumeLevel / 100f);
                     ui.cutsceneHiding.setVolume(ui.volumeLevel / 100f);
                     ui.cutsceneFrightening.setVolume(ui.volumeLevel / 100f);
-                    ui.cutsceneCandy.setVolume(ui.volumeLevel / 100f);
-                    ui.cutsceneEye.setVolume(ui.volumeLevel / 100f);
 
                     ui.map1soundtrack.setVolume(ui.volumeLevel / 100f);
                     ui.map2soundtrack.setVolume(ui.volumeLevel / 100f);
                     ui.map3soundtrack.setVolume(ui.volumeLevel / 100f);
                     ui.map4soundtrack.setVolume(ui.volumeLevel / 100f);
 
-                    ui.lastSoundtrackPhase1.setVolume(ui.volumeLevel / 100f);
-                    ui.lastSoundtrackPhase2.setVolume(ui.volumeLevel / 100f);
-                    ui.lastSoundtrackTrans.setVolume(ui.volumeLevel / 100f);
-
-                    ui.selectSound.setVolume(ui.volumeLevel / 100f);
-                    ui.confirmSound.setVolume(ui.volumeLevel / 100f);
-                    ui.slidebarSound.setVolume(ui.volumeLevel / 100f);
-                    ui.looting.setVolume(ui.volumeLevel / 100f);
-
-                    ui.bookPage.setVolume(ui.volumeLevel / 100f);
-                    ui.bookOpening.setVolume(ui.volumeLevel / 100f);
-                    ui.chalk.setVolume(ui.volumeLevel / 100f);
-                    ui.doorBroken.setVolume(ui.volumeLevel / 100f);
-
-                    candySound.setVolume(ui.volumeLevel / 100f);
-                    doorBreaking.setVolume(ui.volumeLevel / 100f);
-
                     gp.player.grassFootstep.setVolume(ui.volumeLevel / 100f);
                     gp.player.dirtFootstep.setVolume(ui.volumeLevel / 100f);
                     gp.player.brickFootstep.setVolume(ui.volumeLevel / 100f);
 
+                    ui.chalk.setVolume(ui.volumeLevel / 100f);
+                    candySound.setVolume(ui.volumeLevel / 100f);
+                    ui.bookPage.setVolume(ui.volumeLevel / 100f);
+                    ui.bookOpening.setVolume(ui.volumeLevel / 100f);
+
+                    ui.selectSound.setVolume(ui.volumeLevel / 100f);
+                    ui.confirmSound.setVolume(ui.volumeLevel / 100f);
+                    ui.slidebarSound.setVolume(ui.volumeLevel / 100f);
                     ui.volumeSlider.setValue(ui.volumeLevel);
                     ui.saveConfig();
                 }
@@ -210,13 +180,13 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-        if(gp.gameState == UI.MOVING && checkMove) {
-            if (code == KeyEvent.VK_W) upPressed = true;
-            if (code == KeyEvent.VK_S) downPressed = true;
-            if (code == KeyEvent.VK_A) leftPressed = true;
-            if (code == KeyEvent.VK_D) rightPressed = true;
-            if (code == KeyEvent.VK_SHIFT) shiftPressed = true;
-            if (code == KeyEvent.VK_ENTER) enterPressed = true;
+        if(gp.gameState == UI.MOVING) {
+            if (code == KeyEvent.VK_W && checkMove) upPressed = true;
+            if (code == KeyEvent.VK_S && checkMove) downPressed = true;
+            if (code == KeyEvent.VK_A && checkMove) leftPressed = true;
+            if (code == KeyEvent.VK_D && checkMove) rightPressed = true;
+            if (code == KeyEvent.VK_SHIFT && checkMove) shiftPressed = true;
+            if (code == KeyEvent.VK_ENTER ) enterPressed = true;
 
             if (code == KeyEvent.VK_ESCAPE) {
                 previousState = gp.gameState;
@@ -271,6 +241,7 @@ public class KeyHandler implements KeyListener {
                             }
 
                             ui.candyCount += 1;
+                            ui.greenBarSpeed += 2;
 
                             //เจอลูกอมครบ
                             if (ui.candyCount == 3) {
@@ -332,7 +303,7 @@ public class KeyHandler implements KeyListener {
                     if (code == KeyEvent.VK_Y){
                         System.out.println("Enter");
                         if (ui.questionIndex == 0){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 1;
                         }
                         else if (ui.questionIndex == 1){
@@ -349,21 +320,20 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                     else if (code == KeyEvent.VK_N){
-                        System.out.println("Entewr");
                         if (ui.questionIndex == 0){
                             gp.mapM.witchPositionX -= 10;
                             ui.questionIndex = 1;
                         }
                         else if (ui.questionIndex == 1){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 2;
                         }
                         else if (ui.questionIndex == 2){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 3;
                         }
                         else if (ui.questionIndex == 3){
-                            gp.mapM.witchPositionX += 10;
+                            gp.mapM.witchPositionX += 100;
                             ui.questionIndex = 4;
                         }
                     }
