@@ -255,6 +255,7 @@ public class MapManager {
 
         if(gp.currentTileMap == gp.tileMap5){
             gp.ui.lastSoundtrackPhase1.playOnce();
+            gp.player.isCollisionOn = false;
             int screenWidth = gp.getWidth();
             int screenHeight = gp.getHeight();
             int imageWidth = 4800;
@@ -277,8 +278,8 @@ public class MapManager {
                 gp.ui.lastSoundtrackPhase1.stop();
                 gp.ui.lastSoundtrackTrans.playOnce();
             }
-            if (player.worldX >= 1500) {
-                gp.witch.state = "transform";
+            if (player.worldX >= 2700) {
+                gp.ui.lastSoundtrackPhase2.loop();
             }
             //g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
 
