@@ -95,14 +95,17 @@ public class Cutscene implements Runnable {
                         if (ui.basementIndex == 1){
                             ui.head = false;
                         }
-                        if (ui.basementIndex == 2){
+                        else if (ui.basementIndex == 2){
                             ui.hand = false;
                         }
-                        if (ui.basementIndex == 3){
+                        else if (ui.basementIndex == 3){
                             ui.intestines = false;
                         }
                         gp.keyH.checkMove = true;
-                        ui.basementCount += 1;
+
+                        if ((!ui.intestines && !ui.hand) && !ui.head){
+                            ui.basementCount = 3;
+                        }
 
                         if (ui.basementCount == 3){
                             ui.checkJailBreak = true;
@@ -135,7 +138,7 @@ public class Cutscene implements Runnable {
 
             if (UI.SCENE == 6){
                 if (ui.showDialog){
-                    Thread.sleep( 3000);
+                    Thread.sleep( 1500);
                     ui.showDialog = false;
                     ui.showText = false;
                 }

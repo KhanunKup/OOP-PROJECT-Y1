@@ -36,7 +36,7 @@ public class UI {
     private double alpha = 0.0;
     private int alphaText = 0;
     public double alphaSpeed = 0.02,timer = 0.0;
-    public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false , showDialog = false;
+    public boolean showImage = false,showText = true,showObjText = true,showMiniGame = false,spaceAble = false , showDialog = false,plusOne = true, plusTwo = true, plusThree = true;
     public boolean flashScreen = true;
     public boolean Fading = false;
     public boolean mapChanged = false, ending = false;
@@ -267,6 +267,7 @@ public class UI {
                 }
             }
             if (gp.currentTileMap == gp.tileMap5){
+                System.out.println("SCENE :"+ SCENE + "show : "+showText);
                 int screenWidth = gp.getWidth();
                 int screenHeight = gp.getHeight();
                 int imageWidth = 4800;
@@ -703,6 +704,7 @@ public class UI {
                     }
                 }
             } else {
+
                 if (showText && (SCENE == 2 || SCENE == 3 || SCENE == 4 || SCENE == 7)) {
                     new Thread(new Cutscene(gp, this)).start();
                     callBG();
@@ -714,7 +716,7 @@ public class UI {
                         System.out.println("Fading out - Alpha: " + getAlpha());
                     } else {
                         if (ending){
-                            gp.gameState = MAIN_MENU;
+                            System.exit(0);
                         }
                         else {
                             showObjText = true;

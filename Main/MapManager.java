@@ -3,6 +3,7 @@ package Main;
 import java.awt.*;
 import java.util.ArrayList;
 import Character.*;
+import org.w3c.dom.ls.LSOutput;
 
 public class MapManager {
     GamePanel gp;

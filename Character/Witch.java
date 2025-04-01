@@ -104,7 +104,7 @@ public class Witch extends Human {
             state = "walking";
         }
 
-        System.out.println(state);
+        //System.out.println(state);
 
     }
 
