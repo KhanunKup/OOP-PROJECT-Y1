@@ -3,6 +3,7 @@ package tile;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 
+//ให้พัฒนา Abstract Class ขึ้นเอง (Custom Abstract Class)
 public abstract class TileManager {
     protected int[][] map;
     public HashSet<Integer> solidTiles;
@@ -21,6 +22,7 @@ public abstract class TileManager {
 
     public abstract void loadTextures();
 
+    //    ใช้หลักการ การห่อหุ้ม (Encapsulation) กับ abstract class ที่ผู้ใช้สร้างขึ้นเอง
     public abstract int[][] getMap();
 
     public abstract void loadSolidTiles();

@@ -66,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
 
+//    ให้พัฒนาเมธอดที่รับค่าเป็น Abstract Class ที่สร้างขึ้นเอง (Custom Abstract Class)
     public void updateMap(TileManager newMap){
         currentTileMap = newMap;
         map = currentTileMap.getMap();

@@ -1,5 +1,6 @@
 package Main;
 
+//ให้พัฒนา Interface ขึ้นเอง (Custom Interface)
 public interface Walkable {
     void walkUp();
     void walkDown();

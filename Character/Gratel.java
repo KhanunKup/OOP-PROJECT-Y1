@@ -6,6 +6,7 @@ import Main.ImageManager;
 
 import java.awt.*;
 
+// ใช้หลักการ การสืบทอด (Inheritance) กับ class ที่ผู้ใช้สร้างขึ้นเอง
 public class Gratel extends Human {
     int screenX;
     int screenY;

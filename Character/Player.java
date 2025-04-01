@@ -3,6 +3,7 @@
     import Main.*;
     import java.awt.*;
 
+    // ใช้หลักการ การสืบทอด (Inheritance) กับ class & interface ที่ผู้ใช้สร้างขึ้นเอง
     public class Player extends Human implements Walkable {
         final int walkAnimDelay = 7;
         int currentFrame = 0;
@@ -69,6 +70,7 @@
             woodFootstep = new Sound(ui.volumeLevel / 100f, "res/sound/soundEffect/footstep/wood-footstep.wav");
         }
 
+//        ให้พัฒนาเมธอดที่รับค่าเป็น Class ที่สร้างขึ้นเอง (Custom Class)
         public void playerLoading(ImageManager imageManager) {
             for (int i = 0; i < 9; i++) { //Storing player.png in an array
                 idleAnimLeft[i] = "res/Character/Hansel/Hansel_Idle/hansel_idle_left"+(i+1)+".png";
@@ -119,6 +121,7 @@
             }
         }
 
+//        ให้พัฒนาเมธอดที่รับค่าเป็น Interface ที่สร้างขึ้นเอง (Custom Interface)
         public void moveCharacter(Walkable walker){
             if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
                 state = "walking";

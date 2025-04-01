@@ -31,6 +31,7 @@ public class Human {
         this.speedDiag = (int) (speed / Math.sqrt(2));
     }
 
+//    ใช้หลักการ การห่อหุ้ม (Encapsulation) กับ class ที่ผู้ใช้สร้างขึ้นเอง
     public void setWorldY(int worldY) {
         this.worldY = worldY;
     }

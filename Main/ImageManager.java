@@ -18,6 +18,7 @@ public class ImageManager {
         images.put(key, new ImageIcon(filepath).getImage());
     }
 
+//    ใช้หลักการ Overload กับ method ที่ผู้ใช้สร้างขึ้นเอง
     public void setImage(String key, String[] filepath) {
         Image[] imageArray = new Image[filepath.length];
         for (int i = 0; i < filepath.length; i++) {

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 
+// ใช้หลักการ การสืบทอด (Inheritance) กับ abstract class ที่ผู้ใช้สร้างขึ้นเอง
 public class HouseAfterMap extends TileManager{
     public HouseAfterMap(String filePath){
         super(filePath, 43);
