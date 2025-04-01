@@ -4,7 +4,6 @@ import Main.CollisionChecker;
 import Main.GamePanel;
 import Main.ImageManager;
 
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
 public class Gratel extends Human {
@@ -55,12 +54,12 @@ public class Gratel extends Human {
         currentFrame++;
         if (currentFrame >= walkAnimDelay) {
             currentFrame = 0;
-            currentIdleFrame++;
+            currentAnimFrame++;
         }
 
         if (state.equals("idle")) {
-            if (currentIdleFrame > walkingAnimLeft.length-1) {
-                currentIdleFrame = 0;
+            if (currentAnimFrame > walkingAnimLeft.length-1) {
+                currentAnimFrame = 0;
             }
             if (animDirection.equals("left")) {
                 animImg = imageManager.getImages("gratelIdleAnimLeft");
@@ -69,8 +68,8 @@ public class Gratel extends Human {
             }
 
         } else if (state.equals("walking")) {
-            if (currentIdleFrame > walkingAnimLeft.length-1) {
-                currentIdleFrame = 0;
+            if (currentAnimFrame > walkingAnimLeft.length-1) {
+                currentAnimFrame = 0;
             }
             if (animDirection.equals("left")) {
                 animImg = imageManager.getImages("gratelWalkingAnimLeft");
@@ -85,7 +84,7 @@ public class Gratel extends Human {
     }
 
     public void draw(Graphics g, int x, int y) {
-        g.drawImage(animImg[currentIdleFrame], x, y, playerSize, playerSize, null);
+        g.drawImage(animImg[currentAnimFrame], x, y, playerSize, playerSize, null);
         g.drawRect(x + hitbox.x, y + hitbox.y, hitbox.width, hitbox.height);
     }
 

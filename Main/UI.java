@@ -59,6 +59,7 @@ public class UI {
     public Sound lastSoundtrackPhase1, lastSoundtrackPhase2, lastSoundtrackTrans;
     public Sound selectSound, confirmSound, slidebarSound, looting;
     public Sound bookOpening, bookPage, chalk, doorBroken;
+    public Sound witchSeeYou;
 
     public JSlider volumeSlider;
     public int volumeLevel;
@@ -137,6 +138,7 @@ public class UI {
         chalk = new Sound(volumeLevel / 100f, "res/sound/soundEffect/chalkSound.wav");
         looting = new Sound(volumeLevel / 100f, "res/sound/soundEffect/looting.wav");
         doorBroken = new Sound(volumeLevel / 100f, "res/sound/soundEffect/door-broken.wav");
+        witchSeeYou = new Sound(volumeLevel / 100f, "res/sound/soundEffect/witch-iseeyou.wav");
 
         mainMenuMusic = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/SweetTombMainMenu.wav");
         map1soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map1soundtrack.wav");
@@ -278,6 +280,7 @@ public class UI {
                 g.drawImage(imageManager.getImage("gore_layer"), 0, 0, screenWidth, screenHeight, sourceX, 0, sourceX + 300, imageHeight-300, null);
 
                 gp.keyH.checkMove = false;
+                map4soundtrack.stop();
                 drawDialog();
                 if (gp.isQTEActive){
                     drawminiqte();
@@ -304,6 +307,8 @@ public class UI {
                     checkEnding = false;
                     startFade();
                 }
+            } if (gp.currentTileMap == gp.tileMap6) {
+                map4soundtrack.loop();
             }
 
             if (gp.currentTileMap == gp.tileMap6){
@@ -686,6 +691,7 @@ public class UI {
                             player.direction = "right";
                         }
                         else if (gp.currentTileMap == gp.tileMap5){
+                            witchSeeYou.playOnce();
                             player.worldX = 420;
                             player.direction = "right";
                         }

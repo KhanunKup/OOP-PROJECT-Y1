@@ -18,7 +18,7 @@ public class Human {
 
     protected final int walkAnimDelay = 7;
     protected int currentFrame = 0;
-    protected int currentIdleFrame = 0;
+    protected int currentAnimFrame = 0;
 
     protected String[] idleAnimLeft;
     protected String[] idleAnimRight;

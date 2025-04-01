@@ -6,7 +6,7 @@
     public class Player extends Human implements Walkable {
         final int walkAnimDelay = 7;
         int currentFrame = 0;
-        int currentIdleFrame = 0;
+        int currentAnimFrame = 0;
 
         Gratel gratel;
 
@@ -95,12 +95,12 @@
             currentFrame++;
             if (currentFrame >= walkAnimDelay) {
                 currentFrame = 0;
-                currentIdleFrame++;
+                currentAnimFrame++;
             }
 
             if (state.equals("idle")) {
-                if (currentIdleFrame > walkingAnimLeft.length-1) {
-                    currentIdleFrame = 0;
+                if (currentAnimFrame > walkingAnimLeft.length-1) {
+                    currentAnimFrame = 0;
                 }
                 if (animDirection.equals("left")) {
                     animImg = imageManager.getImages("idleAnimLeft");
@@ -108,8 +108,8 @@
                     animImg = imageManager.getImages("idleAnimRight");
                 }
             } else if (state.equals("walking")) {
-                if (currentIdleFrame > walkingAnimLeft.length-1) {
-                    currentIdleFrame = 0;
+                if (currentAnimFrame > walkingAnimLeft.length-1) {
+                    currentAnimFrame = 0;
                 }
                 if (animDirection.equals("left")) {
                     animImg = imageManager.getImages("walkingAnimLeft");
@@ -293,9 +293,9 @@
     //        g.fillRect(x, y, gp.xTile, gp.yTile);
             if (animImg != null && animImg.length > 0) {
                 if (gp.currentTileMap == gp.tileMap5) {
-                    g.drawImage(animImg[currentIdleFrame], screenX, screenY+120, playerSize, playerSize, null);
+                    g.drawImage(animImg[currentAnimFrame], screenX, screenY+120, playerSize, playerSize, null);
                 } else {
-                    g.drawImage(animImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
+                    g.drawImage(animImg[currentAnimFrame], screenX, screenY, playerSize, playerSize, null);
                 }
 
 //                g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
