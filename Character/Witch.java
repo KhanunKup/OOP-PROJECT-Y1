@@ -90,7 +90,6 @@ public class Witch extends Human {
             if (currentAnimFrame > v2WalkingAnimRight.length-1) {
                 currentAnimFrame = 0;
             }
-            System.out.println("running state..");
             animImg = imageManager.getImages("witchv2WalkingAnimRight");
         }
     }

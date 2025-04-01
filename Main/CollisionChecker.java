@@ -18,7 +18,7 @@ public class CollisionChecker {
     }
 
     public boolean isBlockWalkable(String direction) {
-        if (player.isCollisionOn == false) {
+        if (player.isCollisionOn == false || gp.currentTileMap == gp.tileMap5) {
             return true;
         }
 
