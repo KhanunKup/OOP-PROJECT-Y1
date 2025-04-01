@@ -254,6 +254,7 @@ public class MapManager {
         }
 
         if(gp.currentTileMap == gp.tileMap5){
+            gp.ui.lastSoundtrackPhase1.playOnce();
             int screenWidth = gp.getWidth();
             int screenHeight = gp.getHeight();
             int imageWidth = 4800;
@@ -272,6 +273,10 @@ public class MapManager {
             gp.witch.draw(g,witchPositionX, witchPositionY);
             //เก็บรายละเอียดเเหว่ง
             g.drawImage(imageManager.getImage(overlay), 0, -355, gp.getWidth(), gp.getHeight(), null);
+            if (player.worldX >= 1500) {
+                gp.ui.lastSoundtrackPhase1.stop();
+                gp.ui.lastSoundtrackTrans.playOnce();
+            }
             //g.drawImage(imageManager.getImage(overlay), 0, 120, gp.getWidth(), gp.getHeight(), null);
 
         }
@@ -337,7 +342,7 @@ public class MapManager {
 
         g.drawImage(imageManager.getImage(overlay), 0, yOverlay, gp.getWidth(), gp.getHeight(), null);
 
-        if (player.worldX >= 2500 && gp.currentTileMap == gp.tileMap5){
+        if (player.worldX >= 3000 && gp.currentTileMap == gp.tileMap5){
             g.drawImage(imageManager.getImage("text_box"), gp.getWidth()/2-200, -20, gp.getWidth()/2, gp.getHeight()/2, null);
             g.drawImage(imageManager.getImage("YesButton"), (gp.getWidth()/2)+240, 100, gp.tileSize * 5, gp.tileSize * 2, null);
             g.drawImage(imageManager.getImage("NoButton"), (gp.getWidth()/2)-350, 100, gp.tileSize * 5, gp.tileSize * 2, null);

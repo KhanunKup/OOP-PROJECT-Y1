@@ -16,8 +16,6 @@
         int footstepDelay = 25;
         public Sound dirtFootstep, grassFootstep, brickFootstep, woodFootstep;
 
-
-
         public int screenX;
         public int screenY;
 

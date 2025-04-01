@@ -56,6 +56,7 @@ public class UI {
 
     public Sound mainMenuMusic, cutsceneHiding, cutsceneFrightening, cutsceneCandy, cutsceneEye;
     public Sound map1soundtrack, map2soundtrack, map3soundtrack, map4soundtrack;
+    public Sound lastSoundtrackPhase1, lastSoundtrackPhase2, lastSoundtrackTrans;
     public Sound selectSound, confirmSound, slidebarSound, looting;
     public Sound bookOpening, bookPage, chalk, doorBroken;
 
@@ -142,6 +143,10 @@ public class UI {
         map2soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map2soundtrack.wav");
         map3soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map3soundtrack.wav");
         map4soundtrack = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/map4soundtrack.wav");
+
+        lastSoundtrackPhase1 = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/lastSoundtrackPhase1.wav");
+        lastSoundtrackPhase2 = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/lastSoundtrackPhase2.wav");
+        lastSoundtrackTrans = new Sound(volumeLevel / 100f, "res/sound/soundtrack/background-music/lastSoundtrackPhaseTrans.wav");
     }
 
     public void loadFont(){
@@ -278,7 +283,7 @@ public class UI {
                     drawminiqte();
                 }
                 else {
-                    if (player.worldX <= 2500){
+                    if (player.worldX <= 3000){
                         gp.keyH.rightPressed = true;
                     }
                     else {
