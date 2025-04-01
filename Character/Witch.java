@@ -23,11 +23,11 @@ public class Witch extends Human {
     }
 
     public void playerLoading(ImageManager imageManager) {
-        idleAnimRight = new String[20]; //-> v1
+        idleAnimRight = new String[9]; //-> v1
         walkingAnimRight = new String[6];
         v2WalkingAnimRight = new String[8];
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 9; i++) {
             idleAnimRight[i] = "res/Character/Witch/WitchV1Walk/Idle/witchv1_idle_right"+(i+1)+".png";
         }
         imageManager.setImage("witchIdleAnimRight", idleAnimRight);
@@ -74,6 +74,16 @@ public class Witch extends Human {
 
     public void update(ImageManager imageManager) {
         animHandler(imageManager);
+        if (gp.currentTileMap == gp.tileMap6) {
+            state = "idle";
+        } else {
+            state = "walking";
+        }
+
+    }
+
+    public void transform() {
+
     }
 
     public void draw(Graphics g, int x, int y) {

@@ -294,8 +294,13 @@
         public void draw(Graphics g) {
     //        g.fillRect(x, y, gp.xTile, gp.yTile);
             if (animImg != null && animImg.length > 0) {
-                g.drawImage(animImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
-                g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
+                if (gp.currentTileMap == gp.tileMap5) {
+                    g.drawImage(animImg[currentIdleFrame], screenX, screenY+120, playerSize, playerSize, null);
+                } else {
+                    g.drawImage(animImg[currentIdleFrame], screenX, screenY, playerSize, playerSize, null);
+                }
+
+//                g.drawRect(screenX + hitbox.x, screenY + hitbox.y, hitbox.width, hitbox.height);
 
             }
         }
