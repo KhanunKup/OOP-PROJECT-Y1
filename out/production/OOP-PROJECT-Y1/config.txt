@@ -1,0 +1,2 @@
+volumeLevel=80
+showFPS=true
