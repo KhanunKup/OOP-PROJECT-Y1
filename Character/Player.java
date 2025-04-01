@@ -221,6 +221,7 @@
         public void update(ImageManager imageManager) {
     //        System.out.println("X :" + worldX);
     //        System.out.println("Y :" + worldY);
+            System.out.println("isCollOn" + isCollisionOn);
             if (gp.gameState == UI.MOVING) {
                 setScreenPosition();
 

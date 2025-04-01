@@ -85,7 +85,7 @@ public class Gratel extends Human {
 
     public void draw(Graphics g, int x, int y) {
         g.drawImage(animImg[currentAnimFrame], x, y, playerSize, playerSize, null);
-        g.drawRect(x + hitbox.x, y + hitbox.y, hitbox.width, hitbox.height);
+//        g.drawRect(x + hitbox.x, y + hitbox.y, hitbox.width, hitbox.height);
     }
 
     public void stateUpdate(String state, String animDirection) {

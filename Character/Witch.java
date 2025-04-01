@@ -90,15 +90,17 @@ public class Witch extends Human {
             if (currentAnimFrame > v2WalkingAnimRight.length-1) {
                 currentAnimFrame = 0;
             }
+            System.out.println("running state..");
             animImg = imageManager.getImages("witchv2WalkingAnimRight");
         }
     }
 
     public void update(ImageManager imageManager) {
-        animHandler(imageManager);
         if (gp.currentTileMap == gp.tileMap6) {
             state = "idle";
-        } else if (isTransformFinised) {
+        } else if (gp.player.worldX >= 1500 && !isTransformFinised) {
+            state = "transform";
+        }else if (isTransformFinised) {
             state = "running";
         } else {
             state = "walking";
@@ -109,7 +111,7 @@ public class Witch extends Human {
     }
 
     public void transform() {
-
+        animHandler(imageManager);
     }
 
     public void draw(Graphics g, int x, int y) {
